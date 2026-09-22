@@ -24,10 +24,10 @@ export function WhyEvoa() {
           <div className="flex items-center gap-2.5 mb-2.5">
             <FourPointStar className="w-2.5 h-2.5 text-dusty-mauve/50" />
             <motion.span
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
               className="label text-dusty-mauve text-[11px] sm:text-[11.5px] tracking-[0.28em] uppercase"
             >
               Why Evoa
@@ -37,10 +37,10 @@ export function WhyEvoa() {
 
           <div className="relative inline-block">
             <motion.h2
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.85, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: 0.04 }}
               className="font-kafina text-[28px] sm:text-[34px] md:text-[40px] text-ink tracking-tight leading-[1.18] text-balance"
             >
               The details we refuse <br className="hidden sm:block" />
@@ -63,13 +63,12 @@ export function WhyEvoa() {
           {benefits.map((b, i) => (
             <motion.div
               key={b.title}
-              initial={{ opacity: 0, y: 24, filter: "blur(4px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              viewport={{ once: true, margin: "-50px" }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
               transition={{
-                duration: 0.8,
-                delay: 0.1 + i * 0.08,
-                ease: [0.16, 1, 0.3, 1],
+                duration: 0.5,
+                delay: 0.04 * i,
               }}
               className="group relative flex flex-col justify-between p-6 sm:p-6.5 lg:p-7 rounded-2xl bg-white/80 backdrop-blur-md border border-[#9d8189]/12 hover:border-[#9d8189]/30 hover:bg-white transition-all duration-400 shadow-[0_4px_20px_rgba(157,129,137,0.06)] hover:shadow-[0_10px_30px_rgba(157,129,137,0.12)]"
             >

@@ -11,24 +11,16 @@ export function Footer() {
       data-header-theme="light"
       className="bg-[#d8e2dc] p-4 sm:p-6 md:p-8 lg:p-10 relative overflow-hidden"
     >
-      {/* Tactile SVG Noise Overlay matching FAQ section */}
+      {/* Tactile Hardware-Accelerated Grain Overlay (Zero-Cost Repeating Texture) */}
       <div
         className="absolute inset-0 pointer-events-none opacity-25 mix-blend-multiply z-0"
         aria-hidden="true"
-      >
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <filter id="footer-bg-noise">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.52"
-              numOctaves="3"
-              stitchTiles="stitch"
-            />
-            <feColorMatrix type="saturate" values="0" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#footer-bg-noise)" />
-        </svg>
-      </div>
+        style={{
+          backgroundImage: "url('/assets/noise.png')",
+          backgroundRepeat: "repeat",
+          backgroundSize: "160px 160px",
+        }}
+      />
 
       {/* Inner Floating Dark Card with Even All-Side Margins & Smooth Entrance */}
       <motion.div

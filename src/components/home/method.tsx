@@ -21,47 +21,39 @@ export function Method() {
       data-header-theme="dark"
       className="py-20 md:py-28 lg:py-32 bg-[#9d8189] text-white relative overflow-hidden"
     >
-      {/* Tactile SVG Noise / Paper Grain Overlay */}
+      {/* Tactile Hardware-Accelerated Grain Overlay (Zero-Cost Repeating Texture) */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-35 mix-blend-overlay z-0"
+        className="absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay z-0"
         aria-hidden="true"
-      >
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <filter id="method-section-noise">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.52"
-              numOctaves="3"
-              stitchTiles="stitch"
-            />
-            <feColorMatrix type="saturate" values="0" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#method-section-noise)" />
-        </svg>
-      </div>
+        style={{
+          backgroundImage: "url('/assets/noise.png')",
+          backgroundRepeat: "repeat",
+          backgroundSize: "160px 160px",
+        }}
+      />
 
-      {/* Ambient delicate glow */}
-      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full bg-powder-petal/15 blur-3xl pointer-events-none z-0" />
-      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full bg-black/15 blur-3xl pointer-events-none z-0" />
+      {/* Ambient delicate glow (zero-cost radial gradients) */}
+      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(255,229,217,0.18)_0%,transparent_70%)] pointer-events-none z-0" />
+      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(0,0,0,0.22)_0%,transparent_70%)] pointer-events-none z-0" />
 
       <Container size="wide" className="relative z-10">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-14 md:mb-18">
           <div className="max-w-2xl flex flex-col gap-3">
             <motion.span
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
               className="label text-powder-petal text-[11px] sm:text-[12px] tracking-[0.28em] uppercase"
             >
               Class Formats
             </motion.span>
             <motion.h2
-              initial={{ opacity: 0, y: 22 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.85, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: 0.04 }}
               className="font-kafina text-[34px] sm:text-[44px] md:text-[52px] text-[#faf6f3] tracking-tight leading-[1.15]"
             >
               <span className="font-script text-[1.3em] leading-none inline-block -mr-1 align-baseline normal-case text-powder-petal">
@@ -70,10 +62,10 @@ export function Method() {
               our formats. <span className="text-powder-petal font-normal">One unhurried philosophy.</span>
             </motion.h2>
             <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.85, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: 0.08 }}
               className="text-[15px] sm:text-[16px] md:text-[17px] text-white/85 leading-relaxed max-w-xl text-balance mt-1"
             >
               Every class draws from the same classical foundation — we just change the tempo and the tools.
@@ -81,10 +73,10 @@ export function Method() {
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.75, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
             whileHover={{ scale: 1.025, y: -2 }}
             whileTap={{ scale: 0.98 }}
             className="shrink-0"
@@ -132,13 +124,12 @@ export function Method() {
             return (
               <motion.div
                 key={c.slug}
-                initial={{ opacity: 0, y: 35, filter: "blur(4px)" }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                viewport={{ once: true, margin: "-50px" }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
                 transition={{
-                  duration: 0.85,
-                  delay: 0.15 + index * 0.12,
-                  ease: [0.16, 1, 0.3, 1],
+                  duration: 0.5,
+                  delay: 0.04 * index,
                 }}
               >
                 <Link

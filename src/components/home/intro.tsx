@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { Container } from "@/components/ui/container";
 
 const leftBenefits = [
@@ -35,43 +34,32 @@ const rightBenefits = [
 ];
 
 export function Intro() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  // Parallax transform: ring stays completely static while the photo inside glides through the mask
-  const imageY = useTransform(scrollYProgress, [0, 1], [-80, 80]);
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1.14, 1.04]);
-
   return (
     <section
-      ref={sectionRef}
       data-header-theme="light"
       className="pt-12 sm:pt-14 md:pt-16 lg:pt-18 pb-20 md:pb-28 lg:pb-32 bg-[#faf6f3] relative overflow-hidden"
     >
-      {/* Ambient Powder Petal Soft Glow behind Ring */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[680px] h-[680px] rounded-full bg-powder-petal/35 blur-3xl pointer-events-none -z-10" />
+      {/* Ambient Powder Petal Soft Glow behind Ring (zero-cost radial gradient instead of blur-3xl) */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[680px] h-[680px] rounded-full bg-[radial-gradient(circle,rgba(255,229,217,0.45)_0%,transparent_70%)] pointer-events-none -z-10" />
 
       <Container size="wide">
         {/* Header Block with Palette 1 Eyebrow and Accent */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-8 sm:mb-10 md:mb-12 lg:mb-14">
           <motion.span
-            initial={{ opacity: 0, y: 12, letterSpacing: "0.36em" }}
-            whileInView={{ opacity: 1, y: 0, letterSpacing: "0.28em" }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
             className="label text-dusty-mauve text-[11px] sm:text-[12px] tracking-[0.28em] uppercase mb-2.5"
           >
             The Philosophy
           </motion.span>
 
           <motion.h2
-            initial={{ opacity: 0, y: 28, filter: "blur(6px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.95, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, delay: 0.04 }}
             className="font-kafina text-[38px] sm:text-[48px] md:text-[56px] lg:text-[64px] text-ink tracking-tight"
           >
             <span className="font-script text-[1.3em] leading-none inline-block -mr-1 align-baseline normal-case text-dusty-mauve">
@@ -81,10 +69,10 @@ export function Intro() {
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.9, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, delay: 0.08 }}
             className="text-[15px] sm:text-[16px] md:text-[18px] text-ink-muted leading-[1.65] mt-3 sm:mt-4 max-w-2xl text-balance"
           >
             No chaotic playlists. No careless reps. We combine classical reformer precision
@@ -100,13 +88,12 @@ export function Intro() {
             {leftBenefits.map((item, index) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, x: -28, filter: "blur(4px)" }}
-                whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                viewport={{ once: true, margin: "-50px" }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
                 transition={{
-                  duration: 0.85,
-                  delay: 0.18 + index * 0.14,
-                  ease: [0.16, 1, 0.3, 1],
+                  duration: 0.5,
+                  delay: 0.04 * index,
                 }}
                 className="group flex flex-col gap-2"
               >
@@ -123,18 +110,21 @@ export function Intro() {
             ))}
           </div>
 
-          {/* Center Column: Enlarged 4-Quadrant Ring Donut with Parallax on Image Only */}
+          {/* Center Column: Enlarged 4-Quadrant Ring Donut */}
           <div className="lg:col-span-6 flex items-center justify-center order-1 lg:order-2 px-2 sm:px-6">
             <motion.div
-              initial={{ opacity: 0, scale: 0.88, y: 24 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 1.15, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
               className="relative w-[320px] h-[320px] sm:w-[400px] sm:h-[400px] md:w-[470px] md:h-[470px] lg:w-[490px] lg:h-[490px] xl:w-[520px] xl:h-[520px] group select-none"
             >
+              {/* Hardware-accelerated soft shadow layer (avoids SVG drop-shadow filter repaint) */}
+              <div className="absolute inset-6 rounded-full bg-[#1c1815]/[0.07] blur-2xl pointer-events-none -z-10" />
+
               <svg
                 viewBox="0 0 500 500"
-                className="w-full h-full overflow-visible drop-shadow-[0_20px_45px_rgba(28,24,21,0.09)] transition-transform duration-700 ease-[var(--ease-out-quart)] group-hover:scale-[1.02]"
+                className="w-full h-full overflow-visible transition-transform duration-700 ease-[var(--ease-out-quart)] group-hover:scale-[1.02]"
                 aria-label="Pilates Movement Harmony Ring"
               >
                 <defs>
@@ -172,25 +162,16 @@ export function Intro() {
                   opacity="0.75"
                 />
 
-                {/* Static Ring Mask Group - Keeps ring shape 100% stationary so it never cuts or shifts */}
+                {/* Static Ring Mask Group */}
                 <g mask="url(#pilates-quadrants-mask)">
-                  {/* Parallax Image Layer - ONLY the image glides through the stationary ring window */}
-                  <motion.g
-                    style={{
-                      y: imageY,
-                      scale: imageScale,
-                      transformOrigin: "250px 250px",
-                    }}
-                  >
-                    <image
-                      href="/assets/pilates-quadrant-ring.jpg"
-                      x="-60"
-                      y="-160"
-                      width="620"
-                      height="820"
-                      preserveAspectRatio="xMidYMid slice"
-                    />
-                  </motion.g>
+                  <image
+                    href="/assets/pilates-quadrant-ring.jpg"
+                    x="-60"
+                    y="-160"
+                    width="620"
+                    height="820"
+                    preserveAspectRatio="xMidYMid slice"
+                  />
                 </g>
               </svg>
             </motion.div>
@@ -201,13 +182,12 @@ export function Intro() {
             {rightBenefits.map((item, index) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, x: 28, filter: "blur(4px)" }}
-                whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                viewport={{ once: true, margin: "-50px" }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
                 transition={{
-                  duration: 0.85,
-                  delay: 0.18 + index * 0.14,
-                  ease: [0.16, 1, 0.3, 1],
+                  duration: 0.5,
+                  delay: 0.04 * index,
                 }}
                 className="group flex flex-col gap-2"
               >

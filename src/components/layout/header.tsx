@@ -18,26 +18,35 @@ export function Header() {
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   React.useEffect(() => {
+    let ticking = false;
+
     const onScroll = () => {
-      const headerY = 55; // vertical reference point near header center
-      const sections = document.querySelectorAll("section, footer");
-      let currentIsLight = false;
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const headerY = 55; // vertical reference point near header center
+          const sections = document.querySelectorAll("section, footer");
+          let currentIsLight = false;
 
-      for (const section of sections) {
-        const rect = section.getBoundingClientRect();
-        if (rect.top <= headerY && rect.bottom > headerY) {
-          const theme = section.getAttribute("data-header-theme");
-          if (theme === "light") {
-            currentIsLight = true;
-          } else if (theme === "dark") {
-            currentIsLight = false;
+          for (const section of sections) {
+            const rect = section.getBoundingClientRect();
+            if (rect.top <= headerY && rect.bottom > headerY) {
+              const theme = section.getAttribute("data-header-theme");
+              if (theme === "light") {
+                currentIsLight = true;
+              } else if (theme === "dark") {
+                currentIsLight = false;
+              }
+              break;
+            }
           }
-          break;
-        }
-      }
 
-      setIsLightSection(currentIsLight);
-      setScrolled(window.scrollY > 20);
+          setIsLightSection((prev) => (prev !== currentIsLight ? currentIsLight : prev));
+          const isScrolled = window.scrollY > 20;
+          setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     onScroll();

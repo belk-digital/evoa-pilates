@@ -68,34 +68,26 @@ export function Faq() {
       data-header-theme="light"
       className="py-20 sm:py-24 md:py-28 lg:py-36 bg-[#d8e2dcff] text-neutral-900 w-full overflow-hidden relative"
     >
-      {/* Tactile SVG Noise Overlay */}
+      {/* Tactile Hardware-Accelerated Grain Overlay (Zero-Cost Repeating Texture) */}
       <div
         className="absolute inset-0 pointer-events-none opacity-25 mix-blend-multiply z-0"
         aria-hidden="true"
-      >
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <filter id="faq-section-noise">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.52"
-              numOctaves="3"
-              stitchTiles="stitch"
-            />
-            <feColorMatrix type="saturate" values="0" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#faq-section-noise)" />
-        </svg>
-      </div>
+        style={{
+          backgroundImage: "url('/assets/noise.png')",
+          backgroundRepeat: "repeat",
+          backgroundSize: "160px 160px",
+        }}
+      />
 
       <div className="w-full px-6 sm:px-10 md:px-16 lg:px-20 xl:px-24 relative z-10">
         {/* Top-Left Heading with Smooth Entrance */}
         <div className="mb-14 sm:mb-20 md:mb-24 pt-2 pr-6">
           <motion.h2
-            initial={{ opacity: 0, y: 32, filter: "blur(6px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
-            className="font-kafina text-[44px] sm:text-[56px] md:text-[68px] lg:text-[78px] text-neutral-900 tracking-tight leading-[1.12] pr-4 inline-block"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="font-kafina text-[44px] sm:text-[56px] md:text-[68px] lg:text-[78px] text-neutral-900 tracking-tight leading-[1.12] pr-4 inline-block transform-gpu"
           >
             Have questions?
           </motion.h2>

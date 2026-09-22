@@ -33,7 +33,7 @@ export function Hero() {
   return (
     <section
       data-header-theme="dark"
-      className="relative w-full h-screen min-h-[660px] md:min-h-[760px] max-h-[1200px] overflow-hidden bg-[#161311] flex flex-col justify-between"
+      className="relative w-full h-[100dvh] min-h-[100dvh] md:h-screen md:min-h-[760px] max-h-[1200px] overflow-hidden bg-[#161311] flex flex-col justify-between"
     >
       {/* Background Image Layer with Crossfading and Cinematic Scrim for High Contrast */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none">
@@ -59,41 +59,41 @@ export function Hero() {
         <div className="absolute inset-0 bg-black/30 pointer-events-none" />
 
         {/* Top gradient vignette for header and glass pill legibility */}
-        <div className="absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 top-0 h-40 sm:h-52 bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none" />
 
         {/* Center subtle dark radial vignette */}
         <div className="absolute inset-0 bg-radial-[circle_at_center,transparent_30%,rgba(15,12,10,0.45)_100%] pointer-events-none" />
 
         {/* Bottom gradient vignette for giant 'evoa' typography contrast */}
-        <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-64 sm:h-96 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none" />
       </div>
 
-      {/* Spacer to push content down below top nav */}
-      <div className="w-full h-28 sm:h-32 md:h-36" />
+      {/* Responsive Top Spacer: pushes content safely below header */}
+      <div className="w-full h-16 sm:h-24 md:h-32 shrink-0 pointer-events-none" />
 
-      {/* Mid Section: Left Editorial Content Block (Paragraph + CTA Button) */}
-      <div className="relative z-20 w-full px-6 sm:px-10 md:px-16 lg:px-24 pointer-events-auto">
-        <div className="max-w-md sm:max-w-xl md:max-w-2xl flex flex-col items-start gap-7 sm:gap-8">
+      {/* Mid Section: Vertically balanced Editorial Content Block (Paragraph + CTA Button) */}
+      <div className="relative z-20 w-full px-5 sm:px-10 md:px-16 lg:px-24 pointer-events-auto flex-1 flex flex-col justify-center">
+        <div className="max-w-md sm:max-w-xl md:max-w-2xl flex flex-col items-start gap-4 sm:gap-6 md:gap-8">
           <motion.p
-            initial={{ opacity: 0, y: 32, filter: "blur(6px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1.1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="font-sans font-light text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] leading-[1.4] tracking-wide text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.85)] text-balance"
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.95, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="font-sans font-light text-[16px] sm:text-[21px] md:text-[26px] lg:text-[30px] leading-[1.38] tracking-wide text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.85)] text-balance"
           >
             Mindful movement, slow strength, and precision reformer instruction in a space that feels like an exhale.
             We create a practice where self-care becomes an art.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 24, scale: 0.95 }}
+            initial={{ opacity: 0, y: 18, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.85, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
             whileHover={{ scale: 1.025, y: -2 }}
             whileTap={{ scale: 0.98 }}
           >
             <Link
               href="/contact"
-              className="group relative inline-flex items-center gap-4 rounded-full bg-white pl-8 pr-3 py-3 sm:pl-9 sm:pr-3.5 sm:py-3.5 text-[12px] sm:text-[13px] font-semibold tracking-[0.22em] text-[#1c1815] uppercase shadow-[0_6px_24px_rgba(0,0,0,0.35)] hover:shadow-[0_14px_36px_rgba(0,0,0,0.5)] transition-shadow duration-300"
+              className="group relative inline-flex items-center gap-3.5 sm:gap-4 rounded-full bg-white pl-6 pr-2.5 py-2.5 sm:pl-9 sm:pr-3.5 sm:py-3.5 text-[11px] sm:text-[13px] font-semibold tracking-[0.22em] text-[#1c1815] uppercase shadow-[0_6px_24px_rgba(0,0,0,0.35)] hover:shadow-[0_14px_36px_rgba(0,0,0,0.5)] transition-shadow duration-300"
             >
               {/* Luxury Rolling Text Track */}
               <div className="relative overflow-hidden h-[18px]">
@@ -108,15 +108,15 @@ export function Hero() {
               </div>
 
               {/* Minimalist Dark Arrow Pill with Continuous Rolling Arrow */}
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1c1815] text-white transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:bg-rose-500">
+              <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-[#1c1815] text-white transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:bg-rose-500">
                 <div className="relative overflow-hidden w-3.5 h-3.5 flex items-center justify-center">
                   <ArrowUpRight
-                    size={14}
+                    size={13}
                     strokeWidth={2.2}
                     className="transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-4 group-hover:translate-x-4"
                   />
                   <ArrowUpRight
-                    size={14}
+                    size={13}
                     strokeWidth={2.2}
                     className="absolute transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] translate-y-4 -translate-x-4 group-hover:translate-y-0 group-hover:translate-x-0"
                   />
@@ -128,16 +128,16 @@ export function Hero() {
       </div>
 
       {/* Giant Bottom Typography ("evoa") - Right Aligned with Staggered Letter Entrance */}
-      <div className="relative z-20 w-full overflow-hidden pointer-events-none select-none flex justify-end pr-4 sm:pr-8 md:pr-12 lg:pr-16 pb-0">
+      <div className="relative z-20 w-full overflow-hidden pointer-events-none select-none flex justify-end pr-2.5 sm:pr-8 md:pr-12 lg:pr-16 pb-0 shrink-0">
         <h1
           aria-label="evoa"
-          className="font-sans font-light text-[#faf6f3] text-[24vw] leading-[0.74] tracking-[-0.04em] translate-y-[21%] md:translate-y-[20%] text-right whitespace-nowrap drop-shadow-[0_4px_35px_rgba(0,0,0,0.7)]"
+          className="font-sans font-light text-[#faf6f3] text-[34vw] xs:text-[32vw] sm:text-[28vw] md:text-[24vw] leading-[0.74] tracking-[-0.04em] translate-y-[19%] md:translate-y-[20%] text-right whitespace-nowrap drop-shadow-[0_4px_35px_rgba(0,0,0,0.7)]"
         >
           {["e", "v", "o", "a"].map((letter, index) => (
             <motion.span
               key={index}
-              initial={{ y: "135%", opacity: 0, filter: "blur(4px)" }}
-              animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
+              initial={{ y: "135%", opacity: 0 }}
+              animate={{ y: "0%", opacity: 1 }}
               transition={{
                 duration: 1.25,
                 delay: 0.35 + index * 0.12,
