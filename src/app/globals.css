@@ -1,26 +1,179 @@
 @import "tailwindcss";
+@plugin "tailwindcss-animate";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@font-face {
+  font-family: "kafina";
+  src: url("https://db.onlinewebfonts.com/t/3c25a54b673cca21f6c3c4ef254785c0.eot");
+  src: url("https://db.onlinewebfonts.com/t/3c25a54b673cca21f6c3c4ef254785c0.eot?#iefix") format("embedded-opentype"),
+       url("https://db.onlinewebfonts.com/t/3c25a54b673cca21f6c3c4ef254785c0.woff2") format("woff2"),
+       url("https://db.onlinewebfonts.com/t/3c25a54b673cca21f6c3c4ef254785c0.woff") format("woff"),
+       url("https://db.onlinewebfonts.com/t/3c25a54b673cca21f6c3c4ef254785c0.ttf") format("truetype"),
+       url("https://db.onlinewebfonts.com/t/3c25a54b673cca21f6c3c4ef254785c0.svg#kafina") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  /* ---- Type ---- */
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-adamina), ui-serif, Georgia, serif;
+  --font-script: var(--font-script), cursive;
+  --font-kafina: "kafina", var(--font-serif), Georgia, serif;
+
+  /* ---- Color: Cream (surfaces) ---- */
+  --color-cream: #fdfaf0;
+  --color-cream-flat: #f8f4e9;
+  --color-cream-warm: #faedcd;
+  --color-cream-line: #e6dcc6;
+
+  /* ---- Color: Ink (type) — warm near-black ---- */
+  --color-ink: #1c1815;
+  --color-ink-soft: #37302a;
+  --color-ink-muted: #746859;
+  --color-ink-subtle: #a89c8b;
+
+  /* ---- Palette 1: Editorial Blush & Mauve ---- */
+  --color-alabaster-grey: #d8e2dc;
+  --color-powder-petal: #ffe5d9;
+  --color-pastel-pink: #ffcad4;
+  --color-cherry-blossom: #f4acb7;
+  --color-dusty-mauve: #9d8189;
+
+  /* ---- Color: Rose aliases ---- */
+  --color-rose-100: #ffe3e6;
+  --color-rose-200: #ffcad4;
+  --color-rose-300: #f4acb7;
+  --color-rose-500: #9d8189;
+  --color-rose-700: #6e535b;
+  --color-rose-900: #452e33;
+
+  /* ---- Color: Sage — real secondary accent, not just a token ---- */
+  --color-sage-100: #e9edc9;
+  --color-sage-300: #ccd5ae;
+  --color-sage-500: #7c8a55;
+  --color-sage-700: #545e37;
+
+  /* ---- Color: Bronze — small metallic moments ---- */
+  --color-bronze-300: #d4a373;
+  --color-bronze-500: #a97941;
+
+  /* ---- Borders ---- */
+  --color-border-subtle: #ece4d2;
+  --color-border-DEFAULT: #ddd0b3;
+  --color-border-strong: #c2b28c;
+
+  /* ---- Radius: sharp, architectural — not bubbly ---- */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+
+  /* ---- Shadow ---- */
+  --shadow-soft: 0 1px 2px rgba(28, 24, 21, 0.05), 0 6px 20px rgba(28, 24, 21, 0.05);
+  --shadow-lift: 0 14px 36px rgba(28, 24, 21, 0.12);
+
+  /* ---- Editorial type scale — confident, not oversized ---- */
+  --text-display-xl: 3.75rem;
+  --text-display-xl--line-height: 1.08;
+  --text-display-xl--letter-spacing: -0.01em;
+
+  --text-display-lg: 3rem;
+  --text-display-lg--line-height: 1.12;
+  --text-display-lg--letter-spacing: -0.01em;
+
+  --text-display-md: 2.25rem;
+  --text-display-md--line-height: 1.18;
+
+  --text-display-sm: 1.75rem;
+  --text-display-sm--line-height: 1.25;
+
+  --text-editorial: 1.25rem;
+  --text-editorial--line-height: 1.5;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.2em;
+
+  /* ---- Motion ---- */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* ---- Container widths ---- */
+  --container-content: 46rem;
+  --container-prose: 60rem;
+  --container-page: 76rem;
+  --container-wide: 86rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    border-color: var(--color-border-DEFAULT);
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis:not(.lenis-autoToggle).lenis-stopped {
+    overflow: clip;
+  }
+
+  .lenis.lenis-scrolling iframe {
+    pointer-events: none;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  h1 {
+    font-family: var(--font-sans);
+    font-weight: 300;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-kafina);
+    font-weight: 400;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .font-kafina {
+    font-family: var(--font-kafina) !important;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .label {
+    font-size: var(--text-label);
+    line-height: var(--text-label--line-height);
+    letter-spacing: var(--text-label--letter-spacing);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
