@@ -2,14 +2,25 @@
 @plugin "tailwindcss-animate";
 
 @font-face {
-  font-family: "kafina";
-  src: url("https://db.onlinewebfonts.com/t/3c25a54b673cca21f6c3c4ef254785c0.eot");
-  src: url("https://db.onlinewebfonts.com/t/3c25a54b673cca21f6c3c4ef254785c0.eot?#iefix") format("embedded-opentype"),
-       url("https://db.onlinewebfonts.com/t/3c25a54b673cca21f6c3c4ef254785c0.woff2") format("woff2"),
-       url("https://db.onlinewebfonts.com/t/3c25a54b673cca21f6c3c4ef254785c0.woff") format("woff"),
-       url("https://db.onlinewebfonts.com/t/3c25a54b673cca21f6c3c4ef254785c0.ttf") format("truetype"),
-       url("https://db.onlinewebfonts.com/t/3c25a54b673cca21f6c3c4ef254785c0.svg#kafina") format("svg");
-  font-weight: normal;
+  font-family: "Cigars";
+  src: url("/fonts/cigars_light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cigars";
+  src: url("/fonts/cigars_regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cigars";
+  src: url("/fonts/cigars_medium.woff") format("woff");
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
@@ -17,9 +28,10 @@
 @theme {
   /* ---- Type ---- */
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-adamina), ui-serif, Georgia, serif;
-  --font-script: var(--font-script), cursive;
-  --font-kafina: "kafina", var(--font-serif), Georgia, serif;
+  --font-serif: var(--font-serif), Georgia, serif;
+  --font-cigars: "Cigars", Georgia, serif;
+  --font-italiana: var(--font-italiana), Georgia, serif;
+  --font-syne: var(--font-syne), sans-serif;
 
   /* ---- Color: Cream (surfaces) ---- */
   --color-cream: #fdfaf0;
@@ -39,6 +51,13 @@
   --color-pastel-pink: #ffcad4;
   --color-cherry-blossom: #f4acb7;
   --color-dusty-mauve: #9d8189;
+
+  /* ---- Palette 2: Earth, Sage & Minerals ---- */
+  --color-tea-green: #ccd5ae;
+  --color-beige: #e9edc9;
+  --color-cornsilk: #fefae0;
+  --color-papaya-whip: #faedcd;
+  --color-light-bronze: #d4a373;
 
   /* ---- Color: Rose aliases ---- */
   --color-rose-100: #ffe3e6;
@@ -132,6 +151,12 @@
     pointer-events: none;
   }
 
+  html,
+  body {
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
   body {
     background-color: var(--color-cream);
     color: var(--color-ink);
@@ -148,15 +173,13 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-kafina);
+    font-family: var(--font-serif);
     font-weight: 400;
+    letter-spacing: -0.015em;
   }
 }
 
 @layer utilities {
-  .font-kafina {
-    font-family: var(--font-kafina) !important;
-  }
   .text-balance {
     text-wrap: balance;
   }

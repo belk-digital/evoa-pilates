@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
-import { Adamina, Poppins, Pinyon_Script } from "next/font/google";
+import { Poppins, Cormorant_Garamond, Italiana, Syne } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll";
 import "./globals.css";
 
-const adamina = Adamina({
-  variable: "--font-adamina",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-serif",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
 });
 
 const poppins = Poppins({
@@ -17,31 +18,30 @@ const poppins = Poppins({
   weight: ["300", "400", "500", "600"],
 });
 
-const pinyonScript = Pinyon_Script({
-  variable: "--font-script",
+const italiana = Italiana({
+  variable: "--font-italiana",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400"],
+});
+
+const syne = Syne({
+  variable: "--font-syne",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Evoa Pilates — Boutique Reformer & Mat Studio",
-    template: "%s — Evoa Pilates",
+    default: "Evoa — Evolution of Awareness",
+    template: "%s — Evoa",
   },
   description:
-    "A boutique reformer & mat Pilates studio built around slow strength, precise movement, and a space that feels like an exhale.",
+    "A private wellness club for movement, breath, and nervous system restoration.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${adamina.variable} ${poppins.variable} ${pinyonScript.variable} h-full antialiased`}>
-      <head>
-        <link
-          href="https://db.onlinewebfonts.com/c/3c25a54b673cca21f6c3c4ef254785c0?family=kafina"
-          rel="stylesheet"
-          type="text/css"
-        />
-      </head>
+    <html lang="en" className={`${cormorant.variable} ${poppins.variable} ${italiana.variable} ${syne.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-cream text-ink">
         <SmoothScrollProvider>
           <Header />

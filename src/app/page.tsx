@@ -1,18 +1,22 @@
 import { Hero } from "@/components/home/hero";
-import { Intro } from "@/components/home/intro";
-import { Method } from "@/components/home/method";
-import { WhyEvoa } from "@/components/home/why-evoa";
-import { Principles } from "@/components/home/principles";
+import { PhilosophyStatement } from "@/components/home/philosophy-statement";
+import { Experience } from "@/components/home/experience";
+import { Spaces } from "@/components/home/spaces";
+import { ClubMembership } from "@/components/home/club-membership";
+import { ClosingManifesto } from "@/components/home/closing-manifesto";
 import { Faq } from "@/components/home/faq";
 
 export default function HomePage() {
   return (
     <>
-      <Hero />
-      <Intro />
-      <Method />
-      <WhyEvoa />
-      <Principles />
+      <div className="relative w-full">
+        <Hero />
+        <PhilosophyStatement />
+      </div>
+      <Experience />
+      <Spaces />
+      <ClubMembership />
+      <ClosingManifesto />
       <Faq />
     </>
   );

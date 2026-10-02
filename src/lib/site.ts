@@ -4,8 +4,8 @@ export const siteConfig = {
   description:
     "A boutique reformer & mat Pilates studio built around slow strength, precise movement, and a space that feels like an exhale.",
   email: "hello@evoapilates.com",
-  phone: "(555) 014-2288",
-  address: "128 Linden Row, Suite 3, Charleston, SC",
+  phone: "Phone number to be confirmed",
+  address: "Studio address to be confirmed",
   hours: [
     { day: "Monday – Friday", time: "6:00am – 8:00pm" },
     { day: "Saturday", time: "8:00am – 4:00pm" },
@@ -19,7 +19,7 @@ export const siteConfig = {
   nav: [
     { label: "About", href: "/about" },
     { label: "Classes", href: "/classes" },
-    { label: "Pricing", href: "/pricing" },
+    { label: "Membership", href: "/pricing" },
     { label: "Contact", href: "/contact" },
   ],
 };

@@ -41,7 +41,7 @@ export function WhyEvoa() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: 0.04 }}
-              className="font-kafina text-[28px] sm:text-[34px] md:text-[40px] text-ink tracking-tight leading-[1.18] text-balance"
+              className="font-serif text-[28px] sm:text-[34px] md:text-[40px] text-ink tracking-tight leading-[1.18] text-balance"
             >
               The details we refuse <br className="hidden sm:block" />
               to compromise on.
@@ -81,7 +81,7 @@ export function WhyEvoa() {
                   <FourPointStar className="w-3 h-3 text-dusty-mauve/30 group-hover:text-dusty-mauve group-hover:rotate-45 transition-all duration-400" />
                 </div>
 
-                <h3 className="font-kafina text-[18px] sm:text-[19px] text-ink tracking-tight leading-snug group-hover:text-dusty-mauve transition-colors duration-250">
+                <h3 className="font-serif text-[18px] sm:text-[19px] text-ink tracking-tight leading-snug group-hover:text-dusty-mauve transition-colors duration-250">
                   {b.title}
                 </h3>
               </div>

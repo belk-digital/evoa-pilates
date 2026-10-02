@@ -40,7 +40,7 @@ export function SectionHeading({
       ) : null}
       <h2
         className={cn(
-          "text-display-sm md:text-display-md font-kafina tracking-tight text-balance",
+          "text-display-sm md:text-display-md font-serif tracking-tight text-balance",
           isCream ? "text-cream" : "text-ink"
         )}
       >

@@ -20,7 +20,7 @@ export function PricingCard({ plan }: { plan: (typeof pricingPlans)[number] }) {
       ) : null}
 
       <div className="flex flex-col gap-2">
-        <h3 className={cn("font-kafina text-[22px]", plan.featured ? "text-cream" : "text-ink")}>
+        <h3 className={cn("font-serif text-[22px]", plan.featured ? "text-cream" : "text-ink")}>
           {plan.name}
         </h3>
         <p className={cn("text-[14px] leading-relaxed", plan.featured ? "text-cream/65" : "text-ink-muted")}>

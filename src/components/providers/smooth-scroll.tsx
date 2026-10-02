@@ -16,6 +16,10 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
 
     let rafId: number;
 
+    lenis.on("scroll", () => {
+      window.dispatchEvent(new Event("lenis-scroll"));
+    });
+
     function raf(time: number) {
       lenis.raf(time);
       rafId = requestAnimationFrame(raf);

@@ -60,12 +60,9 @@ export function Intro() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, delay: 0.04 }}
-            className="font-kafina text-[38px] sm:text-[48px] md:text-[56px] lg:text-[64px] text-ink tracking-tight"
+            className="font-serif text-[38px] sm:text-[48px] md:text-[56px] lg:text-[64px] text-ink tracking-tight"
           >
-            <span className="font-script text-[1.3em] leading-none inline-block -mr-1 align-baseline normal-case text-dusty-mauve">
-              M
-            </span>
-            ovement, <span className="text-dusty-mauve font-normal">Refined.</span>
+            Movement, <span className="text-dusty-mauve font-normal">Refined.</span>
           </motion.h2>
 
           <motion.p
@@ -100,7 +97,7 @@ export function Intro() {
                 <span className="label text-dusty-mauve text-[11px] tracking-[0.24em]">
                   0{index + 1}
                 </span>
-                <h3 className="font-kafina text-[20px] sm:text-[22px] md:text-[24px] text-ink group-hover:text-dusty-mauve transition-colors duration-250 leading-snug">
+                <h3 className="font-serif text-[20px] sm:text-[22px] md:text-[24px] text-ink group-hover:text-dusty-mauve transition-colors duration-250 leading-snug">
                   {item.title}
                 </h3>
                 <p className="text-[13.5px] sm:text-[14.5px] text-ink-muted leading-relaxed max-w-[280px] mx-auto lg:mx-0">
@@ -194,7 +191,7 @@ export function Intro() {
                 <span className="label text-dusty-mauve text-[11px] tracking-[0.24em]">
                   0{index + 4}
                 </span>
-                <h3 className="font-kafina text-[20px] sm:text-[22px] md:text-[24px] text-ink group-hover:text-dusty-mauve transition-colors duration-250 leading-snug">
+                <h3 className="font-serif text-[20px] sm:text-[22px] md:text-[24px] text-ink group-hover:text-dusty-mauve transition-colors duration-250 leading-snug">
                   {item.title}
                 </h3>
                 <p className="text-[13.5px] sm:text-[14.5px] text-ink-muted leading-relaxed max-w-[280px] mx-auto lg:mx-0">

@@ -19,7 +19,7 @@ export function InstructorSpotlight() {
 
         <div className="md:col-span-7 flex flex-col gap-6">
           <span className="label text-rose-500">Meet Your Instructor</span>
-          <h2 className="font-kafina tracking-tight text-display-sm md:text-display-md text-ink text-balance">
+          <h2 className="font-serif tracking-tight text-display-sm md:text-display-md text-ink text-balance">
             Precision teaching, <span className="text-rose-500 font-normal">not</span> just a playlist and a
             timer.
           </h2>

@@ -10,7 +10,7 @@ export function PricingTeaser() {
       <Container size="page">
         <SectionHeading
           eyebrow="Membership"
-          title="Simple pricing, no surprise fees."
+          title="Transparent memberships, no surprise fees."
           description="Start with a single class or commit to a rhythm — every option unlocks the same studio."
           align="center"
           className="mx-auto max-w-2xl mb-16"

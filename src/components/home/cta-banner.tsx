@@ -8,7 +8,7 @@ export function CtaBanner() {
         <div className="relative overflow-hidden rounded-xl bg-rose-500 px-8 py-16 md:px-20 md:py-24 text-center">
           <div className="flex flex-col items-center gap-6">
             <span className="label text-rose-100">Your First Class Is On Us</span>
-            <h2 className="font-kafina tracking-tight text-display-sm md:text-display-lg text-cream text-balance max-w-2xl">
+            <h2 className="font-serif tracking-tight text-display-sm md:text-display-lg text-cream text-balance max-w-2xl">
               Come feel the difference a quiet room makes.
             </h2>
             <p className="text-[16px] text-cream/85 max-w-md leading-relaxed">

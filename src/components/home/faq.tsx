@@ -66,19 +66,8 @@ export function Faq() {
   return (
     <section
       data-header-theme="light"
-      className="py-20 sm:py-24 md:py-28 lg:py-36 bg-[#d8e2dcff] text-neutral-900 w-full overflow-hidden relative"
+      className="py-20 sm:py-24 md:py-28 lg:py-36 bg-[#d8e2dc] text-neutral-900 w-full overflow-hidden relative"
     >
-      {/* Tactile Hardware-Accelerated Grain Overlay (Zero-Cost Repeating Texture) */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-25 mix-blend-multiply z-0"
-        aria-hidden="true"
-        style={{
-          backgroundImage: "url('/assets/noise.png')",
-          backgroundRepeat: "repeat",
-          backgroundSize: "160px 160px",
-        }}
-      />
-
       <div className="w-full px-6 sm:px-10 md:px-16 lg:px-20 xl:px-24 relative z-10">
         {/* Top-Left Heading with Smooth Entrance */}
         <div className="mb-14 sm:mb-20 md:mb-24 pt-2 pr-6">
@@ -87,7 +76,7 @@ export function Faq() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="font-kafina text-[44px] sm:text-[56px] md:text-[68px] lg:text-[78px] text-neutral-900 tracking-tight leading-[1.12] pr-4 inline-block transform-gpu"
+            className="font-serif text-[44px] sm:text-[56px] md:text-[68px] lg:text-[78px] text-neutral-900 tracking-tight leading-[1.12] pr-4 inline-block transform-gpu"
           >
             Have questions?
           </motion.h2>
@@ -129,7 +118,7 @@ export function Faq() {
 
                   {/* Question and Expandable Answer (starts at ~50% across) */}
                   <div className="col-span-9 sm:col-span-10 md:col-span-6 lg:col-span-5 pr-6">
-                    <h3 className="font-kafina text-[16px] sm:text-[18px] md:text-[20px] lg:text-[21px] tracking-[0.08em] sm:tracking-[0.10em] uppercase text-neutral-900 leading-snug group-hover:text-black transition-colors">
+                    <h3 className="font-serif text-[16px] sm:text-[18px] md:text-[20px] lg:text-[21px] tracking-[0.08em] sm:tracking-[0.10em] uppercase text-neutral-900 leading-snug group-hover:text-black transition-colors">
                       {faq.question}
                     </h3>
 
