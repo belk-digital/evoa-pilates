@@ -9,7 +9,7 @@ export function Footer() {
   return (
     <footer
       data-header-theme="dark"
-      className="bg-[#d8e2dc] p-3.5 sm:p-6 md:p-8 lg:p-10 relative overflow-hidden"
+      className="bg-mint p-3.5 sm:p-6 md:p-8 lg:p-10 relative overflow-hidden"
     >
       {/* Inner Floating Dark Card with Even All-Side Margins & Smooth Entrance */}
       <motion.div
@@ -17,7 +17,7 @@ export function Footer() {
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 w-full bg-[#121110] text-[#faf6f3] rounded-[2rem] sm:rounded-[2.5rem] md:rounded-[3rem] p-6 sm:p-10 md:p-16 lg:p-20 overflow-hidden flex flex-col justify-between min-h-0 lg:min-h-[640px]"
+        className="relative z-10 w-full bg-forest text-bone rounded-[2rem] sm:rounded-[2.5rem] md:rounded-[3rem] p-6 sm:p-10 md:p-16 lg:p-20 overflow-hidden flex flex-col justify-between min-h-0 lg:min-h-[640px]"
       >
         {/* Top Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-9 sm:gap-12 lg:gap-8 items-start relative z-10">
@@ -51,7 +51,7 @@ export function Footer() {
                 <button
                   type="submit"
                   aria-label="Subscribe"
-                  className="flex h-8 w-8 shrink-0 items-center justify-center text-white/60 group-hover:text-white hover:text-white hover:translate-x-1 transition-all duration-200 cursor-pointer"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center text-white/60 group-hover:text-white hover:text-spark-bright hover:translate-x-1 transition-all duration-200 cursor-pointer"
                 >
                   <ArrowRight size={16} strokeWidth={1.5} />
                 </button>
@@ -176,7 +176,7 @@ export function Footer() {
         >
           <span
             aria-label="evoa"
-            className="font-sans font-light text-[#d8e2dc] text-[20vw] sm:text-[19vw] md:text-[18vw] lg:text-[220px] xl:text-[260px] 2xl:text-[290px] leading-[0.74] tracking-[-0.04em] translate-y-[20%] text-right whitespace-nowrap drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)] block"
+            className="font-sans font-light text-mint text-[20vw] sm:text-[19vw] md:text-[18vw] lg:text-[220px] xl:text-[260px] 2xl:text-[290px] leading-[0.74] tracking-[-0.04em] translate-y-[20%] text-right whitespace-nowrap drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)] block"
           >
             {["e", "v", "o", "a"].map((letter, index) => (
               <motion.span

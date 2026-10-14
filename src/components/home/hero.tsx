@@ -5,18 +5,15 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
+// The previous white-studio stills (white-*.jpg) are still in /public/assets, just unused.
 const heroImages = [
   {
-    src: "/assets/white-pilates-studio.jpg",
-    alt: "Evoa Pilates Sanctuary - Ultra-Clean White Sunlit Studio",
+    src: encodeURI("/assets/Sunlit Sage Pilates Studio.webp"),
+    alt: "Evoa Pilates studio in daylight: sage tile wall with round sconces, terrazzo floor and timber reformers",
   },
   {
-    src: "/assets/white-reformer-movement.jpg",
-    alt: "Evoa Pilates Sanctuary - Minimalist Movement in White",
-  },
-  {
-    src: "/assets/white-wellness-sanctuary.jpg",
-    alt: "Evoa Pilates Sanctuary - Architectural Curves & Sunlit Space",
+    src: encodeURI("/assets/Warm Dusk Pilates Studio.webp"),
+    alt: "Evoa Pilates studio at dusk: warm sconce glow on sage tile, polished terrazzo floor and timber reformers",
   },
 ];
 
@@ -33,7 +30,7 @@ export function Hero() {
   return (
     <section
       data-header-theme="dark"
-      className="sticky top-0 h-screen h-[100dvh] min-h-[100dvh] w-full overflow-hidden bg-[#161311] flex flex-col justify-between z-10"
+      className="sticky top-0 h-screen h-[100dvh] min-h-[100dvh] w-full overflow-hidden bg-forest flex flex-col justify-between z-10"
     >
       {/* Background Image Layer with Crossfading and Cinematic Scrim for High Contrast */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none">
@@ -58,11 +55,14 @@ export function Hero() {
         {/* Global atmospheric darkening tint to let white typography and thin celestial lines pop */}
         <div className="absolute inset-0 bg-black/30 pointer-events-none" />
 
+        {/* Left scrim: the tagline and buttons sit over the brightest part of these studio shots */}
+        <div className="absolute inset-y-0 left-0 w-full sm:w-[70%] bg-gradient-to-r from-black/55 via-black/25 to-transparent pointer-events-none" />
+
         {/* Top gradient vignette for header and glass pill legibility */}
         <div className="absolute inset-x-0 top-0 h-40 sm:h-52 bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none" />
 
         {/* Center subtle dark radial vignette */}
-        <div className="absolute inset-0 bg-radial-[circle_at_center,transparent_30%,rgba(15,12,10,0.45)_100%] pointer-events-none" />
+        <div className="absolute inset-0 bg-radial-[circle_at_center,transparent_30%,rgba(14,24,18,0.45)_100%] pointer-events-none" />
 
         {/* Bottom gradient vignette for giant 'evoa' typography contrast */}
         <div className="absolute inset-x-0 bottom-0 h-64 sm:h-96 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none" />
@@ -80,7 +80,7 @@ export function Hero() {
             transition={{ duration: 0.95, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col items-start gap-2.5 sm:gap-3"
           >
-            <span className="label text-powder-petal tracking-[0.32em] text-[11px] sm:text-[13px] uppercase drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+            <span className="label text-peach-soft tracking-[0.32em] text-[11px] sm:text-[13px] uppercase drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
               Evolution of Awareness
             </span>
             <p className="font-sans font-light text-[17px] sm:text-[22px] md:text-[28px] lg:text-[32px] leading-[1.35] tracking-wide text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.85)] text-balance">
@@ -95,7 +95,7 @@ export function Hero() {
           >
             <Link
               href="#membership"
-              className="group relative inline-flex items-center gap-3.5 sm:gap-4 rounded-full bg-white pl-6 pr-2.5 py-2.5 sm:pl-9 sm:pr-3.5 sm:py-3.5 text-[11px] sm:text-[13px] font-semibold tracking-[0.22em] text-[#1c1815] uppercase shadow-[0_6px_24px_rgba(0,0,0,0.35)] hover:shadow-[0_14px_36px_rgba(0,0,0,0.5)] transition-shadow duration-300"
+              className="group relative inline-flex items-center gap-3.5 sm:gap-4 rounded-full bg-white pl-6 pr-2.5 py-2.5 sm:pl-9 sm:pr-3.5 sm:py-3.5 text-[11px] sm:text-[13px] font-semibold tracking-[0.22em] text-ink uppercase shadow-[0_6px_24px_rgba(0,0,0,0.35)] hover:shadow-[0_14px_36px_rgba(0,0,0,0.5)] transition-shadow duration-300"
             >
               {/* Luxury Rolling Text Track */}
               <div className="relative overflow-hidden h-[18px]">
@@ -103,14 +103,14 @@ export function Hero() {
                   <span className="h-[18px] flex items-center">
                     REQUEST MEMBERSHIP
                   </span>
-                  <span className="h-[18px] flex items-center text-rose-500 font-semibold">
+                  <span className="h-[18px] flex items-center text-rust font-semibold">
                     REQUEST MEMBERSHIP
                   </span>
                 </div>
               </div>
 
               {/* Minimalist Dark Arrow Pill with Continuous Rolling Arrow */}
-              <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-[#1c1815] text-white transition-colors duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:bg-rose-500">
+              <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-ink text-white transition-colors duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:bg-spark">
                 <div className="relative overflow-hidden w-3.5 h-3.5 flex items-center justify-center">
                   <ArrowUpRight
                     size={13}
@@ -129,11 +129,14 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Giant Bottom Typography ("evoa") - Right Aligned with Staggered Letter Entrance */}
-      <div className="relative z-20 w-full overflow-hidden pointer-events-none select-none flex justify-end pr-2.5 sm:pr-8 md:pr-12 lg:pr-16 pb-8 sm:pb-12 md:pb-16 lg:pb-20 shrink-0">
+      {/* Giant Bottom Typography ("evoa") - Right Aligned with Staggered Letter Entrance.
+          The Philosophy section overlaps the hero by -mt-16 / sm:-mt-24 / md:-mt-32 (see philosophy-statement),
+          so below lg the bottom padding is the overlap minus ~20% of the letter height: the word sits tucked
+          slightly under the card's top edge instead of being half covered. */}
+      <div className="relative z-20 w-full overflow-hidden pointer-events-none select-none flex justify-end pr-2.5 sm:pr-8 md:pr-12 lg:pr-16 pb-[48px] sm:pb-[74px] md:pb-[98px] lg:pb-20 shrink-0">
         <h1
           aria-label="evoa"
-          className="font-sans font-light text-[#d8e2dc] text-[34vw] xs:text-[32vw] sm:text-[28vw] md:text-[24vw] leading-[0.74] tracking-[-0.04em] translate-y-[6%] sm:translate-y-[4%] md:translate-y-[2%] text-right whitespace-nowrap drop-shadow-none"
+          className="font-sans font-light text-mint text-[34vw] xs:text-[32vw] sm:text-[28vw] md:text-[24vw] leading-[0.74] tracking-[-0.04em] translate-y-[6%] sm:translate-y-[4%] md:translate-y-[2%] text-right whitespace-nowrap drop-shadow-none"
         >
           {["e", "v", "o", "a"].map((letter, index) => (
             <motion.span

@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
 
+@custom-variant short (@media (max-height: 520px) and (orientation: landscape));
+@custom-variant compact (@media (max-height: 700px));
+@custom-variant pin (@media (min-width: 1024px) and (min-height: 600px));
+@custom-variant fine (@media (hover: hover) and (pointer: fine));
+
 @font-face {
   font-family: "Cigars";
   src: url("/fonts/cigars_light.woff") format("woff");
@@ -30,57 +35,72 @@
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-serif), Georgia, serif;
   --font-cigars: "Cigars", Georgia, serif;
-  --font-italiana: var(--font-italiana), Georgia, serif;
   --font-syne: var(--font-syne), sans-serif;
+  --font-display: var(--font-boldonse), Georgia, serif; /* h2 headings */
+  --font-script: var(--font-bonheur), cursive; /* cursive accents */
+  --font-title: var(--font-instrument), Georgia, serif; /* h3 card titles */
 
-  /* ---- Color: Cream (surfaces) ---- */
-  --color-cream: #fdfaf0;
-  --color-cream-flat: #f8f4e9;
-  --color-cream-warm: #faedcd;
-  --color-cream-line: #e6dcc6;
+  /* ---- Palette: mid-century earth + sage (each colour has one job) ---- */
+  --color-plaster: #efe7d6; /* canvas */
+  --color-cream: #f8f3e7; /* light cards / surfaces */
+  --color-cream-flat: #f3ecdc;
+  --color-cream-warm: #f3e2cb;
+  --color-cream-line: #ddd0b8; /* hairlines on light */
+  --color-bone: #f6f0e3; /* text on dark */
 
-  /* ---- Color: Ink (type) — warm near-black ---- */
-  --color-ink: #1c1815;
-  --color-ink-soft: #37302a;
-  --color-ink-muted: #746859;
-  --color-ink-subtle: #a89c8b;
+  --color-mint: #cbdac6; /* calm surface, from the client's tile wall */
+  --color-mint-deep: #b4c9ae;
+  --color-sage: #8fa583; /* patterns, dots, tags - never text */
 
-  /* ---- Palette 1: Editorial Blush & Mauve ---- */
-  --color-alabaster-grey: #d8e2dc;
-  --color-powder-petal: #ffe5d9;
-  --color-pastel-pink: #ffcad4;
-  --color-cherry-blossom: #f4acb7;
-  --color-dusty-mauve: #9d8189;
+  --color-deep-green: #2c4234; /* depth: dark blocks, featured tier */
+  --color-forest: #1e3025; /* darkest: scrims, footer card */
 
-  /* ---- Palette 2: Earth, Sage & Minerals ---- */
-  --color-tea-green: #ccd5ae;
-  --color-beige: #e9edc9;
-  --color-cornsilk: #fefae0;
-  --color-papaya-whip: #faedcd;
-  --color-light-bronze: #d4a373;
+  --color-terracotta: #c4673f; /* warmth: fills, lines, large type */
+  --color-rust: #96421f; /* terracotta for small text (AA on mint/cream) */
+  --color-peach: #edb899; /* glow / light-on-dark accent */
+  --color-peach-soft: #f8e0ce;
+  --color-teak: #7a4a2b;
+  --color-espresso: #241a14;
+  --color-spark: #d2381f; /* red: attention / action only */
+  --color-spark-bright: #ff5a3c; /* the same red, for dark backgrounds (4.5:1 on forest) */
 
-  /* ---- Color: Rose aliases ---- */
-  --color-rose-100: #ffe3e6;
-  --color-rose-200: #ffcad4;
-  --color-rose-300: #f4acb7;
-  --color-rose-500: #9d8189;
-  --color-rose-700: #6e535b;
-  --color-rose-900: #452e33;
+  /* ---- Ink (type) ---- */
+  --color-ink: var(--color-espresso);
+  --color-ink-soft: #3b2d23;
+  --color-ink-muted: #6b5a4c;
+  --color-ink-subtle: #a08f7e;
 
-  /* ---- Color: Sage — real secondary accent, not just a token ---- */
-  --color-sage-100: #e9edc9;
-  --color-sage-300: #ccd5ae;
-  --color-sage-500: #7c8a55;
-  --color-sage-700: #545e37;
+  /* ---- Legacy names, remapped so unused sections follow the new palette ---- */
+  --color-alabaster-grey: var(--color-mint);
+  --color-powder-petal: var(--color-peach-soft);
+  --color-pastel-pink: #f3cdb0;
+  --color-cherry-blossom: var(--color-peach);
+  --color-dusty-mauve: var(--color-rust);
+  --color-tea-green: var(--color-mint-deep);
+  --color-beige: #e6eddf;
+  --color-cornsilk: var(--color-cream);
+  --color-papaya-whip: var(--color-cream-warm);
+  --color-light-bronze: #cf9a63;
 
-  /* ---- Color: Bronze — small metallic moments ---- */
-  --color-bronze-300: #d4a373;
-  --color-bronze-500: #a97941;
+  --color-rose-100: var(--color-peach-soft);
+  --color-rose-200: #f3cdb0;
+  --color-rose-300: var(--color-peach);
+  --color-rose-500: var(--color-terracotta);
+  --color-rose-700: var(--color-rust);
+  --color-rose-900: #5b2d1b;
+
+  --color-sage-100: #e4ede0;
+  --color-sage-300: var(--color-mint);
+  --color-sage-500: var(--color-sage);
+  --color-sage-700: #4a6153;
+
+  --color-bronze-300: #d1a06c;
+  --color-bronze-500: #a8763f;
 
   /* ---- Borders ---- */
-  --color-border-subtle: #ece4d2;
-  --color-border-DEFAULT: #ddd0b3;
-  --color-border-strong: #c2b28c;
+  --color-border-subtle: #e6dcc8;
+  --color-border-DEFAULT: #d6c8ad;
+  --color-border-strong: #bcab88;
 
   /* ---- Radius: sharp, architectural — not bubbly ---- */
   --radius-xs: 2px;
@@ -90,8 +110,8 @@
   --radius-xl: 14px;
 
   /* ---- Shadow ---- */
-  --shadow-soft: 0 1px 2px rgba(28, 24, 21, 0.05), 0 6px 20px rgba(28, 24, 21, 0.05);
-  --shadow-lift: 0 14px 36px rgba(28, 24, 21, 0.12);
+  --shadow-soft: 0 1px 2px rgba(36, 26, 20, 0.05), 0 6px 20px rgba(36, 26, 20, 0.05);
+  --shadow-lift: 0 14px 36px rgba(36, 26, 20, 0.12);
 
   /* ---- Editorial type scale — confident, not oversized ---- */
   --text-display-xl: 3.75rem;
@@ -157,8 +177,13 @@
     max-width: 100%;
   }
 
+  ::selection {
+    background-color: var(--color-terracotta);
+    color: var(--color-bone);
+  }
+
   body {
-    background-color: var(--color-cream);
+    background-color: var(--color-plaster);
     color: var(--color-ink);
     font-family: var(--font-sans);
   }
@@ -168,7 +193,11 @@
     font-weight: 300;
   }
 
-  h2,
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+  }
+
   h3,
   h4,
   h5,
@@ -177,6 +206,66 @@
     font-weight: 400;
     letter-spacing: -0.015em;
   }
+}
+
+/* Manifesto sunrise (experience.tsx): slow in-and-out breathing on the rings, pulse on the red sun */
+@keyframes sun-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.035);
+  }
+}
+
+@keyframes sun-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 1;
+  }
+}
+
+.sun-ring {
+  transform-box: view-box;
+  transform-origin: 500px 500px;
+  animation: sun-breathe 7s ease-in-out infinite;
+}
+
+.sun-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sun-pulse 3.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sun-ring,
+  .sun-dot {
+    animation: none;
+  }
+}
+
+/* Class posters marquee (class-guide.tsx): a native horizontal scroller with its scrollbar hidden;
+   the slow drift is driven from JS so it can still be swiped. */
+.marquee-viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.marquee-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
 }
 
 @layer utilities {
@@ -190,6 +279,26 @@
     letter-spacing: var(--text-label--letter-spacing);
     text-transform: uppercase;
     font-weight: 500;
+  }
+
+  /* Red points in h2s (see SparkText). Boldonse "i": stem tops out at 0.87em, dot starts at 0.93em,
+     content box is 1.516em above / 0.406em below the baseline, so the gap's midpoint (0.90em)
+     sits 32% down the box. */
+  .spark-i {
+    --dot: var(--color-spark);
+    background-image: linear-gradient(to bottom, var(--dot) 0 32%, currentColor 32% 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .spark-mark {
+    color: var(--color-spark);
+  }
+  .spark-i.on-dark {
+    --dot: var(--color-spark-bright);
+  }
+  .spark-mark.on-dark {
+    color: var(--color-spark-bright);
   }
 
   .hide-scrollbar::-webkit-scrollbar {

@@ -1,9 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { EditorialBrandSeal } from "@/components/ui/editorial-brand-seal";
+import { SparkText } from "@/components/ui/spark-text";
+import { wipeHidden, wipeShown, wipeTransition } from "@/components/ui/reveal";
 
 interface CardTheme {
   accentName: string;
@@ -21,6 +23,7 @@ interface ExperienceItem {
   id: string;
   num: string;
   title: string;
+  accent: string; // the one word of the title set in the script face
   subtitle: string;
   description: string;
   image: string;
@@ -33,94 +36,98 @@ const experienceItems: ExperienceItem[] = [
     id: "lighting",
     num: "01",
     title: "Controlled Lighting Environments",
+    accent: "Lighting",
     subtitle: "Circadian Regulation",
     description:
       "Diffused warm amber temperatures and zero harsh overheads, tuned to downshift nervous system strain from the moment you step across the threshold.",
-    image: "/assets/Luxury Amber Pilates Studio.webp",
-    alt: "Warm ambient amber cove lighting at Evoa reformer studio",
+    image: "/assets/Warm Modern Pilates Studio (1).webp",
+    alt: "Concealed amber cove lighting and round sconces warming the sage tile wall of the Evoa studio at dusk",
     theme: {
       accentName: "Amber Glow",
-      targetBg: "#f7f1e6", // Warm luminous candlelit linen
-      borderColor: "rgba(212, 163, 115, 0.35)",
+      targetBg: "#f4e4d0", // Peach-glaze sconce light
+      borderColor: "rgba(237, 184, 153, 0.45)",
       tagBadge: "2700K WARM ILLUMINATION",
-      tagColor: "#9c6d36",
+      tagColor: "#8a5a2b",
       auroraWave1:
-        "radial-gradient(ellipse 70% 60% at 75% 25%, rgba(254, 250, 224, 0.9) 0%, rgba(250, 237, 205, 0.55) 45%, transparent 75%)",
+        "radial-gradient(ellipse 70% 60% at 75% 25%, rgba(248, 224, 198, 0.9) 0%, rgba(243, 214, 184, 0.55) 45%, transparent 75%)",
       auroraWave2:
-        "radial-gradient(ellipse 65% 55% at 20% 70%, rgba(255, 229, 217, 0.6) 0%, rgba(250, 237, 205, 0.35) 40%, transparent 70%)",
+        "radial-gradient(ellipse 65% 55% at 20% 70%, rgba(237, 184, 153, 0.5) 0%, rgba(243, 214, 184, 0.3) 40%, transparent 70%)",
       coveGradient:
-        "linear-gradient(180deg, rgba(254, 243, 199, 0.45) 0%, transparent 60%)",
+        "linear-gradient(180deg, rgba(250, 226, 186, 0.5) 0%, transparent 60%)",
     },
   },
   {
     id: "studios",
     num: "02",
     title: "Studios Designed for Focus",
+    accent: "Focus",
     subtitle: "Acoustic Stillness",
     description:
       "Acoustically dampened architecture with custom natural timber finishes, dedicated strictly to presence, diaphragmatic breath, and unhurried form.",
-    image: "/assets/Luxurious Sunlit Pilates Studio.webp",
-    alt: "Natural timber reformer studio with acoustic stillness",
+    image: "/assets/Sunlit Minimalist Pilates Studio.webp",
+    alt: "A calm Evoa studio with timber slat walls, sage tile and a row of reformers in soft daylight",
     theme: {
       accentName: "Timber Stillness",
-      targetBg: "#ece7de", // Grounded natural timber & oat stone
-      borderColor: "rgba(184, 166, 146, 0.32)",
+      targetBg: "#e8ddc8", // Teak-toned oat
+      borderColor: "rgba(122, 74, 43, 0.28)",
       tagBadge: "ACOUSTIC ISOLATION",
-      tagColor: "#6c7250",
+      tagColor: "#7a4a2b",
       auroraWave1:
-        "radial-gradient(ellipse 70% 55% at 20% 30%, rgba(204, 213, 174, 0.65) 0%, rgba(233, 237, 201, 0.45) 45%, transparent 75%)",
+        "radial-gradient(ellipse 70% 55% at 20% 30%, rgba(214, 190, 150, 0.55) 0%, rgba(232, 221, 200, 0.45) 45%, transparent 75%)",
       auroraWave2:
-        "radial-gradient(ellipse 65% 60% at 75% 70%, rgba(233, 237, 201, 0.7) 0%, rgba(212, 163, 115, 0.16) 45%, transparent 70%)",
+        "radial-gradient(ellipse 65% 60% at 75% 70%, rgba(225, 208, 176, 0.7) 0%, rgba(196, 103, 63, 0.12) 45%, transparent 70%)",
       coveGradient:
-        "linear-gradient(180deg, rgba(233, 237, 201, 0.3) 0%, transparent 60%)",
+        "linear-gradient(180deg, rgba(232, 221, 200, 0.4) 0%, transparent 60%)",
     },
   },
   {
     id: "transitions",
     num: "03",
     title: "Silent Transitions",
+    accent: "Silent",
     subtitle: "Spatial Continuity",
     description:
       "Curated buffer zones and threshold pauses between high-resistance reformer work, floor decompression, and restorative wellness areas.",
-    image: "/assets/Serene Travertine Wellness Retreat.webp",
-    alt: "Curved travertine decompression breezeway threshold",
+    image: "/assets/Serene Pilates Studio with Arched Doorway (1).webp",
+    alt: "A woman walking quietly through an arched doorway between two rooms of the Evoa studio",
     theme: {
       accentName: "Mineral Mist",
-      targetBg: "#dfe6e1", // Misted tea-green / mineral travertine
-      borderColor: "rgba(164, 185, 170, 0.35)",
+      targetBg: "#d3e0ce", // Glazed mint tile
+      borderColor: "rgba(143, 165, 131, 0.4)",
       tagBadge: "BUFFER THRESHOLD",
-      tagColor: "#587250",
+      tagColor: "#3e5a47",
       auroraWave1:
-        "radial-gradient(ellipse 75% 60% at 25% 25%, rgba(204, 213, 174, 0.6) 0%, rgba(216, 226, 220, 0.4) 45%, transparent 75%)",
+        "radial-gradient(ellipse 75% 60% at 25% 25%, rgba(175, 198, 165, 0.6) 0%, rgba(203, 218, 198, 0.4) 45%, transparent 75%)",
       auroraWave2:
-        "radial-gradient(ellipse 65% 55% at 75% 65%, rgba(216, 226, 220, 0.85) 0%, rgba(254, 250, 224, 0.38) 40%, transparent 70%)",
+        "radial-gradient(ellipse 65% 55% at 75% 65%, rgba(203, 218, 198, 0.85) 0%, rgba(239, 231, 214, 0.38) 40%, transparent 70%)",
       coveGradient:
-        "linear-gradient(180deg, rgba(204, 213, 174, 0.3) 0%, transparent 60%)",
+        "linear-gradient(180deg, rgba(175, 198, 165, 0.3) 0%, transparent 60%)",
     },
   },
   {
     id: "rituals",
     num: "04",
     title: "Recovery Rituals Instead of Cooldowns",
+    accent: "Rituals",
     subtitle: "Cellular Renewal",
     description:
       "Post-movement adaptogenic hydration, targeted lymph resets, and weighted linen relaxation tailored to integrate the physical work of your practice.",
-    image: "/assets/Warmly Lit Spa Apothecary Lounge.webp",
-    alt: "Herbal apothecary recovery and cellular renewal lounge",
+    image: "/assets/Steaming Tea in a Sunlit Wellness Studio.webp",
+    alt: "Steaming tonic cups and a glass carafe on the travertine Recovery Bar with its star-tile front",
     theme: {
       accentName: "Cellular Aurora",
-      targetBg: "#eae4e6", // Restorative weighted cashmere linen
-      borderColor: "rgba(204, 185, 195, 0.35)",
+      targetBg: "#f0c7a6", // Terracotta clay
+      borderColor: "rgba(196, 103, 63, 0.38)",
       tagBadge: "CELLULAR RENEWAL",
-      tagColor: "#7e5c6b",
+      tagColor: "#96421f",
       auroraWave1:
-        "radial-gradient(ellipse 70% 55% at 25% 25%, rgba(204, 213, 174, 0.55) 0%, rgba(254, 250, 224, 0.4) 45%, transparent 75%)",
+        "radial-gradient(ellipse 70% 55% at 25% 25%, rgba(143, 165, 131, 0.4) 0%, rgba(239, 231, 214, 0.4) 45%, transparent 75%)",
       auroraWave2:
-        "radial-gradient(ellipse 65% 60% at 75% 70%, rgba(255, 229, 217, 0.6) 0%, rgba(222, 212, 216, 0.35) 40%, transparent 70%)",
+        "radial-gradient(ellipse 65% 60% at 75% 70%, rgba(228, 150, 104, 0.5) 0%, rgba(232, 176, 140, 0.3) 40%, transparent 70%)",
       auroraWave3:
-        "radial-gradient(ellipse 55% 50% at 50% 50%, rgba(244, 172, 183, 0.18) 0%, transparent 65%)",
+        "radial-gradient(ellipse 55% 50% at 50% 50%, rgba(196, 103, 63, 0.22) 0%, transparent 65%)",
       coveGradient:
-        "linear-gradient(180deg, rgba(254, 250, 224, 0.3) 0%, rgba(204, 213, 174, 0.15) 40%, transparent 65%)",
+        "linear-gradient(180deg, rgba(246, 224, 206, 0.35) 0%, rgba(143, 165, 131, 0.12) 40%, transparent 65%)",
     },
   },
 ];
@@ -128,16 +135,6 @@ const experienceItems: ExperienceItem[] = [
 export function Experience() {
   const sectionRef = React.useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
-  const [isMobile, setIsMobile] = React.useState(false);
-
-  React.useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   // Scroll-based rotation: maps 0 -> 1 progress of the section passing the viewport to 0 -> 360 deg
   const { scrollYProgress } = useScroll({
@@ -151,7 +148,7 @@ export function Experience() {
       id="experience"
       ref={sectionRef}
       data-header-theme="light"
-      className="relative w-full overflow-x-clip bg-[#d8e2dc] text-[#1c1815] pt-4 pb-0 sm:pt-16 lg:pt-20"
+      className="relative w-full overflow-x-clip bg-mint text-ink pt-4 pb-0 sm:pt-16 lg:pt-20"
     >
       {/* FULL-WIDTH CONTAINER (EDGE-TO-EDGE) */}
       <div className="relative z-10 w-full overflow-x-clip">
@@ -161,12 +158,12 @@ export function Experience() {
             {/* Left Column: Clean Editorial Title */}
             <div className="flex flex-col flex-1 min-w-0">
               <motion.h2
-                initial={{ opacity: 0, y: 16 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="font-serif font-light text-[32px] sm:text-[48px] md:text-[56px] lg:text-[64px] text-[#1c1815] tracking-[-0.02em] leading-tight"
+                initial={wipeHidden}
+                animate={isInView ? wipeShown : {}}
+                transition={wipeTransition}
+                className="font-display text-[30px] sm:text-[42px] md:text-[52px] lg:text-[60px] text-ink tracking-normal leading-[1.4]"
               >
-                The Experience
+                <SparkText>The Experience</SparkText>
               </motion.h2>
             </div>
 
@@ -179,10 +176,11 @@ export function Experience() {
             >
               <motion.div
                 style={{ rotate }}
-                className="w-24 h-24 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 text-[#1c1815] will-change-transform select-none cursor-default"
+                className="w-24 h-24 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 relative text-rust will-change-transform select-none cursor-default"
                 title="Evoa Pilates Editorial Brand Seal"
               >
                 <EditorialBrandSeal className="w-full h-full" />
+                <span className="absolute left-1/2 top-1/2 h-2 w-2 sm:h-2.5 sm:w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-spark" />
               </motion.div>
             </motion.div>
 
@@ -193,29 +191,20 @@ export function Experience() {
               transition={{ duration: 0.75, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
               className="flex-1 flex justify-start lg:justify-end shrink-0"
             >
-              <p className="font-sans font-light text-[13.5px] sm:text-[15.5px] md:text-[16.5px] leading-[1.65] text-[#1c1815]/75 lg:max-w-sm xl:max-w-md">
+              <p className="font-sans font-light text-[13.5px] sm:text-[15.5px] md:text-[16.5px] leading-[1.65] text-ink/75 lg:max-w-sm xl:max-w-md">
                 Architecture, sound, lighting, and pacing engineered to guide your nervous system into deep, unhurried restoration.
               </p>
             </motion.div>
           </div>
         </div>
 
-        {/* Sticky Stacking Cards Deck with Scroll-Based Lighting & Color Transitions */}
-        <div className="relative w-full">
-          {experienceItems.map((item, index) => {
-            const topOffset = isMobile ? 55 + index * 26 : 70 + index * 60;
-            const zIndex = 10 + index;
-
-            return (
-              <ExperienceStickyCard
-                key={item.id}
-                item={item}
-                index={index}
-                topOffset={topOffset}
-                zIndex={zIndex}
-              />
-            );
-          })}
+        {/* Rounded cream panels on the mint page (same look as the Classes panel and the footer card).
+            Below lg they are a swipeable row, on lg a 2 x 2 grid, so the section stays short.
+            Each panel's colour wash blooms as it crosses the screen. */}
+        <div className="hide-scrollbar relative flex w-full snap-x snap-mandatory gap-3 overflow-x-auto overflow-y-hidden px-3 py-3 sm:gap-4 sm:px-6 lg:grid lg:snap-none lg:grid-cols-2 lg:gap-5 lg:overflow-visible lg:px-10 lg:py-0">
+          {experienceItems.map((item) => (
+            <ExperienceStickyCard key={item.id} item={item} />
+          ))}
         </div>
 
         {/* Scroll-Based Manifesto Transition */}
@@ -225,149 +214,61 @@ export function Experience() {
   );
 }
 
-function ExperienceStickyCard({
-  item,
-  index,
-  topOffset,
-  zIndex,
-}: {
-  item: ExperienceItem;
-  index: number;
-  topOffset: number;
-  zIndex: number;
-}) {
-  const cardRef = React.useRef<HTMLDivElement>(null);
-
-  // Smooth scroll progress tracking from entry approaching sticky point until it docks
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start 88%", `start ${topOffset + 10}px`],
-  });
-
-  // GPU compositor opacity fade for background (Zero repaint cost!)
-  const bgOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-
-  // Border top color softens to blend with the lighting
-  const borderTopColor = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["rgba(28,24,21,0.15)", item.theme.borderColor]
+/* Card title in the serif, with one key word picked out in the script face (rust, a touch larger
+   since the script's letters run small; its line-height is pinched so it doesn't open up the line). */
+function CardTitle({ title, accent }: { title: string; accent: string }) {
+  const at = title.indexOf(accent);
+  if (at < 0) return <>{title}</>;
+  return (
+    <>
+      {title.slice(0, at)}
+      <span className="font-script text-rust text-[1.4em] leading-[0.7] tracking-normal">{accent}</span>
+      {title.slice(at + accent.length)}
+    </>
   );
+}
 
-  // Aurora opacity & GPU transform drift (Zero CSS filter blur - pre-computed multi-stop gradients)
-  const auroraOpacity = useTransform(scrollYProgress, [0, 0.35, 1], [0, 0.45, 1]);
-
-  // GPU Wave 1 translation drift
-  const wave1X = useTransform(scrollYProgress, [0, 1], ["-25px", "35px"]);
-  const wave1Y = useTransform(scrollYProgress, [0, 1], ["-15px", "20px"]);
-  const wave1Scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.96, 1.05, 0.98]);
-
-  // GPU Wave 2 counter-drift
-  const wave2X = useTransform(scrollYProgress, [0, 1], ["30px", "-25px"]);
-  const wave2Y = useTransform(scrollYProgress, [0, 1], ["15px", "-15px"]);
-  const wave2Scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.04, 0.95, 1.02]);
-
+/* One experience: a plain cream panel (same cream as the Classes panel) on the mint page. The colour
+   comes from the photo, so the panel itself stays quiet. */
+function ExperienceStickyCard({ item }: { item: ExperienceItem }) {
   return (
     <motion.div
-      ref={cardRef}
-      style={{
-        top: `${topOffset}px`,
-        zIndex: zIndex,
-        borderTopColor: borderTopColor,
-        transform: "translateZ(0)",
-      }}
-      className="sticky w-full min-h-[380px] sm:min-h-[460px] lg:min-h-[520px] border-t shadow-[0_-8px_30px_-6px_rgba(28,24,21,0.06)] pt-5 sm:pt-9 pb-8 sm:pb-14 px-4 sm:px-8 md:px-12 lg:px-16 flex flex-col justify-between overflow-hidden will-change-transform"
-    >
-      {/* Base Solid Alabaster Background */}
-      <div className="absolute inset-0 bg-[#d8e2dc] -z-20 pointer-events-none" />
+      initial={{ opacity: 0, y: 60, scale: 0.97 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+      className="relative flex w-[84vw] max-w-[440px] shrink-0 snap-center flex-col overflow-hidden rounded-[32px] bg-plaster p-4 shadow-[0_24px_60px_rgba(36,26,20,0.07)] sm:w-[58vw] sm:rounded-[40px] sm:p-5 lg:w-auto lg:max-w-none lg:rounded-[52px] lg:p-6">
+      {/* Photo on top, then number + title + text */}
+      <div className="relative z-10 flex w-full flex-1 flex-col gap-5 sm:gap-6">
+        <div className="group relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-ink/10 bg-cream-line/40 shadow-[0_16px_36px_rgba(36,26,20,0.09)] transition-all duration-500 hover:shadow-[0_24px_50px_rgba(36,26,20,0.18)] sm:rounded-[20px] lg:aspect-[2/1] lg:rounded-[28px]">
+          <motion.img
+            initial={{ scale: 1.18 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+            src={item.image}
+            alt={item.alt}
+            className="h-full w-full object-cover object-center transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-50 transition-opacity duration-500 group-hover:opacity-20" />
 
-      {/* GPU Opacity Theme Background Fade (Zero Main-Thread Paint!) */}
-      <motion.div
-        style={{
-          opacity: bgOpacity,
-          backgroundColor: item.theme.targetBg,
-        }}
-        className="absolute inset-0 -z-10 pointer-events-none will-change-[opacity]"
-      />
-
-      {/* GPU-Accelerated Floating Aurora Wave 1 */}
-      <motion.div
-        style={{
-          opacity: auroraOpacity,
-          x: wave1X,
-          y: wave1Y,
-          scale: wave1Scale,
-          background: item.theme.auroraWave1,
-        }}
-        className="absolute -inset-16 pointer-events-none -z-0 will-change-transform"
-      />
-
-      {/* GPU-Accelerated Floating Aurora Wave 2 */}
-      <motion.div
-        style={{
-          opacity: auroraOpacity,
-          x: wave2X,
-          y: wave2Y,
-          scale: wave2Scale,
-          background: item.theme.auroraWave2,
-        }}
-        className="absolute -inset-16 pointer-events-none -z-0 will-change-transform"
-      />
-
-      {/* Optional Third Wave for extra depth (Card 04) */}
-      {item.theme.auroraWave3 && (
-        <motion.div
-          style={{
-            opacity: auroraOpacity,
-            background: item.theme.auroraWave3,
-          }}
-          className="absolute inset-0 pointer-events-none -z-0 will-change-[opacity]"
-        />
-      )}
-
-      {/* Concealed Linear Cove Overhead Light (Active on Card 01 - Controlled Lighting) */}
-      {item.theme.coveGradient && (
-        <motion.div
-          style={{
-            opacity: auroraOpacity,
-            background: item.theme.coveGradient,
-          }}
-          className="absolute inset-x-0 top-0 h-44 pointer-events-none -z-0 will-change-[opacity]"
-        />
-      )}
-
-      {/* 2-Column Editorial Split: Left (Number + Title + Paragraph below) & Right (Big Photo Window) */}
-      <div className="relative z-10 w-full flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 lg:gap-12 xl:gap-16 my-auto">
-        {/* Left Column: Number on left, Title + Paragraph aligned together on right */}
-        <div className="flex items-start gap-3.5 sm:gap-6 md:gap-7 flex-1 min-w-0 max-w-xl xl:max-w-2xl">
-          <span className="font-serif font-light text-[24px] sm:text-[42px] md:text-[50px] lg:text-[56px] text-[#1c1815]/75 leading-none select-none tracking-tight shrink-0 pt-0.5 sm:pt-1">
-            {item.num}
-          </span>
-          <div className="flex flex-col flex-1 min-w-0">
-            <h3 className="font-serif font-light text-[20px] sm:text-[32px] md:text-[40px] lg:text-[48px] text-[#1c1815] leading-[1.12] tracking-[-0.015em] select-none break-words min-w-0 mb-2.5 sm:mb-4">
-              {item.title}
-            </h3>
-
-            {/* Editorial Description precisely aligned with the start of the title */}
-            <p className="font-sans font-light text-[13px] sm:text-[15.5px] md:text-[17px] leading-[1.62] text-[#1c1815]/75">
-              {item.description}
-            </p>
+          {/* Subtle floating interactive arrow pill */}
+          <div className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-ink opacity-0 shadow-sm backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100 sm:right-4 sm:top-4 sm:h-9 sm:w-9">
+            <ArrowUpRight size={14} strokeWidth={2.2} />
           </div>
         </div>
 
-        {/* Right Column: Large Architectural Studio Photo Window */}
-        <div className="relative w-full lg:w-[420px] xl:w-[480px] 2xl:w-[540px] aspect-[16/9] sm:aspect-[16/10] max-h-[220px] sm:max-h-none rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden bg-[#e6dcc6]/40 border border-[#1c1815]/10 shadow-[0_16px_36px_rgba(28,24,21,0.09)] group hover:shadow-[0_24px_50px_rgba(28,24,21,0.18)] transition-all duration-500 shrink-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={item.image}
-            alt={item.alt}
-            className="w-full h-full object-cover object-center transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-108"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-50 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none" />
-
-          {/* Subtle floating interactive arrow pill */}
-          <div className="absolute top-3 right-3 sm:top-4 sm:right-4 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-[#1c1815] opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-sm">
-            <ArrowUpRight size={14} strokeWidth={2.2} />
+        <div className="flex items-start gap-4 px-2 pb-2 sm:gap-5 sm:px-3 sm:pb-3">
+          <span className="shrink-0 select-none pt-1 font-serif text-[22px] font-light leading-none tracking-tight text-ink/60 sm:text-[28px]">
+            {item.num}
+          </span>
+          <div className="flex min-w-0 flex-1 flex-col">
+            <h3 className="mb-2.5 min-w-0 select-none break-words font-title text-[28px] font-normal leading-[1.08] tracking-[-0.01em] text-ink sm:mb-3 sm:text-[34px] lg:text-[38px] xl:text-[42px]">
+              <CardTitle title={item.title} accent={item.accent} />
+            </h3>
+            <p className="font-sans text-[13.5px] font-light leading-[1.62] text-ink/75 sm:text-[15px]">
+              {item.description}
+            </p>
           </div>
         </div>
       </div>
@@ -375,7 +276,103 @@ function ExperienceStickyCard({
   );
 }
 
-{/* Scroll-Based Manifesto Transition Component */}
+/* ---- Manifesto: "This is not Fitness." -> "Recalibration." ----
+   One pinned stage driven by the scroll progress p (0..1) of the tall container below.
+   The next section (Spaces) starts sliding over the stage at roughly p = 0.58-0.62, so the
+   whole sequence lands by ~0.55:
+     0.05-0.30  fitness clichés are struck out in red, one by one, drifting behind the headline
+     0.24-0.32  the main "not" is struck
+     0.30-0.50  "Fitness." rolls out, "Recalibration." rolls in
+     0.30-0.55  the sunrise rises from the horizon                                              */
+
+const CLICHES: Array<{ word: string; x: number; y: number; drift: number }> = [
+  { word: "SWEAT", x: 17, y: 15, drift: 26 },
+  { word: "BURN", x: 50, y: 11, drift: -18 },
+  { word: "NO PAIN, NO GAIN", x: 74, y: 20, drift: 30 },
+  { word: "REPS", x: 31, y: 26, drift: -24 },
+  { word: "HIIT", x: 90, y: 30, drift: 16 },
+  { word: "GRIND", x: 46, y: 74, drift: -22 },
+  { word: "SHRED", x: 84, y: 78, drift: 20 },
+  { word: "CALORIES", x: 22, y: 82, drift: -28 },
+  { word: "PERSONAL BEST", x: 62, y: 88, drift: 24 },
+  { word: "LEG DAY", x: 12, y: 90, drift: -16 },
+];
+
+/* Concentric sunrise rings, outermost first (hex = palette tokens: mint-deep, peach-soft,
+   pastel-pink, terracotta, deep-green). */
+const SUN_RINGS = [
+  { r: 495, fill: "#b4c9ae", opacity: 0.5 },
+  { r: 400, fill: "#f8e0ce", opacity: 1 },
+  { r: 305, fill: "#f3cdb0", opacity: 1 },
+  { r: 215, fill: "#c4673f", opacity: 1 },
+  { r: 125, fill: "#2c4234", opacity: 1 },
+];
+
+/* A fitness cliché that gets crossed out by a red line as you scroll, then fades with the swap. */
+function Cliche({
+  progress,
+  word,
+  x,
+  y,
+  drift,
+  index,
+}: {
+  progress: MotionValue<number>;
+  word: string;
+  x: number;
+  y: number;
+  drift: number;
+  index: number;
+}) {
+  const start = 0.06 + index * 0.022;
+  const end = start + 0.035;
+  const opacity = useTransform(progress, [0, 0.05, start, end, 0.3, 0.44], [0, 0.75, 0.75, 0.4, 0.4, 0]);
+  const strike = useTransform(progress, [start, end], [0, 1], { clamp: true });
+  const driftY = useTransform(progress, [0, 1], [drift, -drift]);
+
+  return (
+    <motion.span
+      style={{ left: `${x}%`, top: `${y}%`, y: driftY, opacity }}
+      className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-sans text-[10px] font-medium uppercase tracking-[0.28em] text-ink-muted sm:text-[12px] lg:text-[14px]"
+    >
+      <span className="relative inline-block">
+        {word}
+        <motion.span
+          style={{ scaleX: strike }}
+          className="absolute left-0 right-0 top-1/2 h-[1.5px] origin-left bg-spark"
+        />
+      </span>
+    </motion.span>
+  );
+}
+
+/* Mid-century sunrise: concentric half-discs on the horizon with a small red sun, breathing slowly. */
+function Sunrise({ progress }: { progress: MotionValue<number> }) {
+  const y = useTransform(progress, [0.3, 0.55], ["40%", "0%"], { clamp: true });
+  const opacity = useTransform(progress, [0.3, 0.44], [0, 1], { clamp: true });
+
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-0 flex justify-center">
+      <motion.div style={{ y, opacity }} className="w-[min(140vw,1200px,110dvh)] will-change-transform">
+        <svg viewBox="0 0 1000 500" fill="none" className="block h-auto w-full" xmlns="http://www.w3.org/2000/svg">
+          {SUN_RINGS.map((ring, i) => (
+            <circle
+              key={ring.r}
+              cx="500"
+              cy="500"
+              r={ring.r}
+              className="sun-ring"
+              style={{ fill: ring.fill, opacity: ring.opacity, animationDelay: `${-i * 0.9}s` }}
+            />
+          ))}
+          <circle className="sun-dot" cx="500" cy="425" r="15" style={{ fill: "#ff5a3c" }} />
+        </svg>
+      </motion.div>
+    </div>
+  );
+}
+
+/* Scroll-Based Manifesto Transition Component */
 function ScrollManifestoTransition() {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -383,41 +380,33 @@ function ScrollManifestoTransition() {
     offset: ["start start", "end end"],
   });
 
-  // Strikethrough on "NOT": draws across crisply (0.12 to 0.28)
-  const strikeScale = useTransform(scrollYProgress, [0, 0.12, 0.28, 1], [0, 0, 1, 1], { clamp: true });
+  // Strikethrough on "not": the last stroke of the sequence (0.24 to 0.32)
+  const strikeScale = useTransform(scrollYProgress, [0, 0.24, 0.32, 1], [0, 0, 1, 1], { clamp: true });
 
-  // "NOT" blur and fade out right after strikethrough (0.26 to 0.38)
-  const notOpacity = useTransform(scrollYProgress, [0, 0.26, 0.38, 1], [1, 1, 0, 0], { clamp: true });
-  const notBlurRaw = useTransform(scrollYProgress, [0, 0.26, 0.38, 1], [0, 0, 10, 10], { clamp: true });
+  // "not" blurs and fades right after being struck (0.31 to 0.40)
+  const notOpacity = useTransform(scrollYProgress, [0, 0.31, 0.4, 1], [1, 1, 0, 0], { clamp: true });
+  const notBlurRaw = useTransform(scrollYProgress, [0, 0.31, 0.4, 1], [0, 0, 10, 10], { clamp: true });
   const notFilter = useTransform(notBlurRaw, (v) => (v > 0.2 ? `blur(${Math.max(0, v)}px)` : "none"));
 
-  // Word 1 "FITNESS.": slides UP and blurs out swiftly (0.26 to 0.44)
-  const fitnessY = useTransform(scrollYProgress, [0, 0.26, 0.44, 1], ["0%", "0%", "-120%", "-120%"], { clamp: true });
-  const fitnessOpacity = useTransform(scrollYProgress, [0, 0.26, 0.44, 1], [1, 1, 0, 0], { clamp: true });
-  const fitnessBlurRaw = useTransform(scrollYProgress, [0, 0.26, 0.44, 1], [0, 0, 12, 12], { clamp: true });
+  // "Fitness.": slides UP and blurs out (0.32 to 0.46)
+  const fitnessY = useTransform(scrollYProgress, [0, 0.32, 0.46, 1], ["0%", "0%", "-120%", "-120%"], { clamp: true });
+  const fitnessOpacity = useTransform(scrollYProgress, [0, 0.32, 0.46, 1], [1, 1, 0, 0], { clamp: true });
+  const fitnessBlurRaw = useTransform(scrollYProgress, [0, 0.32, 0.46, 1], [0, 0, 12, 12], { clamp: true });
   const fitnessFilter = useTransform(fitnessBlurRaw, (v) => (v > 0.2 ? `blur(${Math.max(0, v)}px)` : "none"));
 
-  // Word 2 "RECALIBRATION.": slides UP into place and locks in 100% solid focus by 0.45
-  // STAYS 100% VISIBLE (opacity: 1), SHARP (filter: none) with NO outro fade, fixed in background all the way to 1.0 while next section glides over
-  const recalY = useTransform(scrollYProgress, [0, 0.28, 0.45, 1], ["120%", "120%", "0%", "0%"], { clamp: true });
-  const recalOpacity = useTransform(scrollYProgress, [0, 0.28, 0.45, 1], [0, 0, 1, 1], { clamp: true });
-  const recalBlurRaw = useTransform(scrollYProgress, [0, 0.28, 0.45, 1], [12, 12, 0, 0], { clamp: true });
+  // "Recalibration.": slides UP into place and locks in sharp by 0.50; stays put while the next
+  // section glides over the stage
+  const recalY = useTransform(scrollYProgress, [0, 0.34, 0.5, 1], ["120%", "120%", "0%", "0%"], { clamp: true });
+  const recalOpacity = useTransform(scrollYProgress, [0, 0.34, 0.5, 1], [0, 0, 1, 1], { clamp: true });
+  const recalBlurRaw = useTransform(scrollYProgress, [0, 0.34, 0.5, 1], [12, 12, 0, 0], { clamp: true });
   const recalFilter = useTransform(recalBlurRaw, (v) => (v > 0.2 ? `blur(${Math.max(0, v)}px)` : "none"));
 
   // Ambient silk light glow transforms
-  const bloomOpacity = useTransform(scrollYProgress, [0, 0.20, 0.45, 1], [0.65, 0.65, 1, 1], { clamp: true });
-  const bloomScale = useTransform(scrollYProgress, [0, 0.25, 0.45, 1], [0.96, 0.98, 1.06, 1.06], { clamp: true });
-
-  // Concept 2: Somatic Parasympathetic Breath Waveform transforms
-  // Waves glide horizontally in opposing directions as you scroll
-  const waveDrift1 = useTransform(scrollYProgress, [0, 1], [-80, 80]);
-  const waveDrift2 = useTransform(scrollYProgress, [0, 1], [70, -70]);
-  // Expands amplitude gracefully as "RECALIBRATION" locks in and stays open
-  const waveAmplitude = useTransform(scrollYProgress, [0, 0.22, 0.45, 1], [0.65, 0.75, 1.25, 1.25], { clamp: true });
-  const waveOpacity = useTransform(scrollYProgress, [0, 0.15, 0.45, 1], [0.4, 0.7, 0.95, 0.95], { clamp: true });
+  const bloomOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 1], [0.65, 0.65, 1, 1], { clamp: true });
+  const bloomScale = useTransform(scrollYProgress, [0, 0.25, 0.5, 1], [0.96, 0.98, 1.06, 1.06], { clamp: true });
 
   return (
-    <div ref={containerRef} className="relative w-full h-[260vh] sm:h-[280vh] mt-6 sm:mt-12 overflow-x-clip">
+    <div ref={containerRef} className="relative w-full h-[340vh] sm:h-[360vh] mt-6 sm:mt-12 overflow-x-clip">
       {/* Sticky Screen Viewport with stacking isolation - stays fixed in background at z-10 */}
       <div className="sticky top-0 h-screen h-[100dvh] w-full flex flex-col items-center justify-center px-3 sm:px-6 md:px-10 pointer-events-none isolate z-10">
         {/* Velvety Soft Ambient Light Diffusion: Delicate silk highlight with zero harsh borders or grey rings */}
@@ -428,77 +417,37 @@ function ScrollManifestoTransition() {
           }}
           className="absolute inset-0 w-full h-full pointer-events-none z-0 will-change-transform"
         >
-          <div className="w-full h-full bg-[radial-gradient(ellipse_75%_60%_at_50%_50%,rgba(255,255,255,0.75)_0%,rgba(255,250,246,0.52)_25%,rgba(240,246,242,0.32)_50%,rgba(226,236,230,0.14)_75%,transparent_100%)]" />
+          <div className="w-full h-full bg-[radial-gradient(ellipse_75%_60%_at_50%_50%,rgba(250,236,218,0.8)_0%,rgba(248,230,208,0.55)_25%,rgba(237,226,204,0.32)_50%,rgba(220,226,206,0.14)_75%,transparent_100%)]" />
         </motion.div>
 
-        {/* Concept 2: Organic Parasympathetic Breath Waveform (SVG Layer) */}
-        <motion.div
-          style={{
-            opacity: waveOpacity,
-            scaleY: waveAmplitude,
-          }}
-          className="absolute inset-x-0 top-1/2 -translate-y-1/2 w-full h-[240px] sm:h-[380px] md:h-[480px] pointer-events-none z-0 will-change-transform"
-        >
-          <svg
-            viewBox="0 0 1440 400"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-full h-full overflow-visible"
-            preserveAspectRatio="none"
-          >
-            {/* Wave 3: Deep harmonic resonance ribbon (faint natural sage undertone) */}
-            <motion.path
-              style={{ x: waveDrift2 }}
-              d="M-300 210 C 120 330, 480 70, 720 200 C 960 330, 1320 70, 1740 210"
-              stroke="#5d7064"
-              strokeWidth="1.2"
-              strokeOpacity="0.25"
-              strokeDasharray="4 6"
-              fill="none"
-              vectorEffect="non-scaling-stroke"
-            />
+        {/* Mid-century sunrise rising from the horizon as the word changes */}
+        <Sunrise progress={scrollYProgress} />
 
-            {/* Wave 2: Secondary breath echo (soft ivory / warm porcelain ribbon) */}
-            <motion.path
-              style={{ x: waveDrift1 }}
-              d="M-300 190 C 180 60, 460 340, 720 200 C 980 60, 1260 340, 1740 190"
-              stroke="#fefae0"
-              strokeWidth="1.4"
-              strokeOpacity="0.55"
-              fill="none"
-              vectorEffect="non-scaling-stroke"
-            />
+        {/* Fitness clichés that get crossed out, drifting at different depths behind the headline */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 z-[1]">
+          {CLICHES.map((c, i) => (
+            <Cliche key={c.word} progress={scrollYProgress} index={i} {...c} />
+          ))}
+        </div>
 
-            {/* Wave 1: Primary somatic breath wave (pure luminous daylight white silk - zero color clash with purple text) */}
-            <motion.path
-              style={{ x: waveDrift2 }}
-              d="M-300 200 C 140 90, 440 310, 720 200 C 1000 90, 1300 310, 1740 200"
-              stroke="#ffffff"
-              strokeWidth="2.2"
-              strokeOpacity="0.85"
-              strokeLinecap="round"
-              fill="none"
-              vectorEffect="non-scaling-stroke"
-            />
-          </svg>
-        </motion.div>
+        {/* Central Stage Lockup - Boldonse display (font-display) with red points on every i and . */}
+        <h2 className="relative z-10 flex w-full max-w-[96vw] flex-col items-center justify-center text-center font-display font-normal leading-none tracking-normal select-none [font-size:clamp(26px,min(8.6vw,17dvh),112px)]">
+          {/* Line 1: "This is not" (static "This is" + struck-through "not") */}
+          <span className="flex h-[1.5em] items-center justify-center gap-[0.28em] whitespace-nowrap text-ink">
+            <span>
+              <SparkText>This is</SparkText>
+            </span>
 
-        {/* Central Stage Lockup - Syne Display Font (var(--font-syne)) */}
-        <div className="relative z-10 w-full max-w-[96vw] sm:max-w-[94vw] flex flex-col items-center justify-center text-center font-[family-name:var(--font-syne)] font-bold text-[clamp(20px,6.8vw,34px)] sm:text-[46px] md:text-[58px] lg:text-[72px] xl:text-[86px] 2xl:text-[98px] uppercase tracking-tight leading-[0.98] select-none">
-          {/* Line 1: THIS IS NOT (with static "THIS IS" and struck-through "NOT") */}
-          <div className="flex items-center justify-center gap-2 sm:gap-4 md:gap-7 text-[#1c1815] whitespace-nowrap">
-            <span>THIS IS</span>
-
-            {/* Word "NOT" with animated strikethrough and blur dissolve */}
+            {/* "not" with animated strikethrough and blur dissolve */}
             <span className="relative inline-flex items-center">
               <motion.span
                 style={{
                   opacity: notOpacity,
                   filter: notFilter,
                 }}
-                className="text-[#5e5346] will-change-[filter,opacity]"
+                className="text-ink-muted will-change-[filter,opacity]"
               >
-                NOT
+                not
               </motion.span>
 
               {/* Dynamic Strikethrough Line */}
@@ -508,15 +457,15 @@ function ScrollManifestoTransition() {
                   originX: 0,
                   opacity: notOpacity,
                 }}
-                className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[2.5px] sm:h-[4px] md:h-[5px] bg-[#9d8189] rounded-full will-change-transform"
+                className="absolute left-0 top-[58%] -translate-y-1/2 w-full h-[max(2.5px,0.05em)] bg-spark rounded-full will-change-transform"
               />
             </span>
-          </div>
+          </span>
 
-          {/* Line 2: Vertical Switch Roller between FITNESS. and RECALIBRATION. */}
-          <div className="relative w-full h-[1.24em] sm:h-[1.18em] overflow-hidden flex items-center justify-center mt-1 sm:mt-2">
-            {/* Word 1: FITNESS. (slides up and blurs out) */}
-            <motion.div
+          {/* Line 2: Vertical Switch Roller between "Fitness." and "Recalibration." */}
+          <span className="relative flex h-[1.5em] w-full items-center justify-center overflow-hidden">
+            {/* Word 1: Fitness. (slides up and blurs out) */}
+            <motion.span
               style={{
                 y: fitnessY,
                 opacity: fitnessOpacity,
@@ -524,11 +473,13 @@ function ScrollManifestoTransition() {
               }}
               className="absolute inset-0 flex items-center justify-center whitespace-nowrap will-change-[transform,filter,opacity]"
             >
-              <span className="text-[#5e5346]">FITNESS.</span>
-            </motion.div>
+              <span className="text-ink-muted">
+                <SparkText>Fitness.</SparkText>
+              </span>
+            </motion.span>
 
-            {/* Word 2: RECALIBRATION. (Distinct dusty mauve accent from palette 1: #9d8189) */}
-            <motion.div
+            {/* Word 2: Recalibration. - deep green so the red points read clearly */}
+            <motion.span
               style={{
                 y: recalY,
                 opacity: recalOpacity,
@@ -536,12 +487,12 @@ function ScrollManifestoTransition() {
               }}
               className="absolute inset-0 flex items-center justify-center whitespace-nowrap px-1 sm:px-2 will-change-[transform,filter,opacity]"
             >
-              <span className="text-[#9d8189]">
-                RECALIBRATION.
+              <span className="text-deep-green">
+                <SparkText>Recalibration.</SparkText>
               </span>
-            </motion.div>
-          </div>
-        </div>
+            </motion.span>
+          </span>
+        </h2>
       </div>
     </div>
   );

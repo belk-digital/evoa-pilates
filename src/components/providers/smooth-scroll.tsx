@@ -12,6 +12,8 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
       gestureOrientation: "vertical",
       smoothWheel: true,
       touchMultiplier: 1.5,
+      // Same-page links (#membership, ...) glide to their target instead of jumping
+      anchors: true,
     });
 
     let rafId: number;

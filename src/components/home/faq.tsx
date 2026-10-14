@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { SparkText } from "@/components/ui/spark-text";
+import { wipeProps } from "@/components/ui/reveal";
 
 interface FaqItem {
   id: string;
@@ -14,42 +16,42 @@ const faqs: FaqItem[] = [
   {
     id: "01",
     number: "01",
-    question: "WHAT SHOULD I WEAR OR BRING TO MY FIRST CLASS?",
+    question: "What should I wear or bring to my first class?",
     answer:
       "Comfortable form-fitting athletic wear that allows effortless range of motion. Grip socks are required on all reformers for grip and hygiene. Filtered water, towels, and lockers are fully provided.",
   },
   {
     id: "02",
     number: "02",
-    question: "WHAT'S INCLUDED IN THE MEMBERSHIP?",
+    question: "What's included in the membership?",
     answer:
       "Full access to reformer and mat studios, personalized spring resistance setups, complimentary grip amenities, towel service, private locker access, and priority booking on all weekly sessions.",
   },
   {
     id: "03",
     number: "03",
-    question: "I AM A BEGINNER. WHICH CLASS SHOULD I START WITH?",
+    question: "I'm a beginner. Which class should I start with?",
     answer:
       "Our Foundation Reformer class is crafted specifically for newcomers. Every class is strictly capped at eight reformers so your instructor can guide your alignment, springs, and pacing individually.",
   },
   {
     id: "04",
     number: "04",
-    question: "WHAT IS YOUR CANCELLATION POLICY?",
+    question: "What is your cancellation policy?",
     answer:
       "We operate a 12-hour cancellation window for all group classes and 24 hours for private appointments. Cancellations within this window immediately credit back to your account.",
   },
   {
     id: "05",
     number: "05",
-    question: "CAN I ATTEND WITH INJURIES OR PRENATAL CONDITIONS?",
+    question: "Can I attend with injuries or prenatal conditions?",
     answer:
       "Yes. All instructors hold 500+ hours of classical training with rehabilitation and prenatal certification. Notify your instructor before class so custom modifications can be prepared.",
   },
   {
     id: "06",
     number: "06",
-    question: "HOW DO I RESERVE A CLASS OR PRIVATE SESSION?",
+    question: "How do I reserve a class or private session?",
     answer:
       "You can reserve your reformer directly online through our schedule page or mobile portal. First-time visitors can claim a complimentary introductory reformer session.",
   },
@@ -66,19 +68,16 @@ export function Faq() {
   return (
     <section
       data-header-theme="light"
-      className="py-20 sm:py-24 md:py-28 lg:py-36 bg-[#d8e2dc] text-neutral-900 w-full overflow-hidden relative"
+      className="py-20 sm:py-24 md:py-28 lg:py-36 bg-mint text-neutral-900 w-full overflow-hidden relative"
     >
       <div className="w-full px-6 sm:px-10 md:px-16 lg:px-20 xl:px-24 relative z-10">
         {/* Top-Left Heading with Smooth Entrance */}
         <div className="mb-14 sm:mb-20 md:mb-24 pt-2 pr-6">
           <motion.h2
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="font-serif text-[44px] sm:text-[56px] md:text-[68px] lg:text-[78px] text-neutral-900 tracking-tight leading-[1.12] pr-4 inline-block transform-gpu"
+            {...wipeProps}
+            className="font-display text-[36px] sm:text-[50px] md:text-[64px] lg:text-[76px] text-neutral-900 tracking-normal leading-[1.4] pr-4 inline-block transform-gpu"
           >
-            Have questions?
+            <SparkText iDots={false}>Have questions?</SparkText>
           </motion.h2>
         </div>
 
@@ -104,21 +103,21 @@ export function Faq() {
                   type="button"
                   onClick={() => toggleItem(faq.id)}
                   aria-expanded={isOpen}
-                  className="w-full py-8 sm:py-9 md:py-11 grid grid-cols-12 gap-4 items-start text-left cursor-pointer group focus:outline-none"
+                  className="w-full py-7 sm:py-8 md:py-10 grid grid-cols-12 gap-4 items-start text-left cursor-pointer group focus:outline-none"
                 >
                   {/* Far-Left Number: 01, 02... */}
                   <div className="col-span-2 sm:col-span-1 md:col-span-1">
-                    <span className="font-sans text-[13px] sm:text-[14px] md:text-[15px] text-neutral-800/50 tracking-widest select-none block pt-1">
+                    <span className="font-sans text-[13px] sm:text-[14px] md:text-[15px] font-medium text-ink/60 tracking-widest select-none block pt-1.5 sm:pt-2">
                       {faq.number}
                     </span>
                   </div>
 
-                  {/* Wide Negative Space / Spacer matching reference layout */}
-                  <div className="hidden md:block md:col-span-4 lg:col-span-5" />
+                  {/* Small gutter so the question lines up under the heading rhythm */}
+                  <div className="hidden md:block md:col-span-1 lg:col-span-2" />
 
-                  {/* Question and Expandable Answer (starts at ~50% across) */}
-                  <div className="col-span-9 sm:col-span-10 md:col-span-6 lg:col-span-5 pr-6">
-                    <h3 className="font-serif text-[16px] sm:text-[18px] md:text-[20px] lg:text-[21px] tracking-[0.08em] sm:tracking-[0.10em] uppercase text-neutral-900 leading-snug group-hover:text-black transition-colors">
+                  {/* Question and Expandable Answer */}
+                  <div className="col-span-9 sm:col-span-10 md:col-span-9 lg:col-span-8 pr-4 sm:pr-8">
+                    <h3 className="font-display text-[17px] sm:text-[20px] md:text-[22px] lg:text-[26px] font-normal tracking-normal text-ink leading-[1.5] transition-colors group-hover:text-black">
                       {faq.question}
                     </h3>
 
@@ -144,7 +143,7 @@ export function Faq() {
                           }}
                           className="overflow-hidden"
                         >
-                          <p className="font-sans font-light text-[14px] sm:text-[15px] md:text-[16px] leading-[1.65] text-neutral-800/80 pt-3.5 max-w-xl">
+                          <p className="font-sans font-normal text-[15px] sm:text-[16px] md:text-[17px] leading-[1.7] text-ink/85 pt-4 pb-1 max-w-2xl">
                             {faq.answer}
                           </p>
                         </motion.div>
@@ -157,7 +156,7 @@ export function Faq() {
                     <motion.span
                       animate={{ rotate: isOpen ? 45 : 0 }}
                       transition={{ duration: 0.22, ease: "easeInOut" }}
-                      className="inline-block text-[22px] sm:text-[26px] md:text-[28px] font-extralight text-neutral-900 leading-none"
+                      className={`inline-block text-[26px] sm:text-[30px] md:text-[34px] font-light leading-none transition-colors duration-300 ${isOpen ? "text-spark" : "text-ink"}`}
                     >
                       +
                     </motion.span>

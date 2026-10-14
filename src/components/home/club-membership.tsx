@@ -2,6 +2,9 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
+import { SparkText } from "@/components/ui/spark-text";
+import { Reveal, wipeProps } from "@/components/ui/reveal";
 
 interface Tier {
   id: string;
@@ -12,6 +15,10 @@ interface Tier {
   featured: boolean;
   ctaText: string;
   btnStyle: "light" | "secondary" | "dark";
+  headerBg: string;
+  border: string;
+  headerText: string;
+  check: string;
   perks: string[];
 }
 
@@ -25,6 +32,10 @@ const tiers: Tier[] = [
     featured: false,
     ctaText: "Request Access",
     btnStyle: "light",
+    headerBg: "bg-sage",
+    border: "border-sage",
+    headerText: "text-ink",
+    check: "text-sage-700",
     perks: [
       "Full studio access & amenities",
       "6 classes / month (reformer & mat)",
@@ -42,6 +53,10 @@ const tiers: Tier[] = [
     featured: true,
     ctaText: "Join Residence",
     btnStyle: "dark",
+    headerBg: "bg-forest",
+    border: "border-deep-green",
+    headerText: "text-bone",
+    check: "text-deep-green",
     perks: [
       "Everything in Access",
       "Unlimited studio & class reservations",
@@ -59,6 +74,10 @@ const tiers: Tier[] = [
     featured: false,
     ctaText: "Contact Concierge",
     btnStyle: "dark",
+    headerBg: "bg-rust",
+    border: "border-rust",
+    headerText: "text-bone",
+    check: "text-rust",
     perks: [
       "Everything in Residence",
       "Weekly 1:1 private reformer session",
@@ -143,41 +162,48 @@ export function ClubMembership() {
     <section
       id="membership"
       data-header-theme="light"
-      className="pt-16 pb-12 sm:pt-24 sm:pb-16 bg-[#d8e2dc] text-[#1c1815] border-none shadow-none overflow-hidden"
+      className="pt-16 pb-12 sm:pt-24 sm:pb-16 bg-mint text-ink border-none shadow-none overflow-hidden"
     >
       <div className="max-w-[1000px] mx-auto px-4 sm:px-6">
         {/* Section Header: "Choose your plan" */}
         <div className="flex flex-col items-center text-center mb-8 sm:mb-14">
-          <h2 className="font-serif font-light text-[36px] sm:text-[48px] md:text-[56px] lg:text-[64px] text-[#1c1815] tracking-[-0.02em] leading-tight">
-            Choose your plan
-          </h2>
+          <motion.h2 {...wipeProps} className="font-display text-[32px] sm:text-[44px] md:text-[54px] lg:text-[60px] text-ink tracking-normal leading-[1.4]">
+            <SparkText>Choose your plan.</SparkText>
+          </motion.h2>
 
-          {/* Toggle Pill matching reference: [ Pay monthly | Pay yearly ] */}
-          <div className="mt-5 sm:mt-6 inline-flex items-center p-1 rounded-full bg-[#c9d5ce] border border-[#b8c6bd] select-none shadow-[inset_0_1px_2px_rgba(28,24,21,0.06)]">
-            <button
-              type="button"
-              onClick={() => setBillingCycle("monthly")}
-              className={`px-4 py-1.5 rounded-full text-[12px] font-medium transition-all duration-200 ${
-                billingCycle === "monthly"
-                  ? "bg-white text-[#1c1815] shadow-[0_1px_3px_rgba(28,24,21,0.08)]"
-                  : "text-[#4a554e] hover:text-[#1c1815]"
-              }`}
-            >
-              Pay monthly
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setBillingCycle("yearly")}
-              className={`px-4 py-1.5 rounded-full text-[12px] font-medium transition-all duration-200 ${
-                billingCycle === "yearly"
-                  ? "bg-white text-[#1c1815] shadow-[0_1px_3px_rgba(28,24,21,0.08)]"
-                  : "text-[#4a554e] hover:text-[#1c1815]"
-              }`}
-            >
-              Pay yearly
-            </button>
+          {/* Billing toggle: the white pill springs between the options (overshoots, then settles) */}
+          <Reveal delay={0.2} className="mt-5 sm:mt-6">
+          <div className="inline-flex items-center p-1 rounded-full bg-mint-deep border border-sage select-none shadow-[inset_0_1px_2px_rgba(36,26,20,0.06)]">
+            <div className="flex items-center overflow-hidden rounded-full">
+            {(
+              [
+                ["monthly", "Pay monthly"],
+                ["yearly", "Pay yearly"],
+              ] as const
+            ).map(([cycle, label]) => (
+              <motion.button
+                key={cycle}
+                type="button"
+                onClick={() => setBillingCycle(cycle)}
+                whileTap={{ scale: 0.92 }}
+                transition={{ type: "spring", stiffness: 500, damping: 14 }}
+                className={`relative px-4 py-1.5 rounded-full text-[12px] font-medium transition-colors duration-300 ${
+                  billingCycle === cycle ? "text-ink" : "text-deep-green hover:text-ink"
+                }`}
+              >
+                {billingCycle === cycle && (
+                  <motion.span
+                    layoutId="billing-pill"
+                    transition={{ type: "spring", stiffness: 520, damping: 17, mass: 0.9 }}
+                    className="absolute inset-0 rounded-full bg-white shadow-[0_1px_3px_rgba(36,26,20,0.12)]"
+                  />
+                )}
+                <span className="relative z-10">{label}</span>
+              </motion.button>
+            ))}
+            </div>
           </div>
+          </Reveal>
         </div>
 
         {/* Responsive Track: Horizontal Snapping Scroll on Mobile, Standard 3-Column Grid on Desktop */}
@@ -192,41 +218,50 @@ export function ClubMembership() {
             const isCenterOnMobile = activeIdx === idx;
 
             return (
-              <div
+              <motion.div
                 key={tier.id}
+                initial={{ y: 56, filter: "blur(8px)" }}
+                whileInView={{ y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.9, delay: idx * 0.12, ease: [0.16, 1, 0.3, 1] }}
                 ref={(el) => {
                   cardRefs.current[idx] = el;
                 }}
                 onClick={() => scrollToCard(idx)}
                 className={`w-[68vw] sm:w-[62vw] max-w-[290px] md:w-auto md:max-w-none shrink-0 snap-center md:snap-align-none rounded-[22px] sm:rounded-[24px] overflow-hidden flex flex-col relative transition-transform duration-300 origin-center cursor-pointer md:cursor-default ${
                   isCenterOnMobile
-                    ? "scale-100 opacity-100 z-10 shadow-[0_4px_16px_rgba(28,24,21,0.06)] border border-[#1e2229]/20"
+                    ? "scale-100 opacity-100 z-10 shadow-[0_4px_16px_rgba(36,26,20,0.06)] border border-deep-green/20"
                     : "scale-[0.88] sm:scale-[0.90] opacity-75 z-0"
                 } ${
                   tier.featured
-                    ? "md:scale-[1.05] md:opacity-100 md:z-10 md:shadow-[0_8px_20px_rgba(28,24,21,0.06)] bg-[#111315] border border-[#1e2229]/40"
-                    : "md:scale-[0.96] md:opacity-95 md:z-0 md:shadow-[0_2px_10px_rgba(28,24,21,0.03)] bg-[#f0f4f1] border border-[#bcc8c0]"
+                    ? "md:scale-[1.05] md:opacity-100 md:z-10 md:shadow-[0_8px_20px_rgba(36,26,20,0.06)] bg-forest border border-deep-green/40"
+                    : `md:scale-[0.96] md:opacity-95 md:z-0 md:shadow-[0_2px_10px_rgba(36,26,20,0.03)] border ${tier.headerBg} ${tier.border}`
                 }`}
               >
                 {/* Curve Layer 1: Top Header Area with Identical Height across all cards */}
                 {tier.featured ? (
                   // Featured Card: Dark Fluid Silk Wave Artwork Header (Layer 1)
-                  <div className="relative h-[72px] sm:h-[80px] w-full overflow-hidden bg-[#111315]">
+                  <div className="relative h-[72px] sm:h-[80px] w-full overflow-hidden bg-forest">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src="/assets/dark-fluid-banner.jpg"
                       alt=""
                       className="w-full h-full object-cover object-center scale-105"
                     />
+                    <div className="absolute inset-0 bg-deep-green mix-blend-color pointer-events-none" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/25 pointer-events-none" />
                     <h3 className="absolute top-3.5 sm:top-4.5 left-4.5 sm:left-6 text-[15px] sm:text-[17px] font-semibold text-white tracking-tight z-10 drop-shadow-sm">
                       {tier.name}
                     </h3>
+                    <span className="absolute top-3.5 sm:top-4.5 right-4 sm:right-5 z-10 inline-flex items-center gap-1.5 rounded-full bg-forest/70 px-2.5 py-1 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.16em] text-bone">
+                      <span className="h-1.5 w-1.5 rounded-full bg-spark-bright" />
+                      Most chosen
+                    </span>
                   </div>
                 ) : (
                   // Non-featured Cards: Outer Light Header Area (Layer 1)
-                  <div className="h-[72px] sm:h-[80px] px-4.5 sm:px-6 pt-3.5 sm:pt-4.5 flex items-start bg-[#f0f4f1]">
-                    <h3 className="text-[15px] sm:text-[17px] font-semibold text-[#1c1815] tracking-tight">
+                  <div className={`h-[72px] sm:h-[80px] px-4.5 sm:px-6 pt-3.5 sm:pt-4.5 flex items-start ${tier.headerBg}`}>
+                    <h3 className={`text-[15px] sm:text-[17px] font-semibold ${tier.headerText} tracking-tight`}>
                       {tier.name}
                     </h3>
                   </div>
@@ -234,28 +269,39 @@ export function ClubMembership() {
 
                 {/* Curve Layer 2: Overlapping White Body Sheet with Identical Top Alignment */}
                 <div
-                  className={`relative z-10 bg-white rounded-t-[18px] sm:rounded-t-[22px] px-4 sm:px-6 pt-4.5 sm:pt-5 pb-5 sm:pb-6 flex-1 flex flex-col -mt-4 sm:-mt-4.5 ${
+                  className={`relative z-10 bg-cream rounded-t-[18px] sm:rounded-t-[22px] px-4 sm:px-6 pt-4.5 sm:pt-5 pb-5 sm:pb-6 flex-1 flex flex-col -mt-4 sm:-mt-4.5 ${
                     tier.featured
                       ? "shadow-[0_-8px_24px_rgba(0,0,0,0.12),0_-1px_3px_rgba(0,0,0,0.06)] border-t border-white/60"
-                      : "shadow-[0_-5px_16px_rgba(28,24,21,0.03),0_-1px_2px_rgba(28,24,21,0.02)] border-t border-[#eaecf0]/80"
+                      : "shadow-[0_-5px_16px_rgba(36,26,20,0.03),0_-1px_2px_rgba(36,26,20,0.02)] border-t border-cream-line/80"
                   }`}
                 >
                   {/* Plan Short Description with uniform height so price boxes align perfectly */}
-                  <p className="text-[12px] sm:text-[13px] text-[#475467] leading-relaxed min-h-[38px] sm:min-h-[42px] mb-4 sm:mb-5">
+                  <p className="text-[12px] sm:text-[13px] text-ink-muted leading-relaxed min-h-[38px] sm:min-h-[42px] mb-4 sm:mb-5">
                     {tier.description}
                   </p>
 
                   {/* Curve Layer 3: Inset Price & CTA Box */}
-                  <div className="rounded-[14px] bg-[#f8f9fa] border border-[#eaecf0] p-3.5 sm:p-4.5 mb-4 sm:mb-5 shadow-[inset_0_1px_2px_rgba(16,24,40,0.02)]">
+                  <div className="rounded-[14px] bg-cream border border-cream-line p-3.5 sm:p-4.5 mb-4 sm:mb-5 shadow-[inset_0_1px_2px_rgba(16,24,40,0.02)]">
                     {/* Price Row with vertically centered USD / month badge */}
                     <div className="flex items-center gap-1.5 mb-3 sm:mb-3.5">
-                      <div className="flex items-baseline text-[#181d27] leading-none">
+                      <div className="flex items-baseline text-ink leading-none">
                         <span className="text-[18px] sm:text-[22px] font-medium mr-0.5">$</span>
-                        <span className="text-[28px] sm:text-[34px] font-bold tracking-tight">
-                          {currentPrice}
+                        <span className="relative inline-flex text-[28px] sm:text-[34px] font-bold tracking-tight">
+                          <AnimatePresence mode="popLayout" initial={false}>
+                            <motion.span
+                              key={currentPrice}
+                              initial={{ y: "65%", opacity: 0, scale: 0.85 }}
+                              animate={{ y: "0%", opacity: 1, scale: 1 }}
+                              exit={{ y: "-65%", opacity: 0, scale: 0.85 }}
+                              transition={{ type: "spring", stiffness: 420, damping: 15 }}
+                              className="inline-block"
+                            >
+                              {currentPrice}
+                            </motion.span>
+                          </AnimatePresence>
                         </span>
                       </div>
-                      <div className="flex flex-col text-[8px] sm:text-[9px] leading-[1.1] text-[#667085] font-semibold uppercase tracking-wider">
+                      <div className="flex flex-col text-[8px] sm:text-[9px] leading-[1.1] text-ink-muted font-semibold uppercase tracking-wider">
                         <span>USD /</span>
                         <span>month</span>
                       </div>
@@ -266,10 +312,10 @@ export function ClubMembership() {
                       href="/contact"
                       className={`w-full inline-flex items-center justify-center py-2 sm:py-2.5 px-3 sm:px-3.5 rounded-[10px] text-[12px] sm:text-[13px] transition-all text-center ${
                         tier.btnStyle === "dark"
-                          ? "bg-[#181d27] hover:bg-[#252b37] text-white font-medium shadow-xs"
+                          ? "bg-ink hover:bg-spark text-white font-medium shadow-xs transition-colors"
                           : tier.btnStyle === "secondary"
-                          ? "bg-[#e5e7eb] hover:bg-[#d8dbdf] text-[#181d27] font-semibold shadow-xs"
-                          : "bg-[#f2f4f7] hover:bg-[#e4e7ec] text-[#475467] font-medium"
+                          ? "bg-cream-flat hover:bg-cream-line text-ink font-semibold shadow-xs"
+                          : "bg-cream-flat hover:bg-cream-line text-ink-muted font-medium"
                       }`}
                     >
                       {tier.ctaText}
@@ -281,9 +327,9 @@ export function ClubMembership() {
                     {tier.perks.map((perk) => (
                       <li
                         key={perk}
-                        className="flex items-start gap-2 sm:gap-2.5 text-[12px] sm:text-[13px] text-[#475467] leading-snug"
+                        className="flex items-start gap-2 sm:gap-2.5 text-[12px] sm:text-[13px] text-ink-muted leading-snug"
                       >
-                        <span className="text-[#181d27] text-[11px] sm:text-[12px] font-bold select-none shrink-0 mt-[1px]">
+                        <span className={`${tier.check} text-[11px] sm:text-[12px] font-bold select-none shrink-0 mt-[1px]`}>
                           ✓
                         </span>
                         <span>{perk}</span>
@@ -291,7 +337,7 @@ export function ClubMembership() {
                     ))}
                   </ul>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
