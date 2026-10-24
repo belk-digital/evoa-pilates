@@ -6,7 +6,7 @@ export const classTypes = [
     level: "All levels",
     tone: "rose" as const,
     description:
-      "Spring-loaded resistance work on the carriage — the full-body foundation of everything we teach.",
+      "Spring-loaded resistance work on the carriage, the full-body foundation of everything we teach.",
   },
   {
     slug: "mat",
@@ -42,7 +42,7 @@ export const classTypes = [
     level: "Custom",
     tone: "ink" as const,
     description:
-      "One-on-one time with a senior instructor — ideal for injury recovery, form correction, or a tailored plan.",
+      "One-on-one time with a senior instructor, ideal for injury recovery, form correction, or a tailored plan.",
   },
   {
     slug: "stretch",
@@ -51,14 +51,14 @@ export const classTypes = [
     level: "All levels",
     tone: "rose" as const,
     description:
-      "Assisted mobility work to close out the week — slow, guided, and deeply restorative.",
+      "Assisted mobility work to close out the week: slow, guided, and deeply restorative.",
   },
 ] as const;
 
 export const benefits = [
   {
     title: "Small by design",
-    description: "Eight reformers per class, capped — so every cue is seen and every form is corrected.",
+    description: "Eight reformers per class, capped, so every cue is seen and every form is corrected.",
   },
   {
     title: "Certified, not casual",
@@ -70,25 +70,25 @@ export const benefits = [
   },
   {
     title: "A room that feels calm",
-    description: "Warm light, quiet materials, and a no-mirror studio floor — movement without the performance.",
+    description: "Warm light, quiet materials, and a no-mirror studio floor: movement without the performance.",
   },
 ];
 
 export const instructors = [
   {
-    name: "Sofia Marchetti",
+    name: "Emily Carter",
     role: "Founder & Master Instructor",
     bio: "Classically trained in New York before opening Evoa to bring the same precision to a slower, warmer room.",
     tone: "rose" as const,
   },
   {
-    name: "Nadia Okafor",
+    name: "Olivia Bennett",
     role: "Lead Reformer Instructor",
     bio: "Former dance physiotherapist specializing in rehab-informed reformer programming.",
     tone: "sage" as const,
   },
   {
-    name: "Priya Anand",
+    name: "Grace Sullivan",
     role: "Prenatal & Postnatal Lead",
     bio: "OB-reviewed curriculum designer supporting clients through every trimester and beyond.",
     tone: "bronze" as const,
@@ -104,19 +104,19 @@ export const testimonials = [
   },
   {
     quote:
-      "The room itself is half the reason I come back — no blaring music, no mirrors, just really good teaching.",
+      "The room itself is half the reason I come back. No blaring music, no mirrors, just really good teaching.",
     name: "Camille D.",
     detail: "Member since 2023",
   },
   {
     quote:
-      "I did prenatal classes through both pregnancies here. Priya's cueing made me feel safe every single session.",
+      "I did prenatal classes through both pregnancies here. Grace's cueing made me feel safe every single session.",
     name: "Alina M.",
     detail: "Prenatal client",
   },
   {
     quote:
-      "Small class sizes mean actual hands-on corrections — I've made more progress in three months than a year elsewhere.",
+      "Small class sizes mean actual hands-on corrections. I've made more progress in three months than a year elsewhere.",
     name: "Hannah W.",
     detail: "Member since 2025",
   },
@@ -151,7 +151,7 @@ export const pricingPlans = [
 
 export const faqs = [
   {
-    question: "I've never done Pilates before — where do I start?",
+    question: "I've never done Pilates before. Where do I start?",
     answer:
       "Start with a Mat or Foundations Reformer class. We ask new clients to arrive 15 minutes early so an instructor can walk you through the equipment before class begins.",
   },
@@ -174,39 +174,39 @@ export const faqs = [
 
 export const schedule: Record<string, { time: string; class: string; instructor: string }[]> = {
   Monday: [
-    { time: "6:00 AM", class: "Reformer", instructor: "Sofia" },
-    { time: "9:00 AM", class: "Mat", instructor: "Nadia" },
-    { time: "5:30 PM", class: "Reformer Sculpt", instructor: "Sofia" },
-    { time: "7:00 PM", class: "Deep Stretch", instructor: "Nadia" },
+    { time: "6:00 AM", class: "Reformer", instructor: "Emily" },
+    { time: "9:00 AM", class: "Mat", instructor: "Olivia" },
+    { time: "5:30 PM", class: "Reformer Sculpt", instructor: "Emily" },
+    { time: "7:00 PM", class: "Deep Stretch", instructor: "Olivia" },
   ],
   Tuesday: [
-    { time: "6:30 AM", class: "Reformer", instructor: "Nadia" },
-    { time: "9:30 AM", class: "Prenatal", instructor: "Priya" },
-    { time: "6:00 PM", class: "Mat", instructor: "Sofia" },
+    { time: "6:30 AM", class: "Reformer", instructor: "Olivia" },
+    { time: "9:30 AM", class: "Prenatal", instructor: "Grace" },
+    { time: "6:00 PM", class: "Mat", instructor: "Emily" },
   ],
   Wednesday: [
-    { time: "6:00 AM", class: "Reformer", instructor: "Sofia" },
-    { time: "9:00 AM", class: "Reformer Sculpt", instructor: "Nadia" },
-    { time: "5:30 PM", class: "Reformer", instructor: "Sofia" },
+    { time: "6:00 AM", class: "Reformer", instructor: "Emily" },
+    { time: "9:00 AM", class: "Reformer Sculpt", instructor: "Olivia" },
+    { time: "5:30 PM", class: "Reformer", instructor: "Emily" },
     { time: "7:00 PM", class: "Private 1:1", instructor: "By appointment" },
   ],
   Thursday: [
-    { time: "6:30 AM", class: "Mat", instructor: "Nadia" },
-    { time: "9:30 AM", class: "Prenatal", instructor: "Priya" },
-    { time: "6:00 PM", class: "Reformer", instructor: "Sofia" },
+    { time: "6:30 AM", class: "Mat", instructor: "Olivia" },
+    { time: "9:30 AM", class: "Prenatal", instructor: "Grace" },
+    { time: "6:00 PM", class: "Reformer", instructor: "Emily" },
   ],
   Friday: [
-    { time: "6:00 AM", class: "Reformer", instructor: "Sofia" },
-    { time: "9:00 AM", class: "Deep Stretch", instructor: "Nadia" },
-    { time: "5:00 PM", class: "Reformer Sculpt", instructor: "Sofia" },
+    { time: "6:00 AM", class: "Reformer", instructor: "Emily" },
+    { time: "9:00 AM", class: "Deep Stretch", instructor: "Olivia" },
+    { time: "5:00 PM", class: "Reformer Sculpt", instructor: "Emily" },
   ],
   Saturday: [
-    { time: "8:00 AM", class: "Reformer", instructor: "Sofia" },
-    { time: "9:15 AM", class: "Mat", instructor: "Nadia" },
-    { time: "10:30 AM", class: "Prenatal", instructor: "Priya" },
+    { time: "8:00 AM", class: "Reformer", instructor: "Emily" },
+    { time: "9:15 AM", class: "Mat", instructor: "Olivia" },
+    { time: "10:30 AM", class: "Prenatal", instructor: "Grace" },
   ],
   Sunday: [
-    { time: "9:00 AM", class: "Reformer", instructor: "Nadia" },
-    { time: "10:15 AM", class: "Deep Stretch", instructor: "Sofia" },
+    { time: "9:00 AM", class: "Reformer", instructor: "Olivia" },
+    { time: "10:15 AM", class: "Deep Stretch", instructor: "Emily" },
   ],
 };

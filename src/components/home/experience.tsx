@@ -5,6 +5,7 @@ import { motion, useInView, useScroll, useTransform, type MotionValue } from "fr
 import { ArrowUpRight } from "lucide-react";
 import { EditorialBrandSeal } from "@/components/ui/editorial-brand-seal";
 import { SparkText } from "@/components/ui/spark-text";
+import { cn } from "@/lib/utils";
 import { wipeHidden, wipeShown, wipeTransition } from "@/components/ui/reveal";
 
 interface CardTheme {
@@ -71,7 +72,7 @@ const experienceItems: ExperienceItem[] = [
       targetBg: "#e8ddc8", // Teak-toned oat
       borderColor: "rgba(122, 74, 43, 0.28)",
       tagBadge: "ACOUSTIC ISOLATION",
-      tagColor: "#7a4a2b",
+      tagColor: "#7b6b4a",
       auroraWave1:
         "radial-gradient(ellipse 70% 55% at 20% 30%, rgba(214, 190, 150, 0.55) 0%, rgba(232, 221, 200, 0.45) 45%, transparent 75%)",
       auroraWave2:
@@ -119,7 +120,7 @@ const experienceItems: ExperienceItem[] = [
       targetBg: "#f0c7a6", // Terracotta clay
       borderColor: "rgba(196, 103, 63, 0.38)",
       tagBadge: "CELLULAR RENEWAL",
-      tagColor: "#96421f",
+      tagColor: "#5e4b20",
       auroraWave1:
         "radial-gradient(ellipse 70% 55% at 25% 25%, rgba(143, 165, 131, 0.4) 0%, rgba(239, 231, 214, 0.4) 45%, transparent 75%)",
       auroraWave2:
@@ -161,7 +162,7 @@ export function Experience() {
                 initial={wipeHidden}
                 animate={isInView ? wipeShown : {}}
                 transition={wipeTransition}
-                className="font-display text-[30px] sm:text-[42px] md:text-[52px] lg:text-[60px] text-ink tracking-normal leading-[1.4]"
+                className="font-display text-[38px] sm:text-[52px] md:text-[64px] lg:text-[76px] text-ink tracking-normal leading-[1.1]"
               >
                 <SparkText>The Experience</SparkText>
               </motion.h2>
@@ -201,11 +202,7 @@ export function Experience() {
         {/* Rounded cream panels on the mint page (same look as the Classes panel and the footer card).
             Below lg they are a swipeable row, on lg a 2 x 2 grid, so the section stays short.
             Each panel's colour wash blooms as it crosses the screen. */}
-        <div className="hide-scrollbar relative flex w-full snap-x snap-mandatory gap-3 overflow-x-auto overflow-y-hidden px-3 py-3 sm:gap-4 sm:px-6 lg:grid lg:snap-none lg:grid-cols-2 lg:gap-5 lg:overflow-visible lg:px-10 lg:py-0">
-          {experienceItems.map((item) => (
-            <ExperienceStickyCard key={item.id} item={item} />
-          ))}
-        </div>
+        <ExperienceDeck />
 
         {/* Scroll-Based Manifesto Transition */}
         <ScrollManifestoTransition key="manifesto-solid-v6" />
@@ -222,25 +219,118 @@ function CardTitle({ title, accent }: { title: string; accent: string }) {
   return (
     <>
       {title.slice(0, at)}
-      <span className="font-script text-rust text-[1.4em] leading-[0.7] tracking-normal">{accent}</span>
+      <span className="font-script text-spark tracking-normal">{accent}</span>
       {title.slice(at + accent.length)}
+    </>
+  );
+}
+
+/* Experience cards: below lg a swipeable row where the current card is full size and its neighbours sit slightly
+   back, with page dots underneath (the current one stretches into a gold pill); on lg a 2 x 2 grid. */
+function ExperienceDeck() {
+  const scrollerRef = React.useRef<HTMLDivElement>(null);
+  const [active, setActive] = React.useState(0);
+  const total = experienceItems.length;
+
+  const update = React.useCallback(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    if (max > 0 && el.scrollLeft >= max - 4) {
+      setActive(total - 1);
+      return;
+    }
+    // the card whose left edge is nearest the left gutter is the current one
+    const pad = parseFloat(getComputedStyle(el).paddingLeft) || 0;
+    let best = 0;
+    let bestDistance = Infinity;
+    Array.from(el.children).forEach((child, i) => {
+      const distance = Math.abs((child as HTMLElement).offsetLeft - pad - el.scrollLeft);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        best = i;
+      }
+    });
+    setActive(best);
+  }, [total]);
+
+  React.useEffect(() => {
+    const raf = requestAnimationFrame(update);
+    window.addEventListener("resize", update, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", update);
+    };
+  }, [update]);
+
+  const goTo = (index: number) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const target = el.children[Math.max(0, Math.min(total - 1, index))] as HTMLElement | undefined;
+    if (!target) return;
+    const pad = parseFloat(getComputedStyle(el).paddingLeft) || 0;
+    el.scrollTo({ left: target.offsetLeft - pad, behavior: "smooth" });
+  };
+
+  return (
+    <>
+      <div
+        ref={scrollerRef}
+        onScroll={update}
+        className="hide-scrollbar relative flex w-full snap-x snap-mandatory scroll-pl-3 gap-3 overflow-x-auto overflow-y-hidden px-3 pb-8 pt-5 sm:scroll-pl-6 sm:gap-4 sm:px-6 lg:grid lg:snap-none lg:grid-cols-2 lg:gap-5 lg:overflow-visible lg:px-10 lg:py-0"
+      >
+        {experienceItems.map((item, i) => (
+          <ExperienceStickyCard key={item.id} item={item} offset={i - active} />
+        ))}
+      </div>
+
+      <div role="tablist" aria-label="Experiences" className="mt-1 flex items-center justify-center gap-1 lg:hidden">
+        {experienceItems.map((item, i) => (
+          <button
+            key={item.id}
+            type="button"
+            role="tab"
+            aria-selected={i === active}
+            aria-label={`Show ${item.title}`}
+            onClick={() => goTo(i)}
+            className="flex h-6 items-center px-1"
+          >
+            <span
+              className={cn(
+                "block h-2 rounded-full transition-all duration-500 ease-out",
+                i === active ? "w-8 bg-spark" : "w-2 bg-ink/20"
+              )}
+            />
+          </button>
+        ))}
+      </div>
     </>
   );
 }
 
 /* One experience: a plain cream panel (same cream as the Classes panel) on the mint page. The colour
    comes from the photo, so the panel itself stays quiet. */
-function ExperienceStickyCard({ item }: { item: ExperienceItem }) {
+/* offset = this card's position relative to the current one (0 current, +1 next, -1 previous). Below lg the others
+   sit back, smaller and tilted away like a fanned deck. */
+function ExperienceStickyCard({ item, offset = 0 }: { item: ExperienceItem; offset?: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 60, scale: 0.97 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.05 }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      className="relative flex w-[84vw] max-w-[440px] shrink-0 snap-center flex-col overflow-hidden rounded-[32px] bg-plaster p-4 shadow-[0_24px_60px_rgba(36,26,20,0.07)] sm:w-[58vw] sm:rounded-[40px] sm:p-5 lg:w-auto lg:max-w-none lg:rounded-[52px] lg:p-6">
+      className={cn(
+        "relative flex w-[80vw] max-w-[440px] shrink-0 origin-bottom snap-start flex-col overflow-hidden rounded-[32px] bg-plaster p-4 transition-[scale,rotate] duration-500 ease-out sm:w-[58vw] sm:rounded-[40px] sm:p-5 lg:w-auto lg:max-w-none lg:origin-center lg:rounded-[52px] lg:p-6 lg:shadow-[0_24px_60px_rgba(35,43,27,0.07)]",
+        offset === 0
+          ? "scale-100 rotate-0"
+          : offset > 0
+            ? "scale-90 rotate-[4deg] lg:scale-100 lg:rotate-0"
+            : "scale-90 -rotate-[4deg] lg:scale-100 lg:rotate-0"
+      )}
+    >
       {/* Photo on top, then number + title + text */}
       <div className="relative z-10 flex w-full flex-1 flex-col gap-5 sm:gap-6">
-        <div className="group relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-ink/10 bg-cream-line/40 shadow-[0_16px_36px_rgba(36,26,20,0.09)] transition-all duration-500 hover:shadow-[0_24px_50px_rgba(36,26,20,0.18)] sm:rounded-[20px] lg:aspect-[2/1] lg:rounded-[28px]">
+        <div className="group relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-ink/10 bg-cream-line/40 shadow-[0_16px_36px_rgba(35,43,27,0.09)] transition-all duration-500 hover:shadow-[0_24px_50px_rgba(35,43,27,0.18)] sm:rounded-[20px] lg:aspect-[2/1] lg:rounded-[28px]">
           <motion.img
             initial={{ scale: 1.18 }}
             whileInView={{ scale: 1 }}
@@ -263,7 +353,7 @@ function ExperienceStickyCard({ item }: { item: ExperienceItem }) {
             {item.num}
           </span>
           <div className="flex min-w-0 flex-1 flex-col">
-            <h3 className="mb-2.5 min-w-0 select-none break-words font-title text-[28px] font-normal leading-[1.08] tracking-[-0.01em] text-ink sm:mb-3 sm:text-[34px] lg:text-[38px] xl:text-[42px]">
+            <h3 className="mb-2.5 min-w-0 select-none break-words font-title text-[32px] font-normal leading-[1.08] tracking-[-0.01em] text-ink sm:mb-3 sm:text-[38px] lg:text-[44px] xl:text-[50px]">
               <CardTitle title={item.title} accent={item.accent} />
             </h3>
             <p className="font-sans text-[13.5px] font-light leading-[1.62] text-ink/75 sm:text-[15px]">
@@ -301,11 +391,11 @@ const CLICHES: Array<{ word: string; x: number; y: number; drift: number }> = [
 /* Concentric sunrise rings, outermost first (hex = palette tokens: mint-deep, peach-soft,
    pastel-pink, terracotta, deep-green). */
 const SUN_RINGS = [
-  { r: 495, fill: "#b4c9ae", opacity: 0.5 },
-  { r: 400, fill: "#f8e0ce", opacity: 1 },
-  { r: 305, fill: "#f3cdb0", opacity: 1 },
-  { r: 215, fill: "#c4673f", opacity: 1 },
-  { r: 125, fill: "#2c4234", opacity: 1 },
+  { r: 495, fill: "#a9b8a1", opacity: 0.5 },
+  { r: 400, fill: "#f0e8d6", opacity: 1 },
+  { r: 305, fill: "#d6d2c7", opacity: 1 },
+  { r: 215, fill: "#c4a96a", opacity: 1 },
+  { r: 125, fill: "#2f3a1c", opacity: 1 },
 ];
 
 /* A fitness cliché that gets crossed out by a red line as you scroll, then fades with the swap. */
@@ -365,7 +455,7 @@ function Sunrise({ progress }: { progress: MotionValue<number> }) {
               style={{ fill: ring.fill, opacity: ring.opacity, animationDelay: `${-i * 0.9}s` }}
             />
           ))}
-          <circle className="sun-dot" cx="500" cy="425" r="15" style={{ fill: "#ff5a3c" }} />
+          <circle className="sun-dot" cx="500" cy="425" r="15" style={{ fill: "#e0c57a" }} />
         </svg>
       </motion.div>
     </div>
@@ -431,9 +521,9 @@ function ScrollManifestoTransition() {
         </div>
 
         {/* Central Stage Lockup - Boldonse display (font-display) with red points on every i and . */}
-        <h2 className="relative z-10 flex w-full max-w-[96vw] flex-col items-center justify-center text-center font-display font-normal leading-none tracking-normal select-none [font-size:clamp(26px,min(8.6vw,17dvh),112px)]">
+        <h2 className="relative z-10 flex w-full max-w-[96vw] flex-col items-center justify-center text-center font-display font-light leading-none tracking-normal select-none [font-size:clamp(34px,min(12vw,19dvh),150px)]">
           {/* Line 1: "This is not" (static "This is" + struck-through "not") */}
-          <span className="flex h-[1.5em] items-center justify-center gap-[0.28em] whitespace-nowrap text-ink">
+          <span className="flex h-[0.95em] items-center justify-center gap-[0.28em] whitespace-nowrap text-ink">
             <span>
               <SparkText>This is</SparkText>
             </span>
@@ -457,13 +547,13 @@ function ScrollManifestoTransition() {
                   originX: 0,
                   opacity: notOpacity,
                 }}
-                className="absolute left-0 top-[58%] -translate-y-1/2 w-full h-[max(2.5px,0.05em)] bg-spark rounded-full will-change-transform"
+                className="absolute left-0 top-[62%] -translate-y-1/2 w-full h-[max(2.5px,0.05em)] bg-spark rounded-full will-change-transform"
               />
             </span>
           </span>
 
           {/* Line 2: Vertical Switch Roller between "Fitness." and "Recalibration." */}
-          <span className="relative flex h-[1.5em] w-full items-center justify-center overflow-hidden">
+          <span className="relative flex h-[0.95em] w-full items-center justify-center overflow-hidden">
             {/* Word 1: Fitness. (slides up and blurs out) */}
             <motion.span
               style={{

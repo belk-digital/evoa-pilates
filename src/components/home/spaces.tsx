@@ -1,7 +1,6 @@
 "use client";
 
-import * as React from "react";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion } from "framer-motion";
 import { SparkText } from "@/components/ui/spark-text";
 import { Reveal, wipeProps } from "@/components/ui/reveal";
 
@@ -9,9 +8,13 @@ interface SpaceItem {
   id: string;
   name: string;
   system: string;
-  specs: string;
+  specs: string[];
   description: string;
   image: string;
+  /* where the 3:2 photo is anchored when a tile crops it */
+  position: string;
+  /* column span on the 12-column desktop grid; the rows alternate wide / narrow */
+  span: string;
 }
 
 const spaces: SpaceItem[] = [
@@ -19,265 +22,166 @@ const spaces: SpaceItem[] = [
     id: "reform-room",
     name: "The Reform Room.",
     system: "Musculoskeletal & Spinal Decompression",
-    specs: "Eight custom reformers · Natural timber frames · Low-friction glide",
+    specs: ["Eight custom reformers", "Natural timber frames", "Low-friction glide"],
     description:
       "Spring-loaded carriage sequencing tailored for core stabilization, joint articulation, and deep functional strength without impact.",
     image: "/assets/Sunlit Pilates Studio with Wooden Reformers.webp",
+    position: "object-[40%_62%]",
+    span: "lg:col-span-7",
   },
   {
     id: "mat-vault",
     name: "The Mat Vault.",
     system: "Deep Core & Diaphragmatic Breath Integration",
-    specs: "Acoustically isolated · Zero mirrors · Supportive dense matting",
+    specs: ["Acoustically isolated", "Zero mirrors", "Dense matting"],
     description:
       "Floor-bound discipline engaging the intrinsic stabilizers through unhurried classical sequences and rhythm-driven breathwork.",
     image: "/assets/Serene Symmetrical Pilates Studio.webp",
+    position: "object-[48%_55%]",
+    span: "lg:col-span-5",
   },
   {
     id: "recovery-bar",
     name: "The Recovery Bar.",
     system: "Cellular Hydration & Autonomic Nervous System",
-    specs: "Travertine bar · Adaptogenic infusions · Cold-pressed botanicals",
+    specs: ["Travertine bar", "Adaptogenic infusions", "Cold-pressed botanicals"],
     description:
       "Post-movement apothecary bar designed to regulate cortisol, replenish vital electrolytes, and transition your nervous system into ease.",
     image: "/assets/Sunlit Organic Cafe Bar.webp",
+    position: "object-[34%_50%]",
+    span: "lg:col-span-5",
   },
   {
     id: "quiet-room",
     name: "The Quiet Room.",
     system: "Central Nervous System & Somatic Stillness",
-    specs: "Zero digital devices · Weighted oatmeal linen · Diffused warmth",
+    specs: ["Zero digital devices", "Weighted oatmeal linen", "Diffused warmth"],
     description:
       "A private decompression lounge engineered for uninterrupted stillness, letting your body absorb and integrate the work of the studio.",
     image: "/assets/Sunlit Olive Green Lounge Corner.webp",
+    position: "object-[42%_58%]",
+    span: "lg:col-span-7",
   },
 ];
 
-/*
- * Two layouts share one component.
- *  - "pin"  (>=1024px wide AND >=600px tall): the stage pins to the viewport and scroll progress
- *    walks through the rooms. This must match the `pin` variant in globals.css.
- *  - everywhere else (phones, portrait tablets, landscape phones, short laptops): nothing pins.
- *    The photo is held just under the header while the room list scrolls past it, and the row
- *    crossing the line under the photo becomes the active room. Content is never clipped.
- */
-const PIN_QUERY = "(min-width: 1024px) and (min-height: 600px)";
-const SHORT_QUERY = "(max-height: 520px) and (orientation: landscape)";
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-/* Room name; the closing full stop turns red on the active room. */
-function RoomName({ name, active }: { name: string; active: boolean }) {
+/* Room name; the closing full stop is gold. */
+function RoomName({ name }: { name: string }) {
   if (!name.endsWith(".")) return <>{name}</>;
   return (
     <>
       {name.slice(0, -1)}
-      <span className={`transition-colors duration-300 ${active ? "text-spark" : ""}`}>.</span>
+      <span className="text-spark-bright">.</span>
     </>
   );
 }
 
-export function Spaces() {
-  const containerRef = React.useRef<HTMLElement>(null);
-  const bandRef = React.useRef<HTMLDivElement>(null);
-  const rowRefs = React.useRef<Array<HTMLDivElement | null>>([]);
-  const [activeIndex, setActiveIndex] = React.useState(0);
-  const [stuck, setStuck] = React.useState(false);
-
-  const { scrollY } = useScroll();
-
-  // Viewport Y that a row must reach to count as "current" in the non-pinned layout.
-  const activationLine = React.useCallback(() => {
-    if (window.matchMedia(SHORT_QUERY).matches) return window.innerHeight * 0.45;
-    const band = bandRef.current;
-    return (band ? band.getBoundingClientRect().bottom : 0) + 120;
-  }, []);
-
-  const update = React.useCallback(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    let next = 0;
-    let isStuck = false;
-    if (window.matchMedia(PIN_QUERY).matches) {
-      const total = el.offsetHeight - window.innerHeight;
-      const progress = total > 0 ? Math.min(1, Math.max(0, -el.getBoundingClientRect().top / total)) : 0;
-      next = Math.min(spaces.length - 1, Math.floor(progress * spaces.length));
-    } else {
-      const line = activationLine();
-      rowRefs.current.forEach((row, i) => {
-        if (row && row.getBoundingClientRect().top <= line) next = i;
-      });
-      const band = bandRef.current;
-      if (band) {
-        const offset = parseFloat(getComputedStyle(band).top) || 0;
-        isStuck = Math.abs(band.getBoundingClientRect().top - offset) <= 2;
-      }
-    }
-    setActiveIndex(next);
-    setStuck(isStuck);
-  }, [activationLine]);
-
-  useMotionValueEvent(scrollY, "change", update);
-
-  React.useEffect(() => {
-    const raf = requestAnimationFrame(update);
-    window.addEventListener("resize", update, { passive: true });
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", update);
-    };
-  }, [update]);
-
-  const currentSpace = spaces[activeIndex];
-
-  const handleSelect = (idx: number) => {
-    setActiveIndex(idx);
-    const el = containerRef.current;
-    if (!el) return;
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    let target: number;
-    if (window.matchMedia(PIN_QUERY).matches) {
-      const totalScrollHeight = el.offsetHeight - window.innerHeight;
-      target = scrollTop + el.getBoundingClientRect().top + (idx / (spaces.length - 1)) * totalScrollHeight;
-    } else {
-      const row = rowRefs.current[idx];
-      if (!row) return;
-      target = scrollTop + row.getBoundingClientRect().top - activationLine() + 4;
-    }
-    window.scrollTo({ top: target, behavior: "smooth" });
-  };
-
+/* One room: the photo fills the tile and the words sit over it. A dark wash from the bottom (and a lighter one at the
+   top) keeps the white type readable on the bright, sunlit photographs. */
+function SpaceTile({ space, index }: { space: SpaceItem; index: number }) {
   return (
-    <section
-      ref={containerRef}
-      id="spaces"
-      data-header-theme="light"
-      className="relative z-20 -mt-[100vh] -mt-[100dvh] w-full min-h-[100dvh] bg-mint text-ink overflow-x-clip rounded-t-[36px] sm:rounded-t-[48px] md:rounded-t-[64px] shadow-none border-none pin:h-[260vh]"
+    <motion.article
+      initial={{ opacity: 0, y: 56 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 1, delay: (index % 2) * 0.12, ease: EASE }}
+      className={`group relative isolate flex min-h-[470px] flex-col justify-between overflow-hidden rounded-[28px] bg-forest text-white sm:min-h-[540px] sm:rounded-[36px] lg:min-h-0 lg:rounded-[44px] ${space.span}`}
     >
-      {/* Non-pinned layouts: while the photo is held, rows scroll beneath the (transparent) header,
-          so a mint cover keeps the logo and menu button on a clean surface. */}
+      {/* Photo: settles in as it arrives, drifts closer on hover */}
+      <div className="absolute inset-0 -z-20 overflow-hidden transition-transform duration-[1400ms] ease-out fine:group-hover:scale-[1.05]">
+        <motion.img
+          src={space.image}
+          alt={space.name}
+          initial={{ scale: 1.14 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 1.8, ease: EASE }}
+          className={`h-full w-full object-cover ${space.position}`}
+        />
+      </div>
+
+      {/* Readability washes */}
       <div
         aria-hidden
-        className={`pointer-events-none fixed inset-x-0 top-0 z-20 h-[64px] bg-mint transition-opacity duration-200 md:h-[72px] short:h-[84px] pin:hidden ${
-          stuck ? "opacity-100" : "opacity-0"
-        }`}
+        className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgba(35,44,20,0.9)_0%,rgba(35,44,20,0.62)_26%,rgba(35,44,20,0.14)_56%,transparent_78%)]"
       />
+      <div aria-hidden className="absolute inset-x-0 top-0 -z-10 h-[30%] bg-gradient-to-b from-forest/55 to-transparent" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/15" />
 
-      {/* Stage: pinned full-viewport on large screens, ordinary flowing content everywhere else */}
-      <div className="relative z-10 flex w-full flex-col px-6 pt-24 pb-10 sm:px-10 sm:pt-28 md:px-14 lg:px-20 pin:sticky pin:top-0 pin:h-[100dvh] pin:justify-between pin:overflow-hidden pin:pt-[clamp(84px,12dvh,112px)] pin:pb-[clamp(16px,4dvh,48px)]">
-        {/* Top Section Header - Matching 'The Experience' */}
-        <div className="w-full flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 pb-3 sm:pb-6 shrink-0">
-          <div className="flex flex-col">
-            <motion.h2 {...wipeProps} className="font-display text-[32px] sm:text-[44px] md:text-[54px] pin:[font-size:clamp(34px,6.8dvh,64px)] text-ink tracking-normal leading-[1.25]">
-              <SparkText>The Spaces.</SparkText>
-            </motion.h2>
-          </div>
+      {/* Top: which system the room works on */}
+      <motion.div
+        initial={{ opacity: 0, y: 14 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.9, delay: 0.3 + (index % 2) * 0.12, ease: EASE }}
+        className="flex items-start gap-3 p-5 sm:p-7 lg:p-9"
+      >
+        <span aria-hidden className="mt-[0.55em] h-px w-8 shrink-0 bg-spark-bright sm:w-10" />
+        <p className="max-w-[17rem] font-sans text-[10.5px] font-normal uppercase leading-[1.7] tracking-[0.22em] text-white/90 [text-shadow:0_1px_12px_rgba(20,28,12,0.6)] sm:max-w-sm sm:text-[11px]">
+          {space.system}
+        </p>
+      </motion.div>
 
-          <Reveal delay={0.25}>
-            <p className="font-sans font-light text-[11.5px] sm:text-[12.5px] tracking-[0.24em] text-ink-muted uppercase">
-              Architectures of Regulation
-            </p>
-          </Reveal>
-        </div>
+      {/* Bottom: name, line, and the room's details as hairline pills */}
+      <motion.div
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 1, delay: 0.4 + (index % 2) * 0.12, ease: EASE }}
+        className="p-5 pt-0 sm:p-7 sm:pt-0 lg:p-9 lg:pt-0"
+      >
+        <h3 className="font-display text-[40px] font-light leading-[1.02] tracking-normal text-white sm:text-[38px] md:text-[42px] lg:text-[clamp(44px,4.3vw,72px)]">
+          <RoomName name={space.name} />
+        </h3>
 
-        {/* Photo + room list: side by side when pinned (or landscape-short), stacked otherwise */}
-        <div className="mt-3 flex w-full flex-col items-stretch short:flex-row short:items-start short:gap-8 pin:my-auto pin:mt-0 pin:flex-1 pin:flex-row pin:items-center pin:justify-between pin:gap-[clamp(40px,6vw,96px)] pin:py-4">
-          {/* Dynamic space photo. Non-pinned: held under the header while the list scrolls past. */}
-          <div
-            ref={bandRef}
-            className="sticky top-[64px] z-20 flex w-full shrink-0 items-center justify-center bg-mint pt-2 pb-3 after:pointer-events-none after:absolute after:inset-x-0 after:top-full after:h-5 after:bg-gradient-to-b after:from-mint after:to-transparent md:top-[72px] short:top-[84px] short:w-[42%] short:bg-transparent short:p-0 short:after:hidden pin:static pin:w-[46%] pin:bg-transparent pin:p-0 pin:after:hidden"
-          >
-            <div
-              className="relative h-[clamp(150px,32dvh,340px)] w-full overflow-hidden rounded-2xl bg-ink/5 sm:h-[clamp(200px,34dvh,380px)] sm:rounded-3xl short:h-[min(calc(100dvh-132px),300px)] pin:aspect-[16/11] pin:h-auto pin:max-h-[56dvh]"
+        <p className="mt-4 max-w-md font-sans text-[13.5px] font-light leading-relaxed text-white/85 sm:text-[14.5px] lg:mt-5">
+          {space.description}
+        </p>
+
+        <ul className="mt-5 flex flex-wrap gap-2 sm:mt-6">
+          {space.specs.map((spec) => (
+            <li
+              key={spec}
+              className="rounded-full border border-white/40 bg-white/[0.06] px-3.5 py-1.5 font-sans text-[10px] font-normal uppercase tracking-[0.14em] text-white/90 backdrop-blur-[3px] sm:text-[10.5px]"
             >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentSpace.id}
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute inset-0 w-full h-full"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={currentSpace.image}
-                    alt={currentSpace.name}
-                    className="w-full h-full object-cover object-center"
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
+              {spec}
+            </li>
+          ))}
+        </ul>
+      </motion.div>
+    </motion.article>
+  );
+}
 
-          {/* Room list: accordion when pinned, always-open rows (no layout shift) otherwise */}
-          <div className="mt-5 flex w-full flex-col justify-center pb-[max(10dvh,calc(74dvh_-_400px))] sm:pb-[max(10dvh,calc(72dvh_-_408px))] short:mt-0 short:min-w-0 short:flex-1 short:pb-[30dvh] pin:mt-0 pin:w-[54%] pin:pb-0">
-            <div className="w-full flex flex-col">
-              {spaces.map((space, idx) => {
-                const isActive = idx === activeIndex;
+export function Spaces() {
+  return (
+    <section
+      id="spaces"
+      data-header-theme="light"
+      className="relative z-20 -mt-[100dvh] w-full overflow-x-clip rounded-t-[36px] bg-mint pb-16 pt-24 text-ink sm:rounded-t-[48px] sm:pb-20 sm:pt-28 md:rounded-t-[64px] lg:pb-24"
+    >
+      {/* Heading row */}
+      <div className="flex w-full flex-col justify-between gap-3 px-6 pb-8 sm:flex-row sm:items-end sm:gap-4 sm:px-10 sm:pb-10 md:px-14 lg:px-20">
+        <motion.h2
+          {...wipeProps}
+          className="font-display text-[40px] leading-[1.1] tracking-normal text-ink sm:text-[54px] md:text-[68px] lg:text-[76px]"
+        >
+          <SparkText>The Spaces.</SparkText>
+        </motion.h2>
 
-                return (
-                  <div
-                    key={space.id}
-                    ref={(node) => {
-                      rowRefs.current[idx] = node;
-                    }}
-                    role="button"
-                    tabIndex={0}
-                    aria-pressed={isActive}
-                    onClick={() => handleSelect(idx)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        handleSelect(idx);
-                      }
-                    }}
-                    className="border-t border-ink/10 py-5 pin:py-[clamp(8px,1.8dvh,20px)] cursor-pointer group outline-none transition-colors duration-300 focus-visible:bg-ink/5"
-                  >
-                    {/* Item Row: Headline */}
-                    <div className="flex items-baseline justify-between gap-4">
-                      <h3
-                        className={`font-[family-name:var(--font-syne)] text-[23px] min-[350px]:text-[26px] min-[380px]:text-[30px] sm:text-[42px] md:text-[50px] short:text-[26px] pin:[font-size:clamp(30px,min(6.2dvh,3.6vw),62px)] leading-[1.06] tracking-tight transition-colors duration-400 select-none ${
-                          isActive
-                            ? "text-ink font-medium pin:font-semibold"
-                            : "text-ink/25 font-medium pin:font-normal group-hover:text-ink/60"
-                        }`}
-                      >
-                        <RoomName name={space.name} active={isActive} />
-                      </h3>
-                    </div>
+        <Reveal delay={0.25}>
+          <p className="font-sans text-[11.5px] font-light uppercase tracking-[0.24em] text-ink-muted sm:text-[12.5px]">
+            Architectures of Regulation
+          </p>
+        </Reveal>
+      </div>
 
-                    {/* Non-pinned: description is always present so rows never change height mid-scroll */}
-                    <p
-                      className={`mt-3 max-w-md pr-2 font-sans font-light text-[14px] sm:text-[15.5px] leading-relaxed transition-colors duration-300 pin:hidden ${
-                        isActive ? "text-ink/70" : "text-ink/45"
-                      }`}
-                    >
-                      {space.description}
-                    </p>
-
-                    {/* Pinned: smooth accordion expansion for the active item */}
-                    <AnimatePresence initial={false}>
-                      {isActive && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                          animate={{ opacity: 1, height: "auto", marginTop: 12 }}
-                          exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                          className="hidden overflow-hidden pr-4 pin:flex pin:flex-col"
-                        >
-                          <p className="font-sans font-light text-[14px] sm:text-[15.5px] pin:[font-size:clamp(13.5px,1.9dvh,16px)] text-ink/70 leading-relaxed max-w-md">
-                            {space.description}
-                          </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
-              {/* Bottom Closing Line */}
-              <div className="border-t border-ink/10" />
-            </div>
-          </div>
-        </div>
+      {/* Full-image tiles: one column on phones, two from sm, an offset wide / narrow grid on desktop */}
+      <div className="grid w-full grid-cols-1 gap-3 px-3 sm:grid-cols-2 sm:gap-4 sm:px-6 lg:auto-rows-[clamp(460px,66dvh,620px)] lg:grid-cols-12 lg:gap-5 lg:px-10">
+        {spaces.map((space, i) => (
+          <SpaceTile key={space.id} space={space} index={i} />
+        ))}
       </div>
     </section>
   );

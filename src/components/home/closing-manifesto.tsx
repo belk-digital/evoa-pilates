@@ -7,9 +7,11 @@ import { MapPin, Clock, ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SparkText } from "@/components/ui/spark-text";
 import { wipeProps } from "@/components/ui/reveal";
+import { useLiquidGlass } from "@/components/ui/liquid-glass";
 
 export function ClosingManifesto() {
   const sectionRef = React.useRef<HTMLElement>(null);
+  const { attach: exploreGlassRef, style: exploreGlassStyle, filter: exploreGlassFilter } = useLiquidGlass<HTMLAnchorElement>();
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
   const imageScale = useTransform(scrollYProgress, [0, 1], [1.12, 1]);
   const imageY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
@@ -58,7 +60,7 @@ export function ClosingManifesto() {
           {/* Minimal Modern Headline */}
           <motion.h2
             {...wipeProps}
-            className="font-display text-[30px] sm:text-[42px] md:text-[52px] lg:text-[62px] leading-[1.4] text-bone tracking-normal text-balance"
+            className="font-display text-[38px] sm:text-[52px] md:text-[64px] lg:text-[78px] leading-[1.1] text-bone tracking-normal text-balance"
           >
             <SparkText bright>Begin Your Recalibration.</SparkText>
           </motion.h2>
@@ -163,9 +165,12 @@ export function ClosingManifesto() {
 
             {/* Secondary: Explore Classes */}
             <Link
+              ref={exploreGlassRef}
+              style={exploreGlassStyle}
               href="/classes"
-              className="group relative w-auto inline-flex items-center justify-center gap-3.5 sm:gap-4 rounded-full bg-white/[0.08] hover:bg-white/15 border border-white/20 hover:border-white/40 pl-6 pr-2 py-2 sm:pl-8 sm:pr-2.5 sm:py-2.5 text-[11px] sm:text-[12px] font-semibold tracking-[0.2em] text-white uppercase backdrop-blur-md shadow-[0_4px_16px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-all duration-300 select-none"
+              className="liquid-glass group relative w-auto inline-flex items-center justify-center gap-3.5 sm:gap-4 rounded-full pl-6 pr-2 py-2 sm:pl-8 sm:pr-2.5 sm:py-2.5 text-[11px] sm:text-[12px] font-semibold tracking-[0.2em] text-white uppercase transition-all duration-300 select-none"
             >
+              {exploreGlassFilter}
               <div className="relative overflow-hidden h-[18px]">
                 <div className="flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-1/2">
                   <span className="h-[18px] flex items-center">
@@ -177,7 +182,7 @@ export function ClosingManifesto() {
                 </div>
               </div>
 
-              <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/15 text-white transition-colors duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:bg-spark shrink-0">
+              <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/20 text-white shadow-[inset_0_1px_0.5px_rgba(255,255,255,0.6),inset_0_-1px_0.5px_rgba(255,255,255,0.2)] transition-colors duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:bg-spark shrink-0">
                 <div className="relative overflow-hidden w-3.5 h-3.5 flex items-center justify-center">
                   <ArrowUpRight
                     size={12.5}

@@ -31,78 +31,78 @@
 }
 
 @theme {
-  /* ---- Type ---- */
-  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-serif), Georgia, serif;
+  /* ---- Type: the client's brand board. Cormorant Garamond Light (primary), Montserrat Light (secondary) ---- */
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), Georgia, serif;
   --font-cigars: "Cigars", Georgia, serif;
-  --font-syne: var(--font-syne), sans-serif;
-  --font-display: var(--font-boldonse), Georgia, serif; /* h2 headings */
-  --font-script: var(--font-bonheur), cursive; /* cursive accents */
-  --font-title: var(--font-instrument), Georgia, serif; /* h3 card titles */
+  --font-display: var(--font-cormorant), Georgia, serif; /* h2 headings */
+  --font-title: var(--font-cormorant), Georgia, serif; /* titles */
+  --font-script: var(--font-cormorant), Georgia, serif; /* accent words: always set in italic (see .font-script) */
 
-  /* ---- Palette: mid-century earth + sage (each colour has one job) ---- */
-  --color-plaster: #efe7d6; /* canvas */
-  --color-cream: #f8f3e7; /* light cards / surfaces */
-  --color-cream-flat: #f3ecdc;
-  --color-cream-warm: #f3e2cb;
-  --color-cream-line: #ddd0b8; /* hairlines on light */
-  --color-bone: #f6f0e3; /* text on dark */
+  /* ---- Palette: the client's brand board (warm beige, sand, sage, olive, stone, brushed gold) ----
+     Token names are roles from earlier rounds of the design, kept so every section follows. */
+  --color-plaster: #f3ede3; /* warm beige: canvas, panels */
+  --color-cream: #f8f5ee; /* a lighter tint of the beige, for cards on beige */
+  --color-cream-flat: #efe9dd;
+  --color-cream-warm: #e9e0cc;
+  --color-cream-line: #d9cfb8; /* hairlines on light */
+  --color-bone: #f3ede3; /* text on dark */
 
-  --color-mint: #cbdac6; /* calm surface, from the client's tile wall */
-  --color-mint-deep: #b4c9ae;
-  --color-sage: #8fa583; /* patterns, dots, tags - never text */
+  --color-mint: #b9c5b1; /* sage: the calm green canvas */
+  --color-mint-deep: #a9b8a1;
+  --color-sage: #8fa08a; /* olive: patterns, dots, tags - never text */
 
-  --color-deep-green: #2c4234; /* depth: dark blocks, featured tier */
-  --color-forest: #1e3025; /* darkest: scrims, footer card */
+  --color-deep-green: #2f3a1c; /* deep olive (the logo's own colour): dark blocks, featured tier */
+  --color-forest: #232c14; /* darkest olive: scrims, footer card */
 
-  --color-terracotta: #c4673f; /* warmth: fills, lines, large type */
-  --color-rust: #96421f; /* terracotta for small text (AA on mint/cream) */
-  --color-peach: #edb899; /* glow / light-on-dark accent */
-  --color-peach-soft: #f8e0ce;
-  --color-teak: #7a4a2b;
-  --color-espresso: #241a14;
-  --color-spark: #d2381f; /* red: attention / action only */
-  --color-spark-bright: #ff5a3c; /* the same red, for dark backgrounds (4.5:1 on forest) */
+  --color-terracotta: #c4a96a; /* brushed gold: fills, lines, large type */
+  --color-rust: #5e4b20; /* deep gold-brown for small text (AA on sage and beige) */
+  --color-peach: #d9c58e; /* light gold: glow / accents on dark */
+  --color-peach-soft: #e6dcc6; /* sand */
+  --color-teak: #7b6b4a;
+  --color-espresso: #2b3220;
+  --color-spark: #977628; /* gold accent: points, dots, hover (replaces the earlier red) */
+  --color-spark-bright: #e0c57a; /* the same gold, for dark backgrounds */
 
   /* ---- Ink (type) ---- */
   --color-ink: var(--color-espresso);
-  --color-ink-soft: #3b2d23;
-  --color-ink-muted: #6b5a4c;
-  --color-ink-subtle: #a08f7e;
+  --color-ink-soft: #3d4630;
+  --color-ink-muted: #5b6350;
+  --color-ink-subtle: #98a08c;
 
   /* ---- Legacy names, remapped so unused sections follow the new palette ---- */
   --color-alabaster-grey: var(--color-mint);
   --color-powder-petal: var(--color-peach-soft);
-  --color-pastel-pink: #f3cdb0;
+  --color-pastel-pink: #d6d2c7; /* stone */
   --color-cherry-blossom: var(--color-peach);
   --color-dusty-mauve: var(--color-rust);
   --color-tea-green: var(--color-mint-deep);
-  --color-beige: #e6eddf;
+  --color-beige: #ece8dc;
   --color-cornsilk: var(--color-cream);
   --color-papaya-whip: var(--color-cream-warm);
-  --color-light-bronze: #cf9a63;
+  --color-light-bronze: #c4a96a;
 
   --color-rose-100: var(--color-peach-soft);
-  --color-rose-200: #f3cdb0;
+  --color-rose-200: #e6dcc6;
   --color-rose-300: var(--color-peach);
   --color-rose-500: var(--color-terracotta);
   --color-rose-700: var(--color-rust);
-  --color-rose-900: #5b2d1b;
+  --color-rose-900: #3d4630;
 
-  --color-sage-100: #e4ede0;
+  --color-sage-100: #e3e8de;
   --color-sage-300: var(--color-mint);
   --color-sage-500: var(--color-sage);
-  --color-sage-700: #4a6153;
+  --color-sage-700: #4f5d3f;
 
-  --color-bronze-300: #d1a06c;
-  --color-bronze-500: #a8763f;
+  --color-bronze-300: #d4bf86;
+  --color-bronze-500: #9a8040;
 
   /* ---- Borders ---- */
-  --color-border-subtle: #e6dcc8;
-  --color-border-DEFAULT: #d6c8ad;
-  --color-border-strong: #bcab88;
+  --color-border-subtle: #e6dcc6;
+  --color-border-DEFAULT: #d9cfb8;
+  --color-border-strong: #c2b592;
 
-  /* ---- Radius: sharp, architectural — not bubbly ---- */
+  /* ---- Radius: sharp, architectural, not bubbly ---- */
   --radius-xs: 2px;
   --radius-sm: 4px;
   --radius-md: 6px;
@@ -110,10 +110,10 @@
   --radius-xl: 14px;
 
   /* ---- Shadow ---- */
-  --shadow-soft: 0 1px 2px rgba(36, 26, 20, 0.05), 0 6px 20px rgba(36, 26, 20, 0.05);
-  --shadow-lift: 0 14px 36px rgba(36, 26, 20, 0.12);
+  --shadow-soft: 0 1px 2px rgba(35, 43, 27, 0.05), 0 6px 20px rgba(35, 43, 27, 0.05);
+  --shadow-lift: 0 14px 36px rgba(35, 43, 27, 0.12);
 
-  /* ---- Editorial type scale — confident, not oversized ---- */
+  /* ---- Editorial type scale: confident, not oversized ---- */
   --text-display-xl: 3.75rem;
   --text-display-xl--line-height: 1.08;
   --text-display-xl--letter-spacing: -0.01em;
@@ -179,23 +179,25 @@
 
   ::selection {
     background-color: var(--color-terracotta);
-    color: var(--color-bone);
+    color: var(--color-forest);
   }
 
   body {
     background-color: var(--color-plaster);
     color: var(--color-ink);
     font-family: var(--font-sans);
+    font-weight: 300; /* Montserrat Light */
+    font-variant-numeric: lining-nums; /* Cormorant's default figures are old-style; keep numbers level */
   }
 
   h1 {
-    font-family: var(--font-sans);
+    font-family: var(--font-serif);
     font-weight: 300;
   }
 
   h2 {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 300; /* Cormorant Light */
   }
 
   h3,
@@ -204,7 +206,7 @@
   h6 {
     font-family: var(--font-serif);
     font-weight: 400;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.01em;
   }
 }
 
@@ -268,7 +270,154 @@
   width: max-content;
 }
 
+/* Long-form text on the legal pages (components/legal/legal-page.tsx) */
+.legal-body {
+  max-width: 40rem;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15.5px;
+  line-height: 1.85;
+  color: color-mix(in srgb, var(--color-ink) 80%, transparent);
+}
+
+.legal-body > * + * {
+  margin-top: 1rem;
+}
+
+.legal-body strong {
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.legal-body a {
+  color: var(--color-rust);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  transition: color 0.2s;
+}
+
+.legal-body a:hover {
+  color: var(--color-spark);
+}
+
+.legal-body h3 {
+  margin-top: 1.9rem;
+  font-family: var(--font-serif);
+  font-size: 1.55rem;
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--color-ink);
+}
+
+.legal-body h3 + * {
+  margin-top: 0.6rem;
+}
+
+.legal-body ul {
+  list-style: none;
+  padding: 0;
+}
+
+.legal-body li {
+  position: relative;
+  padding-left: 1.35rem;
+}
+
+.legal-body li + li {
+  margin-top: 0.6rem;
+}
+
+.legal-body li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.78em;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: var(--color-terracotta);
+}
+
+@layer components {
+  /* Liquid glass, the Apple look: a nearly clear pane that blurs and slightly over-saturates what is behind it, lit by a
+     bright rim on the top-left and bottom-right edges (the box-shadow crescents plus the gradient ring in ::after), with a
+     soft sheen across the top (::before), an inner glow for thickness and a floating drop shadow. Use it on a rounded
+     element that sits over a photograph or a dark section; do not combine it with a backdrop-blur utility, which would
+     replace the filter. */
+  .liquid-glass {
+    position: relative;
+    isolation: isolate;
+    background-color: rgb(255 255 255 / 0.015);
+    background-image: linear-gradient(
+      145deg,
+      rgb(255 255 255 / 0.07) 0%,
+      rgb(255 255 255 / 0) 38%,
+      rgb(255 255 255 / 0) 62%,
+      rgb(255 255 255 / 0.05) 100%
+    );
+    /* clear rather than frosted: a light blur and a little extra colour, no white fill. Chromium swaps this for the lens
+       version (see components/ui/liquid-glass.tsx). */
+    -webkit-backdrop-filter: blur(6px) saturate(1.3);
+    backdrop-filter: blur(6px) saturate(1.3);
+    text-shadow: 0 1px 10px rgb(0 0 0 / 0.3);
+    box-shadow:
+      inset 2px 2px 1.5px -1px rgb(255 255 255 / 0.75),
+      inset -2px -2px 1.5px -1px rgb(255 255 255 / 0.4),
+      inset 0 0 12px rgb(255 255 255 / 0.05),
+      inset 0 0 0 0.5px rgb(255 255 255 / 0.18),
+      0 12px 40px -8px rgb(0 0 0 / 0.3),
+      0 2px 6px rgb(0 0 0 / 0.1);
+    transition:
+      background-color 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+  .liquid-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      radial-gradient(90% 160% at 8% 0%, rgb(255 255 255 / 0.16) 0%, rgb(255 255 255 / 0) 60%),
+      radial-gradient(70% 140% at 96% 120%, rgb(255 255 255 / 0.08) 0%, rgb(255 255 255 / 0) 60%);
+  }
+  .liquid-glass::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+      135deg,
+      rgb(255 255 255 / 0.7),
+      rgb(255 255 255 / 0.1) 28%,
+      rgb(255 255 255 / 0.04) 52%,
+      rgb(255 255 255 / 0.12) 74%,
+      rgb(255 255 255 / 0.5)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+  }
+  /* links and buttons light up a little under the pointer */
+  .liquid-glass:where(a, button):hover {
+    background-color: rgb(255 255 255 / 0.07);
+  }
+}
+
 @layer utilities {
+  /* accent words inside titles: the primary font in italic */
+  .font-script {
+    font-style: italic;
+  }
+
   .text-balance {
     text-wrap: balance;
   }

@@ -11,11 +11,11 @@ import * as React from "react";
 export function SparkText({
   children,
   bright = false,
-  iDots = true,
+  iDots = false,
 }: {
   children: string;
   bright?: boolean;
-  /** set false to leave the letter "i" plain (e.g. when only the ? should carry the red) */
+  /** colour the dot of each "i" (tuned to Boldonse; off by default now that headings are Cormorant) */
   iDots?: boolean;
 }) {
   const tone = bright ? " on-dark" : "";

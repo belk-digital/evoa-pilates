@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { SparkText } from "@/components/ui/spark-text";
 import { wipeProps } from "@/components/ui/reveal";
 
@@ -75,7 +76,7 @@ export function Faq() {
         <div className="mb-14 sm:mb-20 md:mb-24 pt-2 pr-6">
           <motion.h2
             {...wipeProps}
-            className="font-display text-[36px] sm:text-[50px] md:text-[64px] lg:text-[76px] text-neutral-900 tracking-normal leading-[1.4] pr-4 inline-block transform-gpu"
+            className="font-display text-[44px] sm:text-[60px] md:text-[78px] lg:text-[92px] text-neutral-900 tracking-normal leading-[1.05] pr-4 inline-block transform-gpu"
           >
             <SparkText iDots={false}>Have questions?</SparkText>
           </motion.h2>
@@ -117,7 +118,7 @@ export function Faq() {
 
                   {/* Question and Expandable Answer */}
                   <div className="col-span-9 sm:col-span-10 md:col-span-9 lg:col-span-8 pr-4 sm:pr-8">
-                    <h3 className="font-display text-[17px] sm:text-[20px] md:text-[22px] lg:text-[26px] font-normal tracking-normal text-ink leading-[1.5] transition-colors group-hover:text-black">
+                    <h3 className="font-title text-[24px] sm:text-[28px] md:text-[32px] lg:text-[36px] font-normal tracking-normal text-ink leading-[1.2] transition-colors group-hover:text-black">
                       {faq.question}
                     </h3>
 
@@ -151,14 +152,15 @@ export function Faq() {
                     </AnimatePresence>
                   </div>
 
-                  {/* Far-Right Plus / Close Icon */}
-                  <div className="col-span-1 text-right select-none pt-0.5">
+                  {/* Far-right arrow: points down when closed, flips to point up when open */}
+                  <div className="col-span-1 flex justify-end select-none pt-1 sm:pt-1.5">
                     <motion.span
-                      animate={{ rotate: isOpen ? 45 : 0 }}
-                      transition={{ duration: 0.22, ease: "easeInOut" }}
-                      className={`inline-block text-[26px] sm:text-[30px] md:text-[34px] font-light leading-none transition-colors duration-300 ${isOpen ? "text-spark" : "text-ink"}`}
+                      aria-hidden="true"
+                      animate={{ rotate: isOpen ? 180 : 0 }}
+                      transition={{ type: "spring", stiffness: 380, damping: 22 }}
+                      className={`inline-flex transition-colors duration-300 ${isOpen ? "text-spark" : "text-ink"}`}
                     >
-                      +
+                      <ChevronDown className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={1.4} />
                     </motion.span>
                   </div>
                 </button>

@@ -30,7 +30,7 @@ export function Hero() {
   return (
     <section
       data-header-theme="dark"
-      className="sticky top-0 h-screen h-[100dvh] min-h-[100dvh] w-full overflow-hidden bg-forest flex flex-col justify-between z-10"
+      className="sticky top-0 h-[76dvh] min-h-[500px] sm:h-screen sm:h-[100dvh] sm:min-h-[100dvh] w-full overflow-hidden bg-forest flex flex-col justify-between z-10"
     >
       {/* Background Image Layer with Crossfading and Cinematic Scrim for High Contrast */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none">
@@ -136,7 +136,7 @@ export function Hero() {
       <div className="relative z-20 w-full overflow-hidden pointer-events-none select-none flex justify-end pr-2.5 sm:pr-8 md:pr-12 lg:pr-16 pb-[48px] sm:pb-[74px] md:pb-[98px] lg:pb-20 shrink-0">
         <h1
           aria-label="evoa"
-          className="font-sans font-light text-mint text-[34vw] xs:text-[32vw] sm:text-[28vw] md:text-[24vw] leading-[0.74] tracking-[-0.04em] translate-y-[6%] sm:translate-y-[4%] md:translate-y-[2%] text-right whitespace-nowrap drop-shadow-none"
+          className="font-serif font-light text-mint text-[46vw] xs:text-[43vw] sm:text-[38vw] md:text-[32vw] leading-[0.74] tracking-[-0.02em] translate-y-[6%] sm:translate-y-[4%] md:translate-y-[2%] text-right whitespace-nowrap drop-shadow-none"
         >
           {["e", "v", "o", "a"].map((letter, index) => (
             <motion.span

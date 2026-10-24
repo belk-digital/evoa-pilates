@@ -4,12 +4,13 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { siteConfig } from "@/lib/site";
+import { BrandLogo } from "@/components/ui/brand-logo";
 
 export function Footer() {
   return (
     <footer
       data-header-theme="dark"
-      className="bg-mint p-3.5 sm:p-6 md:p-8 lg:p-10 relative overflow-hidden"
+      className="bg-mint px-3 py-3.5 sm:px-6 sm:py-6 md:py-8 lg:px-10 lg:py-10 relative overflow-hidden"
     >
       {/* Inner Floating Dark Card with Even All-Side Margins & Smooth Entrance */}
       <motion.div
@@ -29,6 +30,8 @@ export function Footer() {
             transition={{ duration: 0.85, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-6 flex flex-col justify-between max-w-lg"
           >
+            <BrandLogo tone="dark" className="mb-7 h-[56px] shrink-0 self-start sm:mb-8 sm:h-[64px]" />
+
             <p className="font-sans font-light text-[14px] sm:text-[15px] md:text-[16px] leading-[1.65] text-white/70 max-w-md">
               We offer mindful reformer and classical mat Pilates designed for posture, longevity, and deep core strength. A quiet sanctuary for intentional movement.
             </p>
@@ -92,7 +95,8 @@ export function Footer() {
               </nav>
             </div>
 
-            {/* Social Media */}
+            {/* Social Media + Legal */}
+            <div className="flex flex-col gap-8 sm:gap-10">
             <div className="flex flex-col gap-3.5 sm:gap-4">
               <span className="font-sans text-[12px] sm:text-[13px] font-medium tracking-[0.06em] text-white select-none">
                 Social Media
@@ -114,6 +118,27 @@ export function Footer() {
                   </a>
                 ))}
               </div>
+            </div>
+
+            <div className="flex flex-col gap-3.5 sm:gap-4">
+              <span className="font-sans text-[12px] sm:text-[13px] font-medium tracking-[0.06em] text-white select-none">
+                Legal
+              </span>
+              <nav className="flex flex-col gap-2 sm:gap-2.5">
+                {[
+                  { label: "Privacy Policy", href: "/privacy-policy" },
+                  { label: "Terms of Services", href: "/terms-of-services" },
+                ].map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className="font-sans font-light text-[13px] sm:text-[14px] text-white/60 hover:text-white transition-colors duration-200 w-fit"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
             </div>
           </motion.div>
         </div>
@@ -176,7 +201,7 @@ export function Footer() {
         >
           <span
             aria-label="evoa"
-            className="font-sans font-light text-mint text-[20vw] sm:text-[19vw] md:text-[18vw] lg:text-[220px] xl:text-[260px] 2xl:text-[290px] leading-[0.74] tracking-[-0.04em] translate-y-[20%] text-right whitespace-nowrap drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)] block"
+            className="font-serif font-light text-mint text-[27vw] sm:text-[26vw] md:text-[24vw] lg:text-[300px] xl:text-[350px] 2xl:text-[390px] leading-[0.74] tracking-[-0.02em] translate-y-[20%] text-right whitespace-nowrap drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)] block"
           >
             {["e", "v", "o", "a"].map((letter, index) => (
               <motion.span

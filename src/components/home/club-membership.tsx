@@ -167,13 +167,13 @@ export function ClubMembership() {
       <div className="max-w-[1000px] mx-auto px-4 sm:px-6">
         {/* Section Header: "Choose your plan" */}
         <div className="flex flex-col items-center text-center mb-8 sm:mb-14">
-          <motion.h2 {...wipeProps} className="font-display text-[32px] sm:text-[44px] md:text-[54px] lg:text-[60px] text-ink tracking-normal leading-[1.4]">
+          <motion.h2 {...wipeProps} className="font-display text-[40px] sm:text-[54px] md:text-[66px] lg:text-[74px] text-ink tracking-normal leading-[1.1]">
             <SparkText>Choose your plan.</SparkText>
           </motion.h2>
 
           {/* Billing toggle: the white pill springs between the options (overshoots, then settles) */}
           <Reveal delay={0.2} className="mt-5 sm:mt-6">
-          <div className="inline-flex items-center p-1 rounded-full bg-mint-deep border border-sage select-none shadow-[inset_0_1px_2px_rgba(36,26,20,0.06)]">
+          <div className="inline-flex items-center p-1 rounded-full bg-mint-deep border border-sage select-none shadow-[inset_0_1px_2px_rgba(35,43,27,0.06)]">
             <div className="flex items-center overflow-hidden rounded-full">
             {(
               [
@@ -195,7 +195,7 @@ export function ClubMembership() {
                   <motion.span
                     layoutId="billing-pill"
                     transition={{ type: "spring", stiffness: 520, damping: 17, mass: 0.9 }}
-                    className="absolute inset-0 rounded-full bg-white shadow-[0_1px_3px_rgba(36,26,20,0.12)]"
+                    className="absolute inset-0 rounded-full bg-white shadow-[0_1px_3px_rgba(35,43,27,0.12)]"
                   />
                 )}
                 <span className="relative z-10">{label}</span>
@@ -230,12 +230,12 @@ export function ClubMembership() {
                 onClick={() => scrollToCard(idx)}
                 className={`w-[68vw] sm:w-[62vw] max-w-[290px] md:w-auto md:max-w-none shrink-0 snap-center md:snap-align-none rounded-[22px] sm:rounded-[24px] overflow-hidden flex flex-col relative transition-transform duration-300 origin-center cursor-pointer md:cursor-default ${
                   isCenterOnMobile
-                    ? "scale-100 opacity-100 z-10 shadow-[0_4px_16px_rgba(36,26,20,0.06)] border border-deep-green/20"
+                    ? "scale-100 opacity-100 z-10 shadow-[0_4px_16px_rgba(35,43,27,0.06)] border border-deep-green/20"
                     : "scale-[0.88] sm:scale-[0.90] opacity-75 z-0"
                 } ${
                   tier.featured
-                    ? "md:scale-[1.05] md:opacity-100 md:z-10 md:shadow-[0_8px_20px_rgba(36,26,20,0.06)] bg-forest border border-deep-green/40"
-                    : `md:scale-[0.96] md:opacity-95 md:z-0 md:shadow-[0_2px_10px_rgba(36,26,20,0.03)] border ${tier.headerBg} ${tier.border}`
+                    ? "md:scale-[1.05] md:opacity-100 md:z-10 md:shadow-[0_8px_20px_rgba(35,43,27,0.06)] bg-forest border border-deep-green/40"
+                    : `md:scale-[0.96] md:opacity-95 md:z-0 md:shadow-[0_2px_10px_rgba(35,43,27,0.03)] border ${tier.headerBg} ${tier.border}`
                 }`}
               >
                 {/* Curve Layer 1: Top Header Area with Identical Height across all cards */}
@@ -272,7 +272,7 @@ export function ClubMembership() {
                   className={`relative z-10 bg-cream rounded-t-[18px] sm:rounded-t-[22px] px-4 sm:px-6 pt-4.5 sm:pt-5 pb-5 sm:pb-6 flex-1 flex flex-col -mt-4 sm:-mt-4.5 ${
                     tier.featured
                       ? "shadow-[0_-8px_24px_rgba(0,0,0,0.12),0_-1px_3px_rgba(0,0,0,0.06)] border-t border-white/60"
-                      : "shadow-[0_-5px_16px_rgba(36,26,20,0.03),0_-1px_2px_rgba(36,26,20,0.02)] border-t border-cream-line/80"
+                      : "shadow-[0_-5px_16px_rgba(35,43,27,0.03),0_-1px_2px_rgba(35,43,27,0.02)] border-t border-cream-line/80"
                   }`}
                 >
                   {/* Plan Short Description with uniform height so price boxes align perfectly */}

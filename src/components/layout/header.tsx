@@ -7,6 +7,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Mail, ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { BrandLogo } from "@/components/ui/brand-logo";
+import { useLiquidGlass } from "@/components/ui/liquid-glass";
 
 const NAV = [{ label: "Home", href: "/" }, ...siteConfig.nav];
 
@@ -18,6 +20,16 @@ export function Header() {
   const [menuHover, setMenuHover] = React.useState<string | null>(null);
   // The full-screen menu is always dark, so the logo and burger turn light while it is open
   const onLight = isLightSection && !menuOpen;
+  // the transparent (dark-section) state is liquid glass; the lens only runs while that state is showing
+  const { attach: pillGlassRef, style: pillGlassStyle, filter: pillGlassFilter } = useLiquidGlass<HTMLDivElement>(!onLight);
+  const { attach: mailGlassRef, style: mailGlassStyle, filter: mailGlassFilter } = useLiquidGlass<HTMLAnchorElement>(!isLightSection);
+  const { attach: menuGlassRef, style: menuGlassStyle, filter: menuGlassFilter } = useLiquidGlass<HTMLButtonElement>(!onLight);
+  // One height for the logo pill, nav pill, mail button, Request Membership button and the menu button
+  const PILL_H = "h-[46px] md:h-[52px] xl:h-[56px]";
+  const pillSurface = (light: boolean) =>
+    light
+      ? "backdrop-blur-md bg-white/85 border border-ink/10 shadow-[0_8px_30px_rgba(35,43,27,0.08)]"
+      : "liquid-glass";
 
   React.useEffect(() => {
     if (!menuOpen) return;
@@ -112,83 +124,94 @@ export function Header() {
         scrolled ? "py-3 md:py-4" : "py-4 md:py-6"
       )}
     >
-      <div className="relative z-10 w-full px-6 sm:px-10 md:px-16 lg:px-24">
+      <div className="relative z-10 w-full px-3 sm:px-6 lg:px-10">
         <div className="flex items-center justify-between">
-          <Link
-            href="/"
-            className="flex flex-col leading-none select-none hover:opacity-85 transition-opacity w-fit"
-          >
-            <span
-              className={cn(
-                "font-sans font-light tracking-[0.25em] text-[19px] md:text-[23px] uppercase transition-colors duration-300",
-                onLight ? "text-ink" : "text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
-              )}
-            >
-              EVOA
-            </span>
-            <div
-              className={cn(
-                "flex justify-between w-full text-[8px] md:text-[9.5px] font-sans font-light uppercase mt-1 transition-colors duration-300",
-                onLight
-                  ? "text-rust"
-                  : "text-white/90 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
-              )}
-            >
-              {["P", "I", "L", "A", "T", "E", "S"].map((letter, i) => (
-                <span key={i}>{letter}</span>
-              ))}
-            </div>
-          </Link>
-
-          <nav
+          {/* One joined pill: logo + navigation. Below xl only the logo is shown (the menu button takes over). */}
+          <div
+            ref={pillGlassRef}
+            style={pillGlassStyle}
             className={cn(
-              "hidden xl:flex items-center gap-8 lg:gap-12 rounded-full px-10 lg:px-14 py-3.5 md:py-4 transition-all duration-300 backdrop-blur-md",
-              isLightSection
-                ? "bg-white/85 border border-ink/10 shadow-[0_8px_30px_rgba(36,26,20,0.08)]"
-                : "bg-white/[0.08] border border-white/20 shadow-[0_4px_24px_rgba(0,0,0,0.12)]"
+              "flex shrink-0 items-center rounded-full transition-all duration-300",
+              PILL_H,
+              pillSurface(onLight)
             )}
           >
-            {NAV.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "relative text-[12px] lg:text-[13px] font-medium tracking-[0.22em] uppercase transition-colors duration-200 after:absolute after:left-1/2 after:-bottom-2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:transition-transform after:duration-300",
-                  isLightSection ? "after:bg-spark" : "after:bg-spark-bright",
-                  pathname === item.href ? "after:scale-100" : "after:scale-0 hover:after:scale-100",
-                  pathname === item.href
-                    ? isLightSection
-                      ? "text-rust"
-                      : "text-peach"
-                    : isLightSection
-                      ? "text-ink/90 hover:text-rust"
-                      : "text-white/95 hover:text-peach"
-                )}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+            {pillGlassFilter}
+            <Link
+              href="/"
+              aria-label="Evoa Pilates, home"
+              className="relative flex h-full select-none items-center rounded-full pl-5 pr-5 transition-opacity hover:opacity-80 md:pl-6 md:pr-6 xl:pl-8 xl:pr-8 2xl:pr-10"
+            >
+              {/* deep-green logo on light sections, cream logo on dark ones (and while the menu is open) */}
+              <span className="relative block h-[26px] aspect-[1389/482] md:h-[28px] xl:h-[32px]">
+                <BrandLogo
+                  tone="light"
+                  className={cn(
+                    "absolute inset-0 h-full w-full transition-opacity duration-300",
+                    onLight ? "opacity-100" : "opacity-0"
+                  )}
+                />
+                <BrandLogo
+                  tone="dark"
+                  shadow
+                  className={cn(
+                    "absolute inset-0 h-full w-full transition-opacity duration-300",
+                    onLight ? "opacity-0" : "opacity-100"
+                  )}
+                />
+              </span>
+            </Link>
 
-          <div className="hidden xl:flex items-center gap-3">
+            <span aria-hidden="true" className={cn("hidden h-6 w-px transition-colors duration-300 xl:block", onLight ? "bg-ink/15" : "bg-white/25")} />
+
+            <nav aria-label="Main" className="hidden h-full items-center gap-8 pl-8 pr-9 xl:flex 2xl:gap-12 2xl:pl-10 2xl:pr-14">
+              {NAV.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "relative text-[12px] lg:text-[13px] font-medium tracking-[0.22em] uppercase transition-colors duration-200 after:absolute after:left-1/2 after:-bottom-2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:transition-transform after:duration-300",
+                    isLightSection ? "after:bg-spark" : "after:bg-spark-bright",
+                    pathname === item.href ? "after:scale-100" : "after:scale-0 hover:after:scale-100",
+                    pathname === item.href
+                      ? isLightSection
+                        ? "text-rust"
+                        : "text-peach"
+                      : isLightSection
+                        ? "text-ink/90 hover:text-rust"
+                        : "text-white/95 hover:text-peach"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          <div className="hidden xl:flex shrink-0 items-center gap-3">
             <a
+              ref={mailGlassRef}
+              style={mailGlassStyle}
               href={`mailto:${siteConfig.email}`}
               aria-label="Email us"
               className={cn(
-                "flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-md transition-all duration-300",
+                "flex aspect-square items-center justify-center rounded-full transition-all duration-300",
+                PILL_H,
                 isLightSection
-                  ? "bg-white/85 border border-ink/10 text-ink shadow-[0_8px_30px_rgba(36,26,20,0.08)] hover:bg-white hover:text-rust"
-                  : "bg-white/[0.08] border border-white/20 text-white shadow-[0_4px_16px_rgba(0,0,0,0.1)] hover:bg-white/15 hover:border-white/40 hover:text-peach"
+                  ? "backdrop-blur-md bg-white/85 border border-ink/10 text-ink shadow-[0_8px_30px_rgba(35,43,27,0.08)] hover:bg-white hover:text-rust"
+                  : "liquid-glass text-white hover:text-peach"
               )}
             >
+              {mailGlassFilter}
               <Mail size={17} strokeWidth={1.8} />
             </a>
             <Link
               href="/pricing"
               className={cn(
-                "group relative inline-flex items-center gap-3 rounded-full pl-5 pr-1.5 py-1.5 text-[11px] lg:text-[11.5px] font-semibold tracking-[0.2em] uppercase transition-shadow duration-300 select-none",
+                "group relative inline-flex shrink-0 items-center gap-3 whitespace-nowrap rounded-full pl-6 pr-2 text-[11px] lg:text-[11.5px] font-semibold tracking-[0.2em] uppercase transition-shadow duration-300 select-none",
+                PILL_H,
                 isLightSection
-                  ? "bg-ink text-white shadow-[0_4px_16px_rgba(36,26,20,0.14)] hover:shadow-[0_8px_24px_rgba(36,26,20,0.25)]"
+                  ? "bg-ink text-white shadow-[0_4px_16px_rgba(35,43,27,0.14)] hover:shadow-[0_8px_24px_rgba(35,43,27,0.25)]"
                   : "bg-white text-ink shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_8px_28px_rgba(0,0,0,0.4)]"
               )}
             >
@@ -212,7 +235,7 @@ export function Header() {
               {/* Minimalist Arrow Pill with Continuous Rolling Arrow */}
               <div
                 className={cn(
-                  "flex h-7 w-7 items-center justify-center rounded-full transition-colors duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] shrink-0",
+                  "flex h-9 w-9 items-center justify-center rounded-full transition-colors duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] shrink-0",
                   isLightSection
                     ? "bg-white text-ink group-hover:bg-spark group-hover:text-white"
                     : "bg-ink text-white group-hover:bg-spark"
@@ -235,16 +258,21 @@ export function Header() {
           </div>
 
           <button
+            ref={menuGlassRef}
+            style={menuGlassStyle}
             type="button"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             onClick={() => setMenuOpen((v) => !v)}
             className={cn(
-              "xl:hidden relative flex h-10 w-10 items-center justify-center rounded-full transition-colors",
-              onLight ? "text-ink hover:bg-ink/5" : "text-white hover:bg-white/10"
+              "xl:hidden relative flex aspect-square items-center justify-center rounded-full transition-all duration-300",
+              PILL_H,
+              pillSurface(onLight),
+              onLight ? "text-ink" : "text-white"
             )}
           >
+            {menuGlassFilter}
             <span className="relative block h-[14px] w-[22px]">
               <motion.span
                 className="absolute left-0 top-0 block h-[1.5px] w-full rounded bg-current"
@@ -330,7 +358,7 @@ export function Header() {
                               onClick={() => setMenuOpen(false)}
                               onPointerEnter={() => setMenuHover(item.href)}
                               onFocus={() => setMenuHover(item.href)}
-                              className="py-1.5 font-title text-[clamp(30px,5.6dvh,58px)] leading-[1.1] tracking-[-0.01em] text-ink transition-colors hover:text-rust focus-visible:text-rust"
+                              className="py-1.5 font-title text-[clamp(34px,6.4dvh,66px)] leading-[1.1] tracking-[-0.01em] text-ink transition-colors hover:text-rust focus-visible:text-rust"
                             >
                               {item.label}
                             </Link>

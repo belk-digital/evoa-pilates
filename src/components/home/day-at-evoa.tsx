@@ -91,13 +91,13 @@ const STOPS: Stop[] = [
 ];
 
 const C = {
-  peachSoft: "#f8e0ce",
-  mint: "#cbdac6",
-  cream: "#f3ecdc",
-  haze: "#f0d2b0",
-  peach: "#edb899",
-  terracotta: "#c4673f",
-  forest: "#1e3025",
+  peachSoft: "#f0e8d6",
+  mint: "#b9c5b1",
+  cream: "#f3ede3",
+  haze: "#eadfc4",
+  peach: "#e6dcc6",
+  terracotta: "#c4a96a",
+  forest: "#232c14",
 };
 
 const ARCH = "M230 400 V210 A170 170 0 0 1 570 210 V400 Z";
@@ -165,8 +165,8 @@ function DayScene({ p }: { p: MotionValue<number> }) {
           <path d={ARCH} />
         </clipPath>
         <radialGradient id={`${uid}-glow`}>
-          <stop offset="0%" stopColor="#edb899" stopOpacity="0.75" />
-          <stop offset="100%" stopColor="#edb899" stopOpacity="0" />
+          <stop offset="0%" stopColor="#e6dcc6" stopOpacity="0.75" />
+          <stop offset="100%" stopColor="#e6dcc6" stopOpacity="0" />
         </radialGradient>
       </defs>
 
@@ -185,7 +185,7 @@ function DayScene({ p }: { p: MotionValue<number> }) {
       </g>
 
       {/* floor */}
-      <rect y="400" width="800" height="160" fill="#f3d3b6" />
+      <rect y="400" width="800" height="160" fill="#ebdfc6" />
       <g transform="translate(0 400)" opacity="0.6">
         {chips.map((c, i) => (
           <polygon key={i} points={c.points} className={CHIP_TONES[c.tone]} />
@@ -245,7 +245,7 @@ function Clock({ p }: { p: MotionValue<number> }) {
   return (
     <div
       aria-hidden="true"
-      className="font-[family-name:var(--font-syne)] text-[56px] sm:text-[84px] lg:text-[112px] max-md:compact:text-[44px] short:text-[44px] font-bold leading-none tabular-nums tracking-tight text-ink"
+      className="font-title text-[64px] sm:text-[96px] lg:text-[128px] max-md:compact:text-[52px] short:text-[52px] font-light leading-none tabular-nums tracking-tight text-ink"
     >
       {label}
     </div>
@@ -279,13 +279,13 @@ export function DayAtEvoa() {
       <div ref={containerRef} className="relative h-[430vh]">
         <div className="sticky top-0 flex h-[100dvh] w-full flex-col px-6 pb-5 pt-20 [--scene-h:38dvh] sm:px-10 sm:pb-8 sm:pt-24 md:px-14 md:pt-28 md:[--scene-h:36dvh] lg:px-20 max-md:compact:pb-3 max-md:compact:pt-[72px] compact:[--scene-h:30dvh] short:px-6 short:pb-3 short:pt-[84px]">
           <div className="flex w-full shrink-0 flex-col gap-2 pb-3 sm:pb-5 lg:flex-row lg:items-end lg:justify-between lg:pb-6 short:pb-2">
-            <motion.h2 {...wipeProps} className="font-display text-[30px] leading-[1.25] tracking-normal sm:text-[42px] md:text-[52px] lg:text-[60px] max-md:compact:text-[26px] short:text-[22px]">
+            <motion.h2 {...wipeProps} className="font-display text-[38px] leading-[1.1] tracking-normal sm:text-[52px] md:text-[64px] lg:text-[72px] max-md:compact:text-[32px] short:text-[26px]">
               <SparkText>A Day at Evoa.</SparkText>
             </motion.h2>
             <Reveal delay={0.25} className="short:hidden">
             <div className="flex items-center gap-2.5 font-sans text-[11.5px] font-light uppercase tracking-[0.24em] text-ink-muted sm:text-[12.5px]">
               <span className="h-px w-5 transition-colors duration-500" style={{ backgroundColor: stop.accent }} />
-              <span>06:30 — 20:00<span className="hidden sm:inline"> · Scroll to move the sun</span></span>
+              <span>06:30 to 20:00<span className="hidden sm:inline"> · Scroll to move the sun</span></span>
             </div>
             </Reveal>
           </div>
@@ -313,7 +313,7 @@ export function DayAtEvoa() {
                         {stop.room}
                       </span>
                     </div>
-                    <h3 className="font-[family-name:var(--font-syne)] text-[28px] font-semibold leading-[1.06] tracking-tight text-ink sm:text-[38px] lg:text-[46px] short:text-[26px]">
+                    <h3 className="font-title text-[34px] font-normal leading-[1.05] tracking-[-0.01em] text-ink sm:text-[46px] lg:text-[56px] short:text-[30px]">
                       {stop.title}
                     </h3>
                     <p className="max-w-md font-sans text-[13.5px] font-light leading-relaxed text-ink/75 sm:text-[15.5px] short:text-[12.5px]">
@@ -374,7 +374,7 @@ export function DayAtEvoa() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 1.1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="relative order-1 mx-auto aspect-[10/7] w-[min(100%,calc(var(--scene-h)*1.4286))] overflow-hidden rounded-2xl border-2 shadow-[0_20px_45px_rgba(36,26,20,0.1)] transition-colors duration-500 sm:rounded-3xl lg:order-2 lg:col-span-7 lg:ml-auto lg:mr-0 lg:w-[min(100%,calc((100dvh_-_260px)*1.4286))] short:order-2 short:col-span-7 short:ml-auto short:mr-0 short:w-[min(100%,calc((100dvh_-_130px)*1.4286))]"
+              className="relative order-1 mx-auto aspect-[10/7] w-[min(100%,calc(var(--scene-h)*1.4286))] overflow-hidden rounded-2xl border-2 shadow-[0_20px_45px_rgba(35,43,27,0.1)] transition-colors duration-500 sm:rounded-3xl lg:order-2 lg:col-span-7 lg:ml-auto lg:mr-0 lg:w-[min(100%,calc((100dvh_-_260px)*1.4286))] short:order-2 short:col-span-7 short:ml-auto short:mr-0 short:w-[min(100%,calc((100dvh_-_130px)*1.4286))]"
               style={{ borderColor: stop.accent }}
             >
               <DayScene p={scrollYProgress} />

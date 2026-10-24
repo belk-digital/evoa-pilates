@@ -24,7 +24,7 @@ export function InstructorSpotlight() {
             timer.
           </h2>
           <p className="text-[16px] leading-relaxed text-ink-muted max-w-xl">
-            &ldquo;I want every client to leave understanding one new thing about their body —
+            &ldquo;I want every client to leave understanding one new thing about their body,
             not just tired, but a little wiser about how they move.&rdquo;
           </p>
           <div className="flex flex-col gap-1">

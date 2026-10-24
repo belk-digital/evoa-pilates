@@ -12,7 +12,7 @@ export function CtaBanner() {
               Come feel the difference a quiet room makes.
             </h2>
             <p className="text-[16px] text-cream/85 max-w-md leading-relaxed">
-              New clients take their first Reformer or Mat class complimentary — no strings, no
+              New clients take their first Reformer or Mat class complimentary, no strings, no
               pressure to commit.
             </p>
             <ButtonLink href="/contact" variant="light" size="lg" className="mt-2">

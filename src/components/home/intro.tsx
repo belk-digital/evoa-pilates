@@ -25,7 +25,7 @@ const rightBenefits = [
   },
   {
     title: "Unfiltered Presence",
-    description: "A mirrorless sanctuary built for listening to your form — not performing for a room.",
+    description: "A mirrorless sanctuary built for listening to your form, not performing for a room.",
   },
   {
     title: "Architectural Posture",
@@ -73,7 +73,7 @@ export function Intro() {
             className="text-[15px] sm:text-[16px] md:text-[18px] text-ink-muted leading-[1.65] mt-3 sm:mt-4 max-w-2xl text-balance"
           >
             No chaotic playlists. No careless reps. We combine classical reformer precision
-            with nervous-system recovery — building enduring strength from your deepest core
+            with nervous-system recovery, building enduring strength from your deepest core
             in a space that feels like an exhale.
           </motion.p>
         </div>

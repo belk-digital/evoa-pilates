@@ -172,7 +172,7 @@ export function SampleBoard() {
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="relative lg:col-span-7">
             <div
-              className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border-2 shadow-[0_24px_50px_rgba(36,26,20,0.14)] transition-colors duration-500 sm:rounded-3xl"
+              className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border-2 shadow-[0_24px_50px_rgba(35,43,27,0.14)] transition-colors duration-500 sm:rounded-3xl"
               style={{ borderColor: m.accent }}
             >
               {previous !== null && (
@@ -200,7 +200,7 @@ export function SampleBoard() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="rounded-xl bg-cream/95 p-4 shadow-[0_12px_30px_rgba(36,26,20,0.18)] sm:p-5"
+                  className="rounded-xl bg-cream/95 p-4 shadow-[0_12px_30px_rgba(35,43,27,0.18)] sm:p-5"
                 >
                   <div className="flex items-center justify-between gap-3">
                     <span className="flex items-center gap-2">
@@ -278,7 +278,7 @@ export function SampleBoard() {
                           isActive ? "scale-100 opacity-100" : "scale-0 opacity-0"
                         }`}
                       />
-                      <span className="block aspect-square w-full overflow-hidden rounded-md border border-ink/15 shadow-[0_10px_24px_rgba(36,26,20,0.18)] transition-shadow duration-300 group-hover:shadow-[0_16px_30px_rgba(36,26,20,0.24)] group-focus-visible:ring-2 group-focus-visible:ring-ink">
+                      <span className="block aspect-square w-full overflow-hidden rounded-md border border-ink/15 shadow-[0_10px_24px_rgba(35,43,27,0.18)] transition-shadow duration-300 group-hover:shadow-[0_16px_30px_rgba(35,43,27,0.24)] group-focus-visible:ring-2 group-focus-visible:ring-ink">
                         <Texture m={mat} />
                       </span>
                       <span className="flex flex-col">

@@ -47,7 +47,7 @@ export function Method() {
               transition={{ duration: 0.55, delay: 0.08 }}
               className="text-[15px] sm:text-[16px] md:text-[17px] text-ink-muted leading-relaxed max-w-xl text-balance mt-1"
             >
-              Every class draws from the same classical foundation — we just change the tempo and the tools.
+              Every class draws from the same classical foundation. We just change the tempo and the tools.
             </motion.p>
           </div>
 

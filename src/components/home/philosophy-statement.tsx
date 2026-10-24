@@ -36,7 +36,7 @@ export function PhilosophyStatement() {
         <div className="flex flex-col items-center text-center max-w-xl mx-auto mb-6 sm:mb-14 md:mb-16 select-none">
           <motion.h2
             {...wipeProps}
-            className="font-display text-[28px] sm:text-[38px] md:text-[46px] lg:text-[52px] text-ink tracking-normal leading-[1.3]"
+            className="font-display text-[36px] sm:text-[48px] md:text-[58px] lg:text-[66px] text-ink tracking-normal leading-[1.1]"
           >
             <SparkText>The Philosophy</SparkText>
           </motion.h2>
@@ -58,7 +58,7 @@ export function PhilosophyStatement() {
                     rotate: isMobile ? -12 : -15,
                     scale: isMobile ? 1.05 : 1.08,
                     zIndex: 40,
-                    boxShadow: "0 32px 70px rgba(36,26,20,0.24)",
+                    boxShadow: "0 32px 70px rgba(35,43,27,0.24)",
                     transition: { type: "spring", stiffness: 420, damping: 18, mass: 0.75 },
                   }
                 : activeHover === "center"
@@ -69,7 +69,7 @@ export function PhilosophyStatement() {
                     rotate: -11,
                     scale: 0.98,
                     zIndex: 10,
-                    boxShadow: "0 20px 45px rgba(36,26,20,0.12)",
+                    boxShadow: "0 20px 45px rgba(35,43,27,0.12)",
                     transition: { type: "spring", stiffness: 350, damping: 22 },
                   }
                 : {
@@ -79,7 +79,7 @@ export function PhilosophyStatement() {
                     rotate: -8,
                     scale: 1,
                     zIndex: 10,
-                    boxShadow: "0 20px 45px rgba(36,26,20,0.12)",
+                    boxShadow: "0 20px 45px rgba(35,43,27,0.12)",
                     transition: { type: "spring", stiffness: 180, damping: 15, delay: 0.25 },
                   }
             }
@@ -112,7 +112,7 @@ export function PhilosophyStatement() {
                     rotate: isMobile ? 12 : 15,
                     scale: isMobile ? 1.05 : 1.08,
                     zIndex: 40,
-                    boxShadow: "0 32px 70px rgba(36,26,20,0.24)",
+                    boxShadow: "0 32px 70px rgba(35,43,27,0.24)",
                     transition: { type: "spring", stiffness: 420, damping: 18, mass: 0.75 },
                   }
                 : activeHover === "center"
@@ -123,7 +123,7 @@ export function PhilosophyStatement() {
                     rotate: 11,
                     scale: 0.98,
                     zIndex: 10,
-                    boxShadow: "0 20px 45px rgba(36,26,20,0.12)",
+                    boxShadow: "0 20px 45px rgba(35,43,27,0.12)",
                     transition: { type: "spring", stiffness: 350, damping: 22 },
                   }
                 : {
@@ -133,7 +133,7 @@ export function PhilosophyStatement() {
                     rotate: 8,
                     scale: 1,
                     zIndex: 10,
-                    boxShadow: "0 20px 45px rgba(36,26,20,0.12)",
+                    boxShadow: "0 20px 45px rgba(35,43,27,0.12)",
                     transition: { type: "spring", stiffness: 180, damping: 15, delay: 0.38 },
                   }
             }
@@ -164,7 +164,7 @@ export function PhilosophyStatement() {
                     y: -8,
                     scale: 1.025,
                     zIndex: 30,
-                    boxShadow: "0 32px 75px rgba(36,26,20,0.22)",
+                    boxShadow: "0 32px 75px rgba(35,43,27,0.22)",
                     transition: { type: "spring", stiffness: 380, damping: 20 },
                   }
                 : {
@@ -172,7 +172,7 @@ export function PhilosophyStatement() {
                     y: 0,
                     scale: 1,
                     zIndex: 30,
-                    boxShadow: "0 22px 55px rgba(36,26,20,0.14)",
+                    boxShadow: "0 22px 55px rgba(35,43,27,0.14)",
                     transition: { type: "spring", stiffness: 210, damping: 20, delay: 0.1 },
                   }
             }
@@ -187,7 +187,7 @@ export function PhilosophyStatement() {
             <div className="flex flex-col gap-3 sm:gap-5 relative z-10 text-left">
               <h3 className="font-serif font-light text-[18px] min-[360px]:text-[20px] min-[420px]:text-[23px] sm:text-[30px] md:text-[36px] lg:text-[38px] leading-[1.22] text-ink tracking-tight">
                 We do not train the body to perform.{" "}
-                <span className="font-script not-italic text-rust font-normal tracking-normal text-[1.5em] leading-[1.15] block mt-1 sm:mt-1.5">
+                <span className="font-script text-rust font-normal tracking-normal leading-[1.2] block mt-1 sm:mt-1.5">
                   We guide it back into alignment.
                 </span>
               </h3>
