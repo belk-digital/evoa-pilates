@@ -5,10 +5,19 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { MapPin, Clock, ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
-import { SparkText } from "@/components/ui/spark-text";
-import { wipeProps } from "@/components/ui/reveal";
 import { useLiquidGlass } from "@/components/ui/liquid-glass";
+import { siteConfig } from "@/lib/site";
+import { studioClock } from "@/lib/studio-time";
+import { cn } from "@/lib/utils";
 
+/* Which row of siteConfig.hours is today at the studio (Charleston, US Eastern time), or -1 until we know. */
+function todayRow(): number {
+  const day = studioClock().day; // Monday is 0
+  return day <= 4 ? 0 : day - 4;
+}
+
+/* The closing statement over a photograph. The address and the opening hours are the studio's real ones (lib/site.ts), the
+   same as the Contact page and the footer, and today's hours are marked. */
 export function ClosingManifesto() {
   const sectionRef = React.useRef<HTMLElement>(null);
   const { attach: exploreGlassRef, style: exploreGlassStyle, filter: exploreGlassFilter } = useLiquidGlass<HTMLAnchorElement>();
@@ -16,6 +25,12 @@ export function ClosingManifesto() {
   const imageScale = useTransform(scrollYProgress, [0, 1], [1.12, 1]);
   const imageY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   const scrimOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.65, 0.78, 0.65]);
+
+  const [today, setToday] = React.useState(-1);
+  React.useEffect(() => {
+    const raf = requestAnimationFrame(() => setToday(todayRow()));
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   return (
     <section
@@ -42,98 +57,64 @@ export function ClosingManifesto() {
 
       <Container size="content" className="relative z-10">
         <div className="flex flex-col items-center gap-6 sm:gap-7 max-w-2xl mx-auto">
-          {/* Eyebrow Label */}
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-3 select-none"
-          >
-            <span className="w-6 h-px bg-peach" />
-            <span className="text-peach text-[11px] sm:text-[12px] tracking-[0.34em] uppercase font-medium">
-              The Sanctuary
-            </span>
-            <span className="w-6 h-px bg-peach" />
-          </motion.div>
+          <h2 className="font-display text-[38px] sm:text-[52px] md:text-[64px] lg:text-[78px] leading-[1.1] text-bone tracking-normal text-balance font-light">
+            Begin your <span className="font-script">recalibration</span>
+          </h2>
 
-          {/* Minimal Modern Headline */}
-          <motion.h2
-            {...wipeProps}
-            className="font-display text-[38px] sm:text-[52px] md:text-[64px] lg:text-[78px] leading-[1.1] text-bone tracking-normal text-balance"
-          >
-            <SparkText bright>Begin Your Recalibration.</SparkText>
-          </motion.h2>
+          <p className="font-sans font-light text-[14px] sm:text-[15.5px] text-white/75 max-w-lg leading-relaxed text-balance">
+            Come in for a complimentary intro session: eight people, one instructor and a room built to slow you down.
+          </p>
 
-          {/* Concise Sub-statement */}
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="font-sans font-light text-[14px] sm:text-[15.5px] text-white/70 max-w-lg leading-relaxed text-balance"
-          >
-            Intimate reformer sequencing and somatic restoration designed to release tension and recalibrate your nervous system.
-          </motion.p>
-
-          {/* Minimal Modern Glass Pill for Location & Timings */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="w-full mt-2 p-4 sm:p-5 rounded-2xl bg-white/[0.04] backdrop-blur-md border border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 sm:gap-6 text-left shadow-[0_8px_32px_rgba(0,0,0,0.25)]"
-          >
-            {/* Location Block */}
+          {/* Where and when: a glass card with the studio's real address and hours */}
+          <div className="w-full mt-2 p-5 sm:p-6 rounded-2xl bg-white/[0.04] backdrop-blur-md border border-white/10 flex flex-col sm:flex-row items-stretch justify-between gap-6 sm:gap-8 text-left shadow-[0_8px_32px_rgba(0,0,0,0.25)]">
+            {/* Location block */}
             <div className="flex items-start gap-3.5 flex-1">
               <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 mt-0.5 text-peach">
                 <MapPin size={15} strokeWidth={1.5} />
               </div>
               <div>
-                <span className="block text-[10.5px] font-sans tracking-[0.2em] text-peach uppercase font-medium">
-                  Location
-                </span>
-                <span className="block text-[13px] sm:text-[13.5px] text-white/90 font-light mt-0.5 leading-snug">
-                  74 Franklin St, Tribeca, NYC
-                </span>
+                <span className="block font-script text-[22px] leading-none text-spark-bright">Find us</span>
+                <span className="block font-title text-[22px] sm:text-[24px] text-white leading-tight mt-2">{siteConfig.city}</span>
+                <span className="block text-[13px] text-white/65 font-light mt-1 leading-snug">{siteConfig.address}</span>
               </div>
             </div>
 
-            {/* Subtle Divider on desktop */}
-            <div className="hidden sm:block w-px h-9 bg-white/15 shrink-0" />
+            {/* Subtle divider on desktop */}
+            <div className="hidden sm:block w-px bg-white/15 shrink-0" />
 
-            {/* Hours Block */}
+            {/* Hours block */}
             <div className="flex items-start gap-3.5 flex-1">
               <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 mt-0.5 text-peach">
                 <Clock size={15} strokeWidth={1.5} />
               </div>
-              <div>
-                <span className="flex items-center gap-2 text-[10.5px] font-sans tracking-[0.2em] text-peach uppercase font-medium">
-                  <span className="relative inline-flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-spark-bright opacity-60 [animation-duration:2.8s]" />
-                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-spark-bright" />
-                  </span>
-                  Studio Timings
+              <div className="flex-1">
+                <span className="flex items-baseline gap-3 font-script text-[22px] leading-none text-spark-bright">
+                  Opening hours
+                  <span className="font-sans text-[11px] font-normal tracking-[0.06em] text-white/50">{siteConfig.timeZoneLabel}</span>
                 </span>
-                <span className="block text-[13px] sm:text-[13.5px] text-white/90 font-light mt-0.5 leading-snug">
-                  Mon – Fri: 06:30 – 20:30 <br className="sm:hidden" />
-                  <span className="hidden sm:inline">· </span>Weekends: 08:00 – 17:00
-                </span>
+                <ul className="mt-2.5 flex flex-col gap-1.5">
+                  {siteConfig.hours.map((row, i) => {
+                    const now = i === today;
+                    return (
+                      <li key={row.day} className="flex items-center justify-between gap-4 text-[13px] sm:text-[13.5px]">
+                        <span className="flex items-center gap-2.5">
+                          <span aria-hidden className={cn("h-1.5 w-1.5 rounded-full transition-colors duration-500", now ? "bg-spark-bright" : "bg-transparent")} />
+                          <span className={cn(now ? "text-white" : "text-white/70", "font-light whitespace-nowrap")}>{row.day.split(" – ").map((d) => d.slice(0, 3)).join("–")}</span>
+                        </span>
+                        <span className={cn(now ? "text-white font-normal" : "text-white/70 font-light", "whitespace-nowrap")}>{row.time}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* CTA Buttons - Matching Hero Button Luxury Style */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-auto pt-2"
-          >
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-auto pt-2">
             {/* Primary: Book an Intro Session */}
             <Link
-              href="/contact"
+              href="/contact?topic=intro"
               className="group relative w-auto inline-flex items-center justify-center gap-3.5 sm:gap-4 rounded-full bg-white pl-6 pr-2 py-2 sm:pl-8 sm:pr-2.5 sm:py-2.5 text-[11px] sm:text-[12px] font-semibold tracking-[0.2em] text-ink uppercase shadow-[0_6px_24px_rgba(0,0,0,0.35)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)] transition-shadow duration-300 select-none"
             >
               <div className="relative overflow-hidden h-[18px]">
@@ -197,18 +178,9 @@ export function ClosingManifesto() {
                 </div>
               </div>
             </Link>
-          </motion.div>
+          </div>
 
-          {/* Micro-assurance Tag */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="font-sans font-light text-[11px] sm:text-[11.5px] text-white/40 tracking-[0.22em] uppercase pt-1"
-          >
-            Intimate reformer sequencing · 8 practitioners max · Zero mirrors
-          </motion.p>
+          <p className="font-script text-[22px] sm:text-[26px] leading-none text-white/60 pt-1">eight at a time, no mirrors, no rush</p>
         </div>
       </Container>
     </section>

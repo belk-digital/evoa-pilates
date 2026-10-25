@@ -6,7 +6,8 @@ import { DayAtEvoa } from "@/components/home/day-at-evoa";
 // Disabled for now (component kept): import { SampleBoard } from "@/components/home/sample-board";
 // Disabled for now (component kept): import { HouseRules } from "@/components/home/house-rules";
 import { ClassGuide } from "@/components/home/class-guide";
-import { ClubMembership } from "@/components/home/club-membership";
+// Replaced by the Membership page's arch cards: import { ClubMembership } from "@/components/home/club-membership";
+import { MembershipPlans } from "@/components/membership/membership-plans";
 import { ClosingManifesto } from "@/components/home/closing-manifesto";
 import { Faq } from "@/components/home/faq";
 
@@ -23,9 +24,11 @@ export default function HomePage() {
       {/* <SampleBoard /> disabled: material finishes suit an About page better than the homepage */}
       {/* <HouseRules /> disabled: replaced by ClassGuide (classes + first-visit guide) */}
       <ClassGuide />
-      <ClubMembership />
+      <div id="membership">
+        <MembershipPlans toMembershipPage />
+      </div>
       <ClosingManifesto />
-      <Faq />
+      <Faq plain />
     </>
   );
 }

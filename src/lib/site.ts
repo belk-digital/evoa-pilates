@@ -6,6 +6,10 @@ export const siteConfig = {
   email: "hello@evoapilates.com",
   phone: "Phone number to be confirmed",
   address: "Studio address to be confirmed",
+  city: "Charleston, South Carolina",
+  /* The studio is in Charleston, so every time on the site follows US Eastern time (daylight saving included) */
+  timeZone: "America/New_York",
+  timeZoneLabel: "Eastern Time",
   hours: [
     { day: "Monday – Friday", time: "6:00am – 8:00pm" },
     { day: "Saturday", time: "8:00am – 4:00pm" },
@@ -19,6 +23,7 @@ export const siteConfig = {
   nav: [
     { label: "About", href: "/about" },
     { label: "Classes", href: "/classes" },
+    { label: "Schedule", href: "/schedule" },
     { label: "Membership", href: "/pricing" },
     { label: "Contact", href: "/contact" },
   ],

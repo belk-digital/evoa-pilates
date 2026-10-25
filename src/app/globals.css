@@ -458,3 +458,24 @@
     scrollbar-width: none;
   }
 }
+
+/* A page that fills the screen and never scrolls (the 404): put data-no-scroll on its section. The footer is hidden and
+   the page is locked to the viewport height, so there is nothing to scroll to. */
+html:has([data-no-scroll]),
+body:has([data-no-scroll]) {
+  height: 100dvh;
+  overflow: hidden;
+}
+body:has([data-no-scroll]) footer {
+  display: none;
+}
+
+/* a hairline that fills left to right (the running timer under a quote's name) */
+@keyframes evoa-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

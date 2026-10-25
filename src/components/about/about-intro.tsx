@@ -3,16 +3,10 @@
 import * as React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { SparkText } from "@/components/ui/spark-text";
-import { Reveal, wipeProps } from "@/components/ui/reveal";
+import { wipeProps } from "@/components/ui/reveal";
 import { Eyebrow } from "@/components/about/eyebrow";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
-const facts = [
-  { value: "Eight", label: "per class" },
-  { value: "Zero", label: "mirrors or screens" },
-  { value: "Slow", label: "built strength" },
-];
 
 export function AboutIntro() {
   const tileRef = React.useRef<HTMLDivElement>(null);
@@ -24,12 +18,10 @@ export function AboutIntro() {
       data-header-theme="light"
       className="relative w-full bg-mint px-3 pb-3 pt-28 text-ink sm:px-6 sm:pb-6 sm:pt-32 lg:px-10 lg:pb-10 lg:pt-40"
     >
-      {/* Title and lede */}
+      {/* Title and lede: the page's one label and one animated title */}
       <div className="flex flex-col gap-7 px-3 pb-10 sm:px-4 sm:pb-14 lg:flex-row lg:items-end lg:justify-between lg:gap-16 lg:px-10 lg:pb-16">
         <div>
-          <Reveal>
-            <Eyebrow>About EVOA</Eyebrow>
-          </Reveal>
+          <Eyebrow>About EVOA</Eyebrow>
           <motion.h1
             {...wipeProps}
             className="mt-5 font-display text-[clamp(42px,11.5vw,72px)] font-light leading-[0.98] tracking-normal text-ink sm:text-[clamp(56px,8.6vw,92px)] lg:text-[clamp(72px,7.2vw,124px)]"
@@ -41,21 +33,15 @@ export function AboutIntro() {
           </motion.h1>
         </div>
 
-        <Reveal delay={0.25} className="lg:pb-4">
-          <p className="max-w-[26rem] font-sans text-[15px] font-light leading-relaxed text-ink-muted sm:text-[17px]">
-            A private reformer and mat Pilates club for people who want to feel their body, not punish it. Eight at a
-            time, no mirrors, no rush.
-          </p>
-        </Reveal>
+        <p className="max-w-[26rem] font-sans text-[15px] font-light leading-relaxed text-ink-muted sm:text-[17px] lg:pb-4">
+          A private reformer and mat Pilates club for people who want to feel their body, not punish it. Eight at a
+          time, no mirrors, no rush.
+        </p>
       </div>
 
-      {/* Wide studio photograph with the facts on it */}
-      <motion.div
+      {/* Wide studio photograph, with a line of handwriting on it */}
+      <div
         ref={tileRef}
-        initial={{ opacity: 0, y: 56 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 1, ease: EASE }}
         className="relative isolate aspect-[4/5] w-full overflow-hidden rounded-[36px] bg-forest sm:aspect-[16/10] sm:rounded-[48px] lg:aspect-[21/9] lg:rounded-[64px]"
       >
         <motion.div style={{ y: imageY }} className="absolute inset-x-0 -top-[8%] -z-20 h-[116%]">
@@ -72,23 +58,14 @@ export function AboutIntro() {
 
         <div
           aria-hidden
-          className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgba(35,44,20,0.82)_0%,rgba(35,44,20,0.42)_28%,rgba(35,44,20,0.06)_58%,transparent_75%)]"
+          className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgba(35,44,20,0.6)_0%,rgba(35,44,20,0.2)_26%,transparent_52%)]"
         />
         <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/15" />
 
-        <dl className="absolute inset-x-0 bottom-0 grid grid-cols-3 px-5 pb-5 sm:px-8 sm:pb-7 lg:px-12 lg:pb-10">
-          {facts.map((fact) => (
-            <div key={fact.value} className="border-l border-white/30 pl-3 sm:pl-6 first:border-l-0 first:pl-0">
-              <dt className="font-display text-[26px] font-light leading-none text-white sm:text-[36px] lg:text-[48px]">
-                {fact.value}
-              </dt>
-              <dd className="mt-2 font-sans text-[10px] font-normal uppercase leading-snug tracking-[0.18em] text-white/80 sm:text-[11px]">
-                {fact.label}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </motion.div>
+        <p className="absolute bottom-5 left-6 font-script text-[26px] leading-none text-white/95 sm:bottom-8 sm:left-10 sm:text-[34px] lg:bottom-10 lg:left-14 lg:text-[40px]">
+          the studio, before the first class
+        </p>
+      </div>
     </section>
   );
 }

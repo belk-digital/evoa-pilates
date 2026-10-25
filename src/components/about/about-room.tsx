@@ -1,9 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { SparkText } from "@/components/ui/spark-text";
-import { Reveal, wipeProps } from "@/components/ui/reveal";
-import { Eyebrow } from "@/components/about/eyebrow";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -60,23 +57,13 @@ export function AboutRoom() {
       <div className="w-full overflow-hidden rounded-[36px] bg-forest px-6 py-14 text-bone sm:rounded-[48px] sm:px-10 sm:py-20 lg:rounded-[64px] lg:px-16 lg:py-28">
         <div className="mx-auto w-full max-w-[1200px]">
           <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end lg:gap-16">
-            <div>
-              <Reveal>
-                <Eyebrow tone="dark">The room</Eyebrow>
-              </Reveal>
-              <motion.h2
-                {...wipeProps}
-                className="mt-5 font-display text-[42px] font-light leading-[1.06] tracking-normal text-bone sm:text-[56px] lg:text-[clamp(52px,5.6vw,84px)]"
-              >
-                <SparkText bright>Designed to exhale.</SparkText>
-              </motion.h2>
-            </div>
-            <Reveal delay={0.2}>
-              <p className="max-w-md font-sans text-[14px] font-light leading-relaxed text-white/70 sm:text-[15.5px]">
-                Every surface is chosen to lower the volume: stone that holds warmth, tile that catches the light,
-                timber and linen you want to touch. The room does a share of the teaching.
-              </p>
-            </Reveal>
+            <h2 className="font-display text-[42px] font-light leading-[1.06] tracking-normal text-bone sm:text-[56px] lg:text-[clamp(52px,5.6vw,84px)]">
+              Designed to <span className="font-script">exhale</span>
+            </h2>
+            <p className="max-w-md font-sans text-[14px] font-light leading-relaxed text-white/70 sm:text-[15.5px]">
+              Every surface is chosen to lower the volume: stone that holds warmth, tile that catches the light,
+              timber and linen you want to touch. The room does a share of the teaching.
+            </p>
           </div>
 
           {/* Five arches: a swipeable row below lg, a skyline on desktop */}
@@ -106,27 +93,17 @@ export function AboutRoom() {
           </div>
 
           {/* The palette the room (and this site) is drawn from */}
-          <Reveal className="mt-14 sm:mt-20">
-            <div className="flex flex-col gap-5 border-t border-white/10 pt-8 lg:flex-row lg:items-center lg:justify-between">
-              <p className="font-sans text-[11px] font-light uppercase tracking-[0.24em] text-white/55">
-                Colours drawn from the room
-              </p>
-              <ul className="flex flex-wrap gap-x-7 gap-y-4">
-                {palette.map((swatch) => (
-                  <li key={swatch.name} className="flex items-center gap-3">
-                    <span
-                      aria-hidden
-                      className="h-7 w-7 rounded-full ring-1 ring-white/25"
-                      style={{ backgroundColor: swatch.color }}
-                    />
-                    <span className="font-sans text-[11px] font-normal uppercase tracking-[0.16em] text-white/75">
-                      {swatch.name}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
+          <div className="mt-14 flex flex-col gap-5 border-t border-white/10 pt-8 sm:mt-20 lg:flex-row lg:items-center lg:justify-between">
+            <p className="font-script text-[22px] leading-none text-spark-bright sm:text-[26px]">Colours drawn from the room</p>
+            <ul className="flex flex-wrap gap-x-7 gap-y-4">
+              {palette.map((swatch) => (
+                <li key={swatch.name} className="flex items-center gap-3">
+                  <span aria-hidden className="h-7 w-7 rounded-full ring-1 ring-white/25" style={{ backgroundColor: swatch.color }} />
+                  <span className="font-sans text-[12.5px] font-light tracking-[0.04em] text-white/75">{swatch.name}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

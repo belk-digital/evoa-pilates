@@ -2,8 +2,6 @@
 
 import * as React from "react";
 import { motion, useInView } from "framer-motion";
-import { SparkText } from "@/components/ui/spark-text";
-import { Reveal, wipeProps } from "@/components/ui/reveal";
 import { cn } from "@/lib/utils";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -77,18 +75,10 @@ export function AboutPrinciples() {
 
   return (
     <section data-header-theme="light" className="relative w-full bg-mint pb-16 pt-20 text-ink sm:pb-24 sm:pt-28 lg:pb-32 lg:pt-36">
-      <div className="flex w-full flex-col justify-between gap-3 px-6 pb-10 sm:px-10 sm:pb-14 md:px-14 lg:flex-row lg:items-end lg:gap-4 lg:px-20 lg:pb-16">
-        <motion.h2
-          {...wipeProps}
-          className="font-display text-[40px] font-light leading-[1.1] tracking-normal text-ink sm:text-[54px] md:text-[68px] lg:text-[76px]"
-        >
-          <SparkText>The Principles.</SparkText>
-        </motion.h2>
-        <Reveal delay={0.25}>
-          <p className="font-sans text-[11.5px] font-light uppercase tracking-[0.24em] text-ink-muted sm:text-[12.5px]">
-            What we hold ourselves to
-          </p>
-        </Reveal>
+      <div className="w-full px-6 pb-8 sm:px-10 sm:pb-12 md:px-14 lg:px-20 lg:pb-14">
+        <h2 className="max-w-md font-title text-[28px] font-normal leading-[1.15] tracking-[-0.01em] text-ink sm:text-[34px]">
+          Four things we hold ourselves to, widening like a doorway.
+        </h2>
       </div>
 
       <div
@@ -160,7 +150,7 @@ export function AboutPrinciples() {
                 className={cn("col-start-1 row-start-1", i !== active && "pointer-events-none")}
               >
                 <h3 className="font-display text-[38px] font-light leading-[1.05] tracking-normal text-ink sm:text-[54px] lg:text-[clamp(46px,4.6vw,72px)]">
-                  <SparkText>{p.title}</SparkText>
+                  {p.title}
                 </h3>
                 <p className="mt-5 max-w-md font-sans text-[15px] font-light leading-relaxed text-ink-muted sm:text-[17px]">
                   {p.text}

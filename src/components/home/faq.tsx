@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react";
 import { SparkText } from "@/components/ui/spark-text";
 import { wipeProps } from "@/components/ui/reveal";
 
-interface FaqItem {
+export interface FaqItem {
   id: string;
   number: string;
   question: string;
@@ -58,9 +58,20 @@ const faqs: FaqItem[] = [
   },
 ];
 
-export function Faq() {
-  // Item 02 open by default, exactly matching the reference screenshot
-  const [openId, setOpenId] = useState<string | null>("02");
+/* The homepage uses it as is. Other pages (Classes) pass their own heading and questions and get the same design. */
+export function Faq({
+  heading = "Have questions?",
+  items = faqs,
+  defaultOpenId = "02",
+  plain = false,
+}: {
+  heading?: string;
+  items?: FaqItem[];
+  defaultOpenId?: string | null;
+  /** a quieter heading for inner pages: no wipe and no gold full stop, smaller, so it does not repeat the page title's recipe */
+  plain?: boolean;
+}) {
+  const [openId, setOpenId] = useState<string | null>(defaultOpenId);
 
   const toggleItem = (id: string) => {
     setOpenId((prev) => (prev === id ? null : id));
@@ -73,24 +84,28 @@ export function Faq() {
     >
       <div className="w-full px-6 sm:px-10 md:px-16 lg:px-20 xl:px-24 relative z-10">
         {/* Top-Left Heading with Smooth Entrance */}
-        <div className="mb-14 sm:mb-20 md:mb-24 pt-2 pr-6">
-          <motion.h2
-            {...wipeProps}
-            className="font-display text-[44px] sm:text-[60px] md:text-[78px] lg:text-[92px] text-neutral-900 tracking-normal leading-[1.05] pr-4 inline-block transform-gpu"
-          >
-            <SparkText iDots={false}>Have questions?</SparkText>
-          </motion.h2>
+        <div className={plain ? "mb-8 sm:mb-12 pt-2 pr-6" : "mb-14 sm:mb-20 md:mb-24 pt-2 pr-6"}>
+          {plain ? (
+            <h2 className="font-title text-[34px] sm:text-[44px] md:text-[52px] font-normal text-ink tracking-[-0.01em] leading-[1.1]">{heading}</h2>
+          ) : (
+            <motion.h2
+              {...wipeProps}
+              className="font-display text-[44px] sm:text-[60px] md:text-[78px] lg:text-[92px] text-neutral-900 tracking-normal leading-[1.05] pr-4 inline-block transform-gpu"
+            >
+              <SparkText iDots={false}>{heading}</SparkText>
+            </motion.h2>
+          )}
         </div>
 
         {/* Full-Width Minimalist Accordion List with Staggered Entrance */}
         <div className="w-full border-t border-black/15 divide-y divide-black/15">
-          {faqs.map((faq, index) => {
+          {items.map((faq, index) => {
             const isOpen = openId === faq.id;
 
             return (
               <motion.div
                 key={faq.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={plain ? false : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{

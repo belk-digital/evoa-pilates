@@ -80,6 +80,7 @@ export function Footer() {
                   { label: "Home", href: "/" },
                   { label: "Philosophy", href: "/#philosophy" },
                   { label: "Classes", href: "/classes" },
+                  { label: "Schedule", href: "/schedule" },
                   { label: "Membership", href: "/pricing" },
                   { label: "About Us", href: "/about" },
                   { label: "Contact", href: "/contact" },

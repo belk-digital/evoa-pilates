@@ -6,7 +6,6 @@ import { ArrowUpRight } from "lucide-react";
 import { EditorialBrandSeal } from "@/components/ui/editorial-brand-seal";
 import { SparkText } from "@/components/ui/spark-text";
 import { cn } from "@/lib/utils";
-import { wipeHidden, wipeShown, wipeTransition } from "@/components/ui/reveal";
 
 interface CardTheme {
   accentName: string;
@@ -24,7 +23,10 @@ interface ExperienceItem {
   id: string;
   num: string;
   title: string;
-  accent: string; // the one word of the title set in the script face
+  accent: string; // the one word of the title set in the script face ("" for none)
+  /** column span and photo shape on the 12-column desktop grid: the rows alternate wide and narrow */
+  span: string;
+  ratio: string;
   subtitle: string;
   description: string;
   image: string;
@@ -38,9 +40,11 @@ const experienceItems: ExperienceItem[] = [
     num: "01",
     title: "Controlled Lighting Environments",
     accent: "Lighting",
+    span: "lg:col-span-7",
+    ratio: "lg:aspect-[16/9]",
     subtitle: "Circadian Regulation",
     description:
-      "Diffused warm amber temperatures and zero harsh overheads, tuned to downshift nervous system strain from the moment you step across the threshold.",
+      "Warm, diffused light and no harsh overheads, so your body begins to slow down the moment you step in.",
     image: "/assets/Warm Modern Pilates Studio (1).webp",
     alt: "Concealed amber cove lighting and round sconces warming the sage tile wall of the Evoa studio at dusk",
     theme: {
@@ -61,10 +65,12 @@ const experienceItems: ExperienceItem[] = [
     id: "studios",
     num: "02",
     title: "Studios Designed for Focus",
-    accent: "Focus",
+    accent: "",
+    span: "lg:col-span-5",
+    ratio: "lg:aspect-[4/3]",
     subtitle: "Acoustic Stillness",
     description:
-      "Acoustically dampened architecture with custom natural timber finishes, dedicated strictly to presence, diaphragmatic breath, and unhurried form.",
+      "Natural timber, sound-dampened rooms and nothing to look at but your own movement: space for presence, breath and unhurried form.",
     image: "/assets/Sunlit Minimalist Pilates Studio.webp",
     alt: "A calm Evoa studio with timber slat walls, sage tile and a row of reformers in soft daylight",
     theme: {
@@ -85,10 +91,12 @@ const experienceItems: ExperienceItem[] = [
     id: "transitions",
     num: "03",
     title: "Silent Transitions",
-    accent: "Silent",
+    accent: "",
+    span: "lg:col-span-5",
+    ratio: "lg:aspect-[4/3]",
     subtitle: "Spatial Continuity",
     description:
-      "Curated buffer zones and threshold pauses between high-resistance reformer work, floor decompression, and restorative wellness areas.",
+      "Quiet pauses between the reformer, the floor and the lounge, so one part of the class settles before the next begins.",
     image: "/assets/Serene Pilates Studio with Arched Doorway (1).webp",
     alt: "A woman walking quietly through an arched doorway between two rooms of the Evoa studio",
     theme: {
@@ -109,10 +117,12 @@ const experienceItems: ExperienceItem[] = [
     id: "rituals",
     num: "04",
     title: "Recovery Rituals Instead of Cooldowns",
-    accent: "Rituals",
+    accent: "",
+    span: "lg:col-span-7",
+    ratio: "lg:aspect-[16/9]",
     subtitle: "Cellular Renewal",
     description:
-      "Post-movement adaptogenic hydration, targeted lymph resets, and weighted linen relaxation tailored to integrate the physical work of your practice.",
+      "A warm tonic, a long stretch and a weighted linen throw after class, so the work has time to land.",
     image: "/assets/Steaming Tea in a Sunlit Wellness Studio.webp",
     alt: "Steaming tonic cups and a glass carafe on the travertine Recovery Bar with its star-tile front",
     theme: {
@@ -158,14 +168,9 @@ export function Experience() {
           <div className="w-full flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 sm:gap-8 lg:gap-12">
             {/* Left Column: Clean Editorial Title */}
             <div className="flex flex-col flex-1 min-w-0">
-              <motion.h2
-                initial={wipeHidden}
-                animate={isInView ? wipeShown : {}}
-                transition={wipeTransition}
-                className="font-display text-[38px] sm:text-[52px] md:text-[64px] lg:text-[76px] text-ink tracking-normal leading-[1.1]"
-              >
-                <SparkText>The Experience</SparkText>
-              </motion.h2>
+              <h2 className="font-display text-[38px] font-light sm:text-[52px] md:text-[64px] lg:text-[76px] text-ink tracking-normal leading-[1.1]">
+                The Experience
+              </h2>
             </div>
 
             {/* Center Column: Scroll-Rotating Circular Editorial Brand Seal */}
@@ -186,16 +191,11 @@ export function Experience() {
             </motion.div>
 
             {/* Right Column: Architectural Description */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.75, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-              className="flex-1 flex justify-start lg:justify-end shrink-0"
-            >
-              <p className="font-sans font-light text-[13.5px] sm:text-[15.5px] md:text-[16.5px] leading-[1.65] text-ink/75 lg:max-w-sm xl:max-w-md">
-                Architecture, sound, lighting, and pacing engineered to guide your nervous system into deep, unhurried restoration.
+            <div className="flex-1 flex justify-start lg:justify-end shrink-0">
+              <p className="font-sans font-light text-[14.5px] sm:text-[16px] md:text-[17px] leading-[1.65] text-ink/75 lg:max-w-sm xl:max-w-md">
+                The light, the sound and the pace of the room are all chosen to slow you down, from the moment you walk in.
               </p>
-            </motion.div>
+            </div>
           </div>
         </div>
 
@@ -214,6 +214,7 @@ export function Experience() {
 /* Card title in the serif, with one key word picked out in the script face (rust, a touch larger
    since the script's letters run small; its line-height is pinched so it doesn't open up the line). */
 function CardTitle({ title, accent }: { title: string; accent: string }) {
+  if (!accent) return <>{title}</>;
   const at = title.indexOf(accent);
   if (at < 0) return <>{title}</>;
   return (
@@ -277,7 +278,7 @@ function ExperienceDeck() {
       <div
         ref={scrollerRef}
         onScroll={update}
-        className="hide-scrollbar relative flex w-full snap-x snap-mandatory scroll-pl-3 gap-3 overflow-x-auto overflow-y-hidden px-3 pb-8 pt-5 sm:scroll-pl-6 sm:gap-4 sm:px-6 lg:grid lg:snap-none lg:grid-cols-2 lg:gap-5 lg:overflow-visible lg:px-10 lg:py-0"
+        className="hide-scrollbar relative flex w-full snap-x snap-mandatory scroll-pl-3 gap-3 overflow-x-auto overflow-y-hidden px-3 pb-8 pt-5 sm:scroll-pl-6 sm:gap-4 sm:px-6 lg:grid lg:snap-none lg:grid-cols-12 lg:gap-5 lg:overflow-visible lg:px-10 lg:py-0"
       >
         {experienceItems.map((item, i) => (
           <ExperienceStickyCard key={item.id} item={item} offset={i - active} />
@@ -314,12 +315,9 @@ function ExperienceDeck() {
    sit back, smaller and tilted away like a fanned deck. */
 function ExperienceStickyCard({ item, offset = 0 }: { item: ExperienceItem; offset?: number }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 60, scale: 0.97 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.05 }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+    <div
       className={cn(
+        item.span,
         "relative flex w-[80vw] max-w-[440px] shrink-0 origin-bottom snap-start flex-col overflow-hidden rounded-[32px] bg-plaster p-4 transition-[scale,rotate] duration-500 ease-out sm:w-[58vw] sm:rounded-[40px] sm:p-5 lg:w-auto lg:max-w-none lg:origin-center lg:rounded-[52px] lg:p-6 lg:shadow-[0_24px_60px_rgba(35,43,27,0.07)]",
         offset === 0
           ? "scale-100 rotate-0"
@@ -330,7 +328,7 @@ function ExperienceStickyCard({ item, offset = 0 }: { item: ExperienceItem; offs
     >
       {/* Photo on top, then number + title + text */}
       <div className="relative z-10 flex w-full flex-1 flex-col gap-5 sm:gap-6">
-        <div className="group relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-ink/10 bg-cream-line/40 shadow-[0_16px_36px_rgba(35,43,27,0.09)] transition-all duration-500 hover:shadow-[0_24px_50px_rgba(35,43,27,0.18)] sm:rounded-[20px] lg:aspect-[2/1] lg:rounded-[28px]">
+        <div className={`group relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-ink/10 bg-cream-line/40 shadow-[0_16px_36px_rgba(35,43,27,0.09)] transition-all duration-500 hover:shadow-[0_24px_50px_rgba(35,43,27,0.18)] sm:rounded-[20px] ${item.ratio} lg:rounded-[28px]`}>
           <motion.img
             initial={{ scale: 1.18 }}
             whileInView={{ scale: 1 }}
@@ -356,13 +354,13 @@ function ExperienceStickyCard({ item, offset = 0 }: { item: ExperienceItem; offs
             <h3 className="mb-2.5 min-w-0 select-none break-words font-title text-[32px] font-normal leading-[1.08] tracking-[-0.01em] text-ink sm:mb-3 sm:text-[38px] lg:text-[44px] xl:text-[50px]">
               <CardTitle title={item.title} accent={item.accent} />
             </h3>
-            <p className="font-sans text-[13.5px] font-light leading-[1.62] text-ink/75 sm:text-[15px]">
+            <p className="font-sans text-[14.5px] font-light leading-[1.62] text-ink/75 sm:text-[16px]">
               {item.description}
             </p>
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 

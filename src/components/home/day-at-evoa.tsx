@@ -10,8 +10,6 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { seededChips } from "@/lib/patterns";
-import { SparkText } from "@/components/ui/spark-text";
-import { Reveal, wipeProps } from "@/components/ui/reveal";
 
 interface Stop {
   id: string;
@@ -279,15 +277,12 @@ export function DayAtEvoa() {
       <div ref={containerRef} className="relative h-[430vh]">
         <div className="sticky top-0 flex h-[100dvh] w-full flex-col px-6 pb-5 pt-20 [--scene-h:38dvh] sm:px-10 sm:pb-8 sm:pt-24 md:px-14 md:pt-28 md:[--scene-h:36dvh] lg:px-20 max-md:compact:pb-3 max-md:compact:pt-[72px] compact:[--scene-h:30dvh] short:px-6 short:pb-3 short:pt-[84px]">
           <div className="flex w-full shrink-0 flex-col gap-2 pb-3 sm:pb-5 lg:flex-row lg:items-end lg:justify-between lg:pb-6 short:pb-2">
-            <motion.h2 {...wipeProps} className="font-display text-[38px] leading-[1.1] tracking-normal sm:text-[52px] md:text-[64px] lg:text-[72px] max-md:compact:text-[32px] short:text-[26px]">
-              <SparkText>A Day at Evoa.</SparkText>
-            </motion.h2>
-            <Reveal delay={0.25} className="short:hidden">
-            <div className="flex items-center gap-2.5 font-sans text-[11.5px] font-light uppercase tracking-[0.24em] text-ink-muted sm:text-[12.5px]">
-              <span className="h-px w-5 transition-colors duration-500" style={{ backgroundColor: stop.accent }} />
-              <span>06:30 to 20:00<span className="hidden sm:inline"> · Scroll to move the sun</span></span>
-            </div>
-            </Reveal>
+            <h2 className="font-display text-[38px] font-light leading-[1.1] tracking-normal sm:text-[52px] md:text-[64px] lg:text-[72px] max-md:compact:text-[32px] short:text-[26px]">
+              A Day at Evoa
+            </h2>
+            <p className="font-script text-[22px] leading-none text-rust sm:text-[26px] short:hidden">
+              from 6:30 to 8:00<span className="hidden sm:inline">, scroll to move the sun</span>
+            </p>
           </div>
 
           <div className="grid min-h-0 flex-1 grid-cols-1 [align-content:center] items-start gap-4 lg:grid-cols-12 lg:items-center lg:gap-14 short:grid-cols-12 short:items-center short:gap-6">

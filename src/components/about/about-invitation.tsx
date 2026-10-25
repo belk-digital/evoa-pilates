@@ -2,9 +2,6 @@
 
 import * as React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { SparkText } from "@/components/ui/spark-text";
-import { Reveal, wipeProps } from "@/components/ui/reveal";
-import { Eyebrow } from "@/components/about/eyebrow";
 import { RollingButton } from "@/components/about/rolling-button";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -16,12 +13,8 @@ export function AboutInvitation() {
 
   return (
     <section data-header-theme="dark" className="relative w-full bg-mint px-3 sm:px-6 lg:px-10">
-      <motion.div
+      <div
         ref={tileRef}
-        initial={{ opacity: 0, y: 56 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 1, ease: EASE }}
         className="relative isolate flex min-h-[540px] w-full flex-col items-center justify-center overflow-hidden rounded-[28px] bg-forest px-6 py-20 text-center text-white sm:min-h-[600px] sm:rounded-[36px] sm:px-10 lg:min-h-[680px] lg:rounded-[44px]"
       >
         <motion.div style={{ y: imageY }} className="absolute inset-x-0 -top-[8%] -z-20 h-[116%]">
@@ -40,39 +33,22 @@ export function AboutInvitation() {
         <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/15" />
 
         <div className="flex max-w-3xl flex-col items-center gap-6 sm:gap-7">
-          <Reveal>
-            <Eyebrow tone="dark">Visit us</Eyebrow>
-          </Reveal>
+          <h2 className="font-display text-[42px] font-light leading-[1.08] tracking-normal text-bone text-balance sm:text-[60px] lg:text-[84px]">
+            Come and see the room
+          </h2>
 
-          <motion.h2
-            {...wipeProps}
-            className="font-display text-[42px] font-light leading-[1.08] tracking-normal text-bone text-balance sm:text-[60px] lg:text-[84px]"
-          >
-            <SparkText bright>Come and see the room.</SparkText>
-          </motion.h2>
+          <p className="max-w-lg font-sans text-[14px] font-light leading-relaxed text-white/75 text-balance sm:text-[15.5px]">
+            Book an intro session and feel the difference of a small room, close teaching and a pace that is yours.
+          </p>
 
-          <Reveal delay={0.2}>
-            <p className="max-w-lg font-sans text-[14px] font-light leading-relaxed text-white/75 text-balance sm:text-[15.5px]">
-              Book an intro session and feel the difference of a small room, close teaching and a pace that is yours.
-            </p>
-          </Reveal>
-
-          <Reveal delay={0.3}>
-            <div className="flex flex-col items-center justify-center gap-3.5 pt-2 sm:flex-row sm:gap-4">
-              <RollingButton href="/contact">Book an Intro Session</RollingButton>
-              <RollingButton href="/#membership" variant="glass">
-                View Membership
-              </RollingButton>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.4}>
-            <p className="pt-1 font-sans text-[11px] font-light uppercase tracking-[0.22em] text-white/45 sm:text-[11.5px]">
-              Intro sessions · Reformer &amp; mat · Eight at a time
-            </p>
-          </Reveal>
+          <div className="flex flex-col items-center justify-center gap-3.5 pt-2 sm:flex-row sm:gap-4">
+            <RollingButton href="/contact?topic=intro">Book an Intro Session</RollingButton>
+            <RollingButton href="/#membership" variant="glass">
+              View Membership
+            </RollingButton>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

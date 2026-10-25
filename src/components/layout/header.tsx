@@ -164,7 +164,7 @@ export function Header() {
 
             <span aria-hidden="true" className={cn("hidden h-6 w-px transition-colors duration-300 xl:block", onLight ? "bg-ink/15" : "bg-white/25")} />
 
-            <nav aria-label="Main" className="hidden h-full items-center gap-8 pl-8 pr-9 xl:flex 2xl:gap-12 2xl:pl-10 2xl:pr-14">
+            <nav aria-label="Main" className="hidden h-full items-center gap-6 pl-7 pr-7 xl:flex min-[1366px]:gap-8 min-[1366px]:pl-8 min-[1366px]:pr-9 2xl:gap-12 2xl:pl-10 2xl:pr-14">
               {NAV.map((item) => (
                 <Link
                   key={item.href}
