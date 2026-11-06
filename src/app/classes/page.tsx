@@ -3,13 +3,14 @@ import { ClassesExplorer } from "@/components/classes/classes-explorer";
 import { ClassesPath } from "@/components/classes/classes-path";
 // Disabled for now (component kept): import { ClassesReformer } from "@/components/classes/classes-reformer";
 import { ClassesTeachers } from "@/components/classes/classes-teachers";
-import { ClassesPrepare, ClassesPrivate } from "@/components/classes/classes-extras";
+import { ClassesPrepare } from "@/components/classes/classes-extras";
+// Disabled for now (component kept): the client's classes and pricing have no private or duet sessions. import { ClassesPrivate } from "@/components/classes/classes-extras";
 import { ClassesFaq } from "@/components/classes/classes-faq";
 
 export const metadata: Metadata = {
   title: "Classes",
   description:
-    "Pilates classes at Evoa: reformer foundations, flow and sculpt, classical mat, prenatal and postnatal, and breath and stillness. Eight people, one instructor, no mirrors.",
+    "EVOA's eight signature classes: Sculpt, Flow, Ignite and Restore on the mat, Form, Define, Power and Lengthen on the reformer. Eight people, one instructor, no mirrors.",
 };
 
 export default function ClassesPage() {
@@ -21,7 +22,7 @@ export default function ClassesPage() {
       <ClassesTeachers />
       <ClassesPrepare />
       <ClassesFaq />
-      <ClassesPrivate />
+      {/* <ClassesPrivate /> disabled: private and duet sessions are not part of the client's classes or pricing for now */}
     </>
   );
 }

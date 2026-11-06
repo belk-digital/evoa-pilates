@@ -29,7 +29,7 @@ const spaces: SpaceItem[] = [
     id: "mat-vault",
     name: "The Mat Vault",
     note: "where we breathe",
-    description: "Acoustically isolated and free of mirrors, for floor work and the classical mat, paced entirely by breath.",
+    description: "Acoustically isolated and free of mirrors, for floor work and mat classes, paced entirely by breath.",
     image: "/assets/Serene Symmetrical Pilates Studio.webp",
     position: "object-[48%_55%]",
     span: "lg:col-span-5",

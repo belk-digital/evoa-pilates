@@ -3,15 +3,15 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { requestTopic } from "@/components/contact/contact-data";
 import { siteConfig } from "@/lib/site";
 import { studioClock } from "@/lib/studio-time";
 import { cn } from "@/lib/utils";
+import { RollingButton } from "@/components/about/rolling-button";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* Which row of siteConfig.hours today falls in (Monday to Friday, Saturday, Sunday), or -1 until we know. "Today" is today in
-   Charleston (US Eastern time), not on the visitor's own clock, and it is read after the first paint so the server and the
+   Houston (US Central time), not on the visitor's own clock, and it is read after the first paint so the server and the
    browser always agree on what they render. */
 function todayRow(): number {
   const day = studioClock().day; // Monday is 0
@@ -138,8 +138,16 @@ export function ContactVisit() {
                 <p className="font-title text-[24px] font-normal leading-[1.2] sm:text-[27px]">{siteConfig.address}</p>
                 <p className="mt-1 font-sans text-[13px] font-normal tracking-[0.04em] text-ink/70">{siteConfig.city}</p>
                 <p className="mt-3 max-w-xs font-sans text-[13.5px] font-light leading-relaxed text-ink-muted">
-                  Classes, intro sessions and private appointments are by booking, so someone is always ready to welcome you.
+                  Classes are by booking, so someone is always ready to welcome you.
                 </p>
+                <a
+                  href={siteConfig.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex items-center gap-2 font-sans text-[11.5px] font-semibold uppercase tracking-[0.2em] text-rust transition-colors hover:text-spark"
+                >
+                  Get directions <ArrowUpRight size={14} strokeWidth={2.2} />
+                </a>
               </div>
             </address>
 
@@ -172,16 +180,9 @@ export function ContactVisit() {
               })}
             </ul>
 
-            <button
-              type="button"
-              onClick={() => requestTopic("intro")}
-              className="group mt-8 inline-flex w-full items-center justify-between whitespace-nowrap rounded-full bg-ink py-2.5 pl-6 pr-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white sm:pl-7 sm:text-[12px] sm:tracking-[0.2em]"
-            >
-              <span>Book an intro session</span>
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-ink transition-colors duration-500 group-hover:bg-spark group-hover:text-white">
-                <ArrowUpRight size={14} strokeWidth={2.2} />
-              </span>
-            </button>
+            <RollingButton href="/schedule" variant="dark" block className="mt-8">
+              Book a class
+            </RollingButton>
           </div>
         </div>
       </div>

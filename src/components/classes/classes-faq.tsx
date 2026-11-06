@@ -17,21 +17,21 @@ const questions: FaqItem[] = [
     number: "02",
     question: "I have never done Pilates. Where do I start?",
     answer:
-      "Begin with Reformer Foundations, or book an intro session so an instructor can meet you first. Either way you will be shown everything slowly, and nobody is expected to know the machine.",
+      "Begin with EVOA Form on the reformer, or EVOA Flow or Restore on the mat. Either way you will be shown everything slowly, and nobody is expected to know the machine.",
   },
   {
     id: "03",
     number: "03",
     question: "Can I take classes with an injury?",
     answer:
-      "Usually, yes. Tell us about injuries, surgery or anything recurring when you book and your instructor will adapt the class. For anything more involved, a private session is often the best place to begin.",
+      "Usually, yes. Tell us about injuries, surgery or anything recurring when you book and your instructor will adapt the class. For anything more involved, speak to us before you book and we will suggest the right class.",
   },
   {
     id: "04",
     number: "04",
-    question: "Is it safe during pregnancy?",
+    question: "What is the difference between mat and reformer?",
     answer:
-      "Prenatal & Postnatal is designed for every trimester on a curriculum reviewed by an obstetrician. Please check with your own care provider before you start, and tell us how far along you are when you book.",
+      "Mat classes use your own body and breath on the floor. Reformer classes add the machine, whose springs give resistance and support. Both follow the same philosophy, and many members take both.",
   },
   {
     id: "05",

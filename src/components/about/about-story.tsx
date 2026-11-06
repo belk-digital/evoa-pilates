@@ -10,26 +10,29 @@ export function AboutStory() {
           {/* Left: the headline holds its place while the story scrolls */}
           <div className="self-start lg:sticky lg:top-32 lg:col-span-5">
             <h2 className="font-display text-[38px] font-light leading-[1.08] tracking-normal text-ink sm:text-[50px] lg:text-[clamp(42px,4.2vw,64px)]">
-              A quieter way to get <span className="font-script">strong</span>
+              Strength with <span className="font-script">soul</span>
             </h2>
           </div>
 
           {/* Right: the story, then two photographs */}
           <div className="lg:col-span-7">
-            <p className="font-serif text-[24px] font-light leading-[1.32] text-ink sm:text-[30px] lg:text-[34px]">
-              EVOA began with a simple frustration: most studios teach you to push through your body, and almost none
-              teach you to listen to it.
+            <p className="font-serif text-[24px] font-normal leading-[1.32] text-ink sm:text-[30px] lg:text-[34px]">
+              Here, every movement has purpose. Every detail has meaning. And every experience is uniquely yours.
             </p>
 
             <div className="mt-8 flex max-w-xl flex-col gap-5 font-sans text-[15px] font-light leading-[1.8] text-ink-muted sm:mt-10 sm:text-[16px]">
               <p>
-                So we built the opposite. A private club of reformers and mats, eight at a time, where every sequence
-                begins with breath and ends with a clearer sense of where you are in space. No mirrors to perform for.
-                No music to hide behind. Just precise teaching, warm light and unhurried strength.
+                EVOA is the art of intentional movement that connects the body and soul. Mat and reformer classes, eight at
+                a time, where every sequence begins with breath and ends with a clearer sense of where you are in space. No
+                mirrors to perform for. No music to hide behind.
+              </p>
+              <p>
+                Through intentional Pilates practice, we bring together precision, fluidity and mindful movement to create
+                an experience that challenges the body while nurturing the soul. This is movement that goes beyond the
+                physical.
               </p>
               <p>
                 The name says it plainly. Evolution of Awareness: strength is what happens when attention comes first.
-                We keep the room small, the teaching close and the pace human, so the work you do here follows you home.
               </p>
               <p className="font-script text-[28px] leading-none text-rust sm:text-[32px]">The EVOA team</p>
             </div>

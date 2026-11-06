@@ -7,6 +7,7 @@ import { ArrowUpRight, Check } from "lucide-react";
 import { ClassArt } from "@/components/classes/class-art";
 import { PICK_TOPIC_EVENT, TOPIC_PARAM, isTopic, timeSlots, topics, type TopicId } from "@/components/contact/contact-data";
 import { cn } from "@/lib/utils";
+import { RollingButton } from "@/components/about/rolling-button";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -16,9 +17,9 @@ const fieldCls =
 
 /* The enquiry: choose what it is about on the left, write it on the right. The page is a flat, full-bleed sand band (no
    rounded corners), the same device as the other pages' one band. Frontend only: nothing is sent anywhere, it validates and
-   then shows a thank-you. /contact?topic=private (or intro, membership, other) opens with that topic chosen. */
+   then shows a thank-you. /contact?topic=pricing (or class, other) opens with that topic chosen. */
 export function ContactSection() {
-  const [topicId, setTopicId] = React.useState<TopicId>("intro");
+  const [topicId, setTopicId] = React.useState<TopicId>("class");
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [phone, setPhone] = React.useState("");
@@ -194,7 +195,7 @@ export function ContactSection() {
                         <Check size={12} strokeWidth={2.6} />
                       </span>
                       <span>
-                        I agree that Evoa may contact me about this message. See the{" "}
+                        I agree that EVOA may contact me about this message. See the{" "}
                         <Link href="/privacy-policy" className="underline decoration-ink/30 underline-offset-2 hover:decoration-ink">Privacy Policy</Link>.
                       </span>
                     </label>
@@ -202,12 +203,9 @@ export function ContactSection() {
                   </div>
 
                   <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
-                    <button type="submit" disabled={status === "sending"} className="group inline-flex w-full items-center justify-between gap-8 rounded-full bg-ink py-2.5 pl-7 pr-2.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-white transition-opacity disabled:opacity-70 sm:w-auto sm:min-w-[300px]">
-                      <span>{status === "sending" ? "Sending" : topic.cta}</span>
-                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-ink transition-colors duration-500 group-hover:bg-spark group-hover:text-white">
-                        <ArrowUpRight size={14} strokeWidth={2.2} />
-                      </span>
-                    </button>
+                    <RollingButton type="submit" variant="dark" block disabled={status === "sending"} className="sm:w-auto sm:min-w-[300px]">
+                      {status === "sending" ? "Sending" : topic.cta}
+                    </RollingButton>
                     <p className="font-script text-[20px] leading-none text-rust">we reply within one working day</p>
                   </div>
                 </motion.form>

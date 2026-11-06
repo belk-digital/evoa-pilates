@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LegalPage, type LegalSection } from "@/components/legal/legal-page";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "How Evoa Pilates collects, uses and protects your personal information, including the health details you share so we can teach you safely.",
+    "How EVOA collects, uses and protects your personal information, including the health details you share so we can teach you safely.",
 };
 
 const email = siteConfig.email;
@@ -17,10 +18,11 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>
-          Evoa Pilates (“Evoa”, “we”, “us”) is a private wellness club offering reformer and mat Pilates, recovery and
-          breathwork. We are responsible for the personal information described in this policy, which applies to our
-          website, our membership and booking, our newsletter and the studio itself.
+          EVOA (“EVOA”, “we”, “us”) is a Pilates studio offering mat and reformer classes in Houston, Texas. We are
+          responsible for the personal information described in this policy, which applies to our website, our
+          packages and booking, our newsletter and the studio itself.
         </p>
+        <p>This Privacy Policy applies to our website and our mobile app.</p>
         <p>
           If anything here is unclear, write to <a href={`mailto:${email}`}>{email}</a> and we will explain it in plain
           words.
@@ -40,8 +42,8 @@ const sections: LegalSection[] = [
             emergency contact.
           </li>
           <li>
-            <strong>Membership and bookings:</strong> the plan you choose, the classes and private sessions you book,
-            your attendance and cancellations, and preferences such as spring settings or preferred reformer.
+            <strong>Packages and bookings:</strong> the package you choose, the classes you book, your attendance and
+            cancellations, and preferences such as spring settings or preferred reformer.
           </li>
           <li>
             <strong>Payment details:</strong> handled by our payment provider. We receive confirmation of payment, the
@@ -100,6 +102,24 @@ const sections: LegalSection[] = [
           You can withdraw your consent or ask us to delete these details at any time. That will not affect classes you
           have already taken, but we may not be able to adapt a session to a condition we do not know about. Pilates is
           movement instruction, not medical care, and we do not diagnose or treat conditions.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "health-and-fitness-data",
+    title: "Health and Fitness Data",
+    content: (
+      <>
+        <p>
+          If you choose to enable Workout Metrics and grant permission through Health Connect on Android or Apple Health on
+          iOS, our app accesses health and fitness data, such as heart rate and calories burned, solely to display workout
+          metrics for your classes. This data is accessed and processed on your device. It is not transmitted to, stored,
+          or retained by us or our app provider. We do not sell this data, share it with third parties, or use it for
+          advertising. The uses and restrictions described in this section apply specifically to health and fitness data
+          accessed through this feature. You can revoke the app’s access at any time through the permissions settings in
+          Health Connect or Apple Health. Our use of information received from Health Connect complies with Google’s
+          applicable Health Connect permissions policy, including its Limited Use requirements.
         </p>
       </>
     ),
@@ -171,6 +191,24 @@ const sections: LegalSection[] = [
         <p>
           We send our newsletter and invitations only if you have opted in. Every email carries an unsubscribe link, or
           you can write to us. We will still send essential messages about your membership, bookings and the studio.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "text-messages",
+    title: "Text messages and mobile information",
+    content: (
+      <>
+        <p>
+          If you opt in to text messages, we use the mobile number you give us to send them. You can opt out at any time
+          by replying STOP to any message. The details are in the text message terms in our{" "}
+          <Link href="/terms-of-services">Terms of Service &amp; Waiver</Link>.
+        </p>
+        <p>
+          No mobile information will be shared with third parties/affiliates for marketing/promotional purposes. All other
+          categories exclude text messaging originator opt-in data and consent; this information will not be shared with
+          any third parties.
         </p>
       </>
     ),
@@ -284,7 +322,7 @@ const sections: LegalSection[] = [
       <>
         <p>
           For questions or requests about your information, email <a href={`mailto:${email}`}>{email}</a>, or write to
-          Evoa Pilates, {siteConfig.address}.
+          EVOA, {siteConfig.fullAddress}.
         </p>
       </>
     ),
@@ -296,10 +334,10 @@ export default function PrivacyPolicyPage() {
     <LegalPage
       title="Privacy Policy."
       noun="this policy"
-      updated="October 23, 2026"
+      updated="November 6, 2026"
       intro="What we collect, why we collect it, how we protect it, and the choices you have. We run the studio quietly and with care, and we treat your information the same way."
       sections={sections}
-      other={{ label: "Read the Terms of Services", href: "/terms-of-services" }}
+      other={{ label: "Read the Terms & Waiver", href: "/terms-of-services" }}
     />
   );
 }

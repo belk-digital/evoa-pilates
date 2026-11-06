@@ -2,18 +2,17 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUpRight, Check } from "lucide-react";
 import { MarginNote } from "@/components/ui/margin-note";
 import { ArtSvg, P } from "@/components/classes/class-art";
-import { compareRows, includedEverywhere, plans, requestPlan, type Cell, type Plan } from "@/components/membership/membership-data";
+import { byKind, money, packageById, perClassText, goToBuy, type Pkg } from "@/components/membership/membership-data";
 import { cn } from "@/lib/utils";
+import { RollingButton } from "@/components/about/rolling-button";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const money = (n: number) => n.toLocaleString("en-US");
-
-/* One, two or three nested arches rising from a ground line: the plan's level. The innermost is gold. */
+/* One, two or three nested arches rising from a ground line: the package's level. The innermost is gold. */
 function Emblem({ rings, dark }: { rings: 1 | 2 | 3; dark: boolean }) {
   const radii = [10, 19, 28].slice(0, rings);
   return (
@@ -36,19 +35,20 @@ function Emblem({ rings, dark }: { rings: 1 | 2 | 3; dark: boolean }) {
   );
 }
 
-/* Each plan is a doorway. They share one width and rise by a step as the plans go up, so the row reads as a skyline (the
-   same idea as the progression on the Classes page). Everything is bottom-aligned, so the buttons and lists line up across
-   the three even though the tops do not. Residence is deep olive, Atelier brushed gold. */
-const cardTone: Record<Plan["id"], string> = {
-  access: "bg-plaster text-ink",
-  residence: "bg-forest text-bone",
-  atelier: "bg-peach text-ink",
-};
+/* ---------------- monthly: three doorways that step up ---------------- */
 
-function PlanCard({ plan, yearly, index, href }: { plan: Plan; yearly: boolean; index: number; href?: string }) {
-  const price = yearly ? plan.yearly : plan.monthly;
-  const dark = plan.featured;
-  const gold = plan.id === "atelier";
+/* Each monthly package is a doorway. They share one width and rise by a step as the number of classes goes up, so the row reads
+   as a skyline (the same idea as the progression on the Classes page). Everything is bottom-aligned, so the buttons and lists line
+   up across the three even though the tops do not. The middle one is deep olive, the last brushed gold. */
+const cardTone = ["bg-plaster text-ink", "bg-forest text-bone", "bg-peach text-ink"];
+
+function MonthlyCard({ pkg, index, href }: { pkg: Pkg; index: number; href?: string }) {
+  const dark = index === 1;
+  const gold = index === 2;
+  const perks = [`${pkg.classes} reformer classes every month`, "Form, Define, Power and Lengthen", "Reserve your place on the schedule"];
+  // the deep olive card takes the white pill, the other two the ink one
+  const tone = dark ? "solid" : "dark";
+
   return (
     <motion.div
       initial="hidden"
@@ -57,9 +57,13 @@ function PlanCard({ plan, yearly, index, href }: { plan: Plan; yearly: boolean; 
       className="relative w-[82vw] max-w-[380px] shrink-0 snap-start sm:w-[46vw] lg:w-auto lg:max-w-none"
     >
       {index === 0 && (
-        <span className="absolute -top-[116px] left-[20%] hidden lg:block">
-          <MarginNote curl="down" tilt={-4}>
-            start small, change anytime
+        <span className="absolute -top-[146px] left-[8%] hidden lg:block">
+          {/* two lines, so it stays inside the first card's width and never reaches the taller arch beside it; the arrow
+              points on along the steps, as the note is about all three packages */}
+          <MarginNote curl="right" tilt={-4}>
+            the more you come,
+            <br />
+            the less each class costs
           </MarginNote>
         </span>
       )}
@@ -71,81 +75,41 @@ function PlanCard({ plan, yearly, index, href }: { plan: Plan; yearly: boolean; 
           show: { clipPath: "inset(0% 0 0 0)", transition: { duration: 1.1, delay: index * 0.12, ease: EASE } },
         }}
         style={{ paddingTop: `calc(3.25rem + var(--lift-step) * ${index})` }}
-        className={cn("flex flex-col rounded-b-[32px] rounded-t-[999px] px-7 pb-8 sm:px-8 lg:px-9", cardTone[plan.id])}
+        className={cn("flex flex-col rounded-b-[32px] rounded-t-[999px] px-7 pb-8 sm:px-8 lg:px-9", cardTone[index])}
       >
         <div className="flex justify-center">
-          <Emblem rings={plan.rings} dark={dark} />
+          <Emblem rings={(index + 1) as 1 | 2 | 3} dark={dark} />
         </div>
 
-        <h3 className="mt-5 text-center font-display text-[44px] font-light leading-none tracking-normal sm:text-[52px]">{plan.name}</h3>
-        <div className="mt-3 flex min-h-[1.75rem] justify-center">
-          {plan.featured && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 font-sans text-[10px] font-medium uppercase tracking-[0.18em] text-bone">
-              <span className="h-1.5 w-1.5 rounded-full bg-spark-bright" />
-              Most chosen
-            </span>
-          )}
+        <p className={cn("mt-4 text-center font-script text-[22px] leading-none", dark ? "text-spark-bright" : "text-rust")}>Reformer</p>
+        <h3 className="mt-2 text-center font-display text-[40px] font-normal leading-none tracking-normal sm:text-[46px]">{pkg.name}</h3>
+        <div className="mt-4 flex justify-center">
+          <span className={cn("rounded-full px-3.5 py-1.5 font-sans text-[12px] font-light", dark ? "bg-white/10 text-bone" : "bg-ink/[0.06] text-ink/80")}>{pkg.best}</span>
         </div>
-        <p className={cn("mx-auto mt-2 min-h-[3.2em] max-w-[19rem] text-center font-sans text-[14.5px] font-light leading-relaxed", dark ? "text-white/70" : "text-ink/70")}>{plan.line}</p>
 
         <div className="mt-7 flex items-end justify-center gap-2">
-          <span className="pb-1.5 font-display text-[30px] font-light leading-none">$</span>
-          <span className="relative inline-flex font-display text-[72px] font-light leading-[0.9] tracking-normal sm:text-[80px]">
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.span
-                key={price}
-                initial={{ y: "55%", opacity: 0 }}
-                animate={{ y: "0%", opacity: 1 }}
-                exit={{ y: "-55%", opacity: 0 }}
-                transition={{ type: "spring", stiffness: 420, damping: 22 }}
-                className="inline-block"
-              >
-                {price}
-              </motion.span>
-            </AnimatePresence>
-          </span>
+          <span className="pb-1.5 font-display text-[28px] leading-none">$</span>
+          <span className="font-display text-[68px] font-normal leading-[0.9] tracking-normal sm:text-[76px]">{pkg.price}</span>
           <span className={cn("pb-2 font-sans text-[11px] font-medium uppercase leading-[1.3] tracking-[0.18em]", dark ? "text-white/60" : "text-ink/60")}>
             a<br />month
           </span>
         </div>
-        <p className={cn("mt-2 text-center font-sans text-[12.5px] font-light", dark ? "text-white/60" : "text-ink/65")}>
-          {yearly ? `Billed yearly, $${money(plan.yearly * 12)} a year` : "Billed monthly, cancel with 30 days notice"}
-        </p>
+        <p className={cn("mt-2 text-center font-sans text-[13px] font-light", dark ? "text-white/65" : "text-ink/70")}>{perClassText(pkg)}</p>
 
-        {(() => {
-          const cls = cn(
-            "group mt-7 inline-flex w-full items-center justify-between rounded-full py-2.5 pl-7 pr-2.5 text-[12px] font-semibold uppercase tracking-[0.2em]",
-            dark ? "bg-white text-ink" : "bg-ink text-white"
-          );
-          const inner = (
-            <>
-              <span>{plan.cta}</span>
-              <span
-                className={cn(
-                  "flex h-9 w-9 items-center justify-center rounded-full transition-colors duration-500 group-hover:bg-spark group-hover:text-white",
-                  dark ? "bg-ink text-white" : "bg-white text-ink"
-                )}
-              >
-                <ArrowUpRight size={14} strokeWidth={2.2} />
-              </span>
-            </>
-          );
-          return href ? (
-            <Link href={href} className={cls}>
-              {inner}
-            </Link>
-          ) : (
-            <button type="button" onClick={() => requestPlan(plan.id)} className={cls}>
-              {inner}
-            </button>
-          );
-        })()}
+        {href ? (
+          <RollingButton href={href} variant={tone} block className="mt-7">
+            Buy now
+          </RollingButton>
+        ) : (
+          <RollingButton variant={tone} block className="mt-7" onClick={goToBuy}>
+            Buy now
+          </RollingButton>
+        )}
 
         <div className={cn("mt-8 border-t pt-6", dark ? "border-white/10" : gold ? "border-ink/15" : "border-ink/10")}>
-          <p className={cn("font-script text-[22px] leading-none", dark ? "text-spark-bright" : "text-rust")}>Best for</p>
-          <p className="mt-2 font-title text-[22px] font-normal leading-[1.15]">{plan.best}</p>
-          <ul className="mt-5 flex flex-col gap-3">
-            {plan.perks.map((perk) => (
+          <p className={cn("font-script text-[22px] leading-none", dark ? "text-spark-bright" : "text-rust")}>Included</p>
+          <ul className="mt-4 flex flex-col gap-3">
+            {perks.map((perk) => (
               <li key={perk} className={cn("flex items-start gap-3 font-sans text-[13.5px] font-light leading-snug", dark ? "text-white/80" : "text-ink/80")}>
                 <span className={cn("mt-[1px] flex h-5 w-5 shrink-0 items-center justify-center rounded-full", dark ? "bg-spark-bright/20 text-spark-bright" : gold ? "bg-forest/15 text-forest" : "bg-terracotta/25 text-rust")}>
                   <Check size={11} strokeWidth={2.6} />
@@ -160,51 +124,29 @@ function PlanCard({ plan, yearly, index, href }: { plan: Plan; yearly: boolean; 
   );
 }
 
-/* On the Membership page the plan buttons choose a plan in the request form further down. With `toMembershipPage` (the homepage)
-   they link to that page instead, with the plan already chosen, and a link below the cards leads to the full comparison. */
-export function MembershipPlans({ toMembershipPage = false }: { toMembershipPage?: boolean }) {
-  const [yearly, setYearly] = React.useState(false);
-
+/* On the Membership page the buttons scroll to the buy section further down. With `toMembershipPage` (the homepage)
+   they link to that section of the Membership page instead, and a link below the cards leads to every option. */
+export function MembershipMonthly({ toMembershipPage = false }: { toMembershipPage?: boolean }) {
+  const monthly = byKind("monthly");
   return (
     <section id="plans" data-header-theme="light" className="relative w-full scroll-mt-4 overflow-x-clip bg-mint pb-16 text-ink lg:pb-24">
       <div className="flex w-full flex-col justify-between gap-6 px-6 pb-10 sm:px-10 sm:pb-14 md:px-14 lg:flex-row lg:items-end lg:px-20">
-        <h2 className="font-display text-[40px] font-light leading-[1.1] tracking-normal sm:text-[54px] lg:text-[68px]">Choose your plan</h2>
-
-        {/* billing: the white pill springs between the options */}
-        <div className="flex flex-col items-start gap-2 lg:items-end">
-          <div className="inline-flex select-none items-center rounded-full border border-sage bg-mint-deep p-1">
-            {([
-              [false, "Pay monthly"],
-              [true, "Pay yearly"],
-            ] as const).map(([value, label]) => (
-              <button
-                key={label}
-                type="button"
-                aria-pressed={yearly === value}
-                onClick={() => setYearly(value)}
-                className={cn("relative rounded-full px-5 py-2 font-sans text-[12px] font-medium transition-colors duration-300", yearly === value ? "text-ink" : "text-deep-green hover:text-ink")}
-              >
-                {yearly === value && (
-                  <motion.span layoutId="membership-billing-pill" transition={{ type: "spring", stiffness: 520, damping: 17, mass: 0.9 }} className="absolute inset-0 rounded-full bg-white shadow-[0_1px_3px_rgba(35,43,27,0.12)]" />
-                )}
-                <span className="relative z-10">{label}</span>
-              </button>
-            ))}
-          </div>
-          <p className="font-sans text-[12px] font-light text-ink/65">Pay yearly and save around 15%.</p>
-        </div>
+        <h2 className="font-display text-[40px] font-normal leading-[1.1] tracking-normal sm:text-[54px] lg:text-[68px]">Choose your access</h2>
+        <p className="max-w-sm font-sans text-[15px] font-light leading-relaxed text-ink-muted sm:text-[16.5px]">
+          Monthly reformer packages. Choose the rhythm that suits your week, and change it whenever your week changes.
+        </p>
       </div>
 
       <div className="hide-scrollbar flex w-full snap-x snap-mandatory scroll-pl-3 items-end gap-3 overflow-x-auto overflow-y-hidden px-3 pt-4 [--lift-step:30px] sm:scroll-pl-6 sm:gap-4 sm:px-6 sm:[--lift-step:44px] lg:grid lg:snap-none lg:grid-cols-3 lg:items-end lg:gap-5 lg:overflow-visible lg:px-10 lg:pt-32 lg:[--lift-step:64px]">
-        {plans.map((plan, i) => (
-          <PlanCard key={plan.id} plan={plan} yearly={yearly} index={i} href={toMembershipPage ? `/pricing?plan=${plan.id}#request` : undefined} />
+        {monthly.map((pkg, i) => (
+          <MonthlyCard key={pkg.id} pkg={pkg} index={i} href={toMembershipPage ? `/pricing#buy` : undefined} />
         ))}
       </div>
 
       {toMembershipPage && (
         <div className="mt-12 flex justify-center px-6">
-          <Link href="/pricing#plans" className="group inline-flex items-center gap-2 font-sans text-[11.5px] font-semibold uppercase tracking-[0.2em] text-rust transition-colors hover:text-spark">
-            Compare the plans side by side <ArrowUpRight size={14} strokeWidth={2.2} />
+          <Link href="/pricing" className="group inline-flex items-center gap-2 font-sans text-[11.5px] font-semibold uppercase tracking-[0.2em] text-rust transition-colors hover:text-spark">
+            See unlimited, class packs and drop-ins <ArrowUpRight size={14} strokeWidth={2.2} />
           </Link>
         </div>
       )}
@@ -212,158 +154,211 @@ export function MembershipPlans({ toMembershipPage = false }: { toMembershipPage
   );
 }
 
-/* ---------------- compare ---------------- */
+/* ---------------- unlimited: a dark panel with two options ---------------- */
 
-const capsuleV = { hidden: { scaleY: 0, opacity: 0 }, show: { scaleY: 1, opacity: 1, transition: { duration: 1.1, ease: EASE } } };
-const popV = {
-  hidden: { scale: 0, opacity: 0 },
-  show: (i: number) => ({ scale: 1, opacity: 1, transition: { type: "spring" as const, stiffness: 300, damping: 16, delay: 0.7 + i * 0.05 } }),
-};
-const textV = { hidden: { opacity: 0 }, show: (i: number) => ({ opacity: 1, transition: { duration: 0.6, delay: 0.6 + i * 0.05 } }) };
+const rise = { hidden: { scaleY: 0, opacity: 0 }, show: { scaleY: 1, opacity: 1, transition: { duration: 1, ease: EASE } } };
+const pop = { hidden: { scale: 0, opacity: 0 }, show: { scale: 1, opacity: 1, transition: { type: "spring" as const, stiffness: 150, damping: 12 } } };
+const fromBase = { transformOrigin: "50% 100%" } as const;
 
-/* One value: a filled gold dot with a tick, a soft empty ring, or the words. On the dark column the colours flip. */
-function Mark({ value, dark, i }: { value: Cell; dark: boolean; i: number }) {
-  if (value === true) {
-    return (
-      <motion.span variants={popV} custom={i} className={cn("flex h-7 w-7 items-center justify-center rounded-full text-forest", dark ? "bg-spark-bright" : "bg-terracotta")}>
-        <Check size={14} strokeWidth={2.6} />
-        <span className="sr-only">Included</span>
-      </motion.span>
-    );
-  }
-  if (value === false) {
-    return (
-      <span className="flex h-7 items-center justify-center">
-        <span aria-hidden className={cn("h-2 w-2 rounded-full border", dark ? "border-white/30" : "border-ink/30")} />
-        <span className="sr-only">Not included</span>
-      </span>
-    );
-  }
+export function MembershipUnlimited() {
+  const options = byKind("unlimited");
   return (
-    <motion.span variants={textV} custom={i} className={cn("font-sans text-[14px] font-normal", dark ? "text-bone" : "text-ink")}>
-      {value}
-    </motion.span>
+    <section id="unlimited" data-header-theme="dark" className="relative w-full scroll-mt-4 bg-mint px-3 pb-3 sm:px-6 lg:px-10">
+      <div className="relative isolate overflow-hidden rounded-[36px] bg-forest px-6 py-14 text-bone sm:rounded-[48px] sm:px-10 sm:py-20 lg:rounded-[64px] lg:px-16 lg:py-24">
+        <div className="mx-auto grid w-full max-w-[1200px] items-center gap-12 lg:grid-cols-12 lg:gap-14">
+          <div className="lg:col-span-5">
+            <h2 className="font-display text-[44px] font-normal leading-[1.06] tracking-normal text-bone sm:text-[58px] lg:text-[clamp(52px,5.4vw,84px)]">Unlimited</h2>
+            <p className="mt-6 max-w-md font-sans text-[15px] font-light leading-relaxed text-white/70 sm:text-[16.5px]">
+              For a daily practice. Book as often as you like, and the more you come, the lower the price of each class.
+            </p>
+
+            {/* arches and a sun, built layer by layer */}
+            <motion.div
+              aria-hidden="true"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.35 }}
+              variants={{ hidden: {}, show: { transition: { staggerChildren: 0.2, delayChildren: 0.2 } } }}
+              className="relative mt-10 hidden h-[220px] w-full max-w-[360px] lg:block"
+            >
+              <motion.div variants={rise} style={fromBase} className="absolute bottom-0 left-[4%] h-[86%] w-[38%] rounded-t-full bg-plaster" />
+              <motion.div variants={rise} style={fromBase} className="absolute bottom-0 left-[11%] h-[60%] w-[24%] rounded-t-full bg-terracotta" />
+              <motion.div variants={rise} style={fromBase} className="absolute bottom-0 left-[46%] h-[44%] w-[32%] rounded-t-full bg-sage" />
+              <motion.div variants={pop} className="absolute right-[6%] top-0 h-[56%] w-[26%] rounded-full bg-peach" />
+            </motion.div>
+          </div>
+
+          <div className="flex flex-col gap-4 lg:col-span-7">
+            {options.map((pkg) => (
+              <div key={pkg.id} className="flex flex-col gap-6 rounded-[28px] border border-white/12 bg-white/[0.05] p-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:rounded-[36px] sm:p-8">
+                <div className="min-w-0">
+                  <h3 className="font-title text-[30px] font-normal leading-[1.05] tracking-[-0.01em] sm:text-[36px]">
+                    {/* the serif's "+" loses its thin horizontal stroke on screen, so it is set in the sans */}
+                    {pkg.name.split(" + ").map((part, i) => (
+                      <React.Fragment key={part}>
+                        {i > 0 && <span className="mx-[0.28em] font-sans text-[0.62em] font-light align-[0.12em]">+</span>}
+                        {part}
+                      </React.Fragment>
+                    ))}
+                  </h3>
+                  <p className="mt-2 max-w-xs font-sans text-[13.5px] font-light leading-relaxed text-white/65">
+                    {pkg.discipline === "mat"
+                      ? "Every mat class: Sculpt, Flow, Ignite and Restore."
+                      : "Every class: all four on the mat and all four on the reformer."}
+                  </p>
+                </div>
+                <div className="flex items-center justify-between gap-6 sm:shrink-0 sm:flex-col sm:items-end sm:gap-4">
+                  <p className="whitespace-nowrap font-display leading-none">
+                    <span className="text-[56px] sm:text-[64px]">{money(pkg.price)}</span>
+                    <span className="ml-2 font-sans text-[11px] font-medium uppercase tracking-[0.18em] text-white/55">a month</span>
+                  </p>
+                  <RollingButton variant="solid" onClick={goToBuy}>
+                    Buy now
+                  </RollingButton>
+                </div>
+              </div>
+            ))}
+            <p className="mt-1 font-script text-[22px] leading-none text-spark-bright">priced by use: each class costs less the more you come</p>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
-/* The comparison. The three things every plan includes sit in a strip above, so the table shows only what changes. On wide
-   screens Residence stands as a tall dark arch with the other two beside it; on phones each row stacks and the three
-   values sit side by side under the feature, Residence's on a dark pill. */
-export function MembershipCompare() {
-  const n = compareRows.length;
-  return (
-    <section data-header-theme="light" className="relative w-full bg-mint text-ink">
-      {/* a flat, full-bleed band: no rounded corners, so it reads differently from the panels on the other pages */}
-      <div className="bg-plaster px-6 py-16 sm:px-10 sm:py-24 lg:px-16 lg:py-28">
-        <div className="mx-auto w-full max-w-[1100px]">
-          <h2 className="font-title text-[36px] font-normal leading-[1.1] tracking-[-0.01em] sm:text-[46px]">Side by side</h2>
+/* ---------------- packs and single classes: a flat sand band ---------------- */
 
-          {/* in every plan */}
-          <div className="mt-8 flex flex-col gap-4 border-y border-ink/10 py-5 sm:mt-10 lg:flex-row lg:items-center lg:gap-8">
-            <p className="font-script text-[22px] leading-none text-rust">In every plan</p>
-            <ul className="flex flex-wrap gap-x-7 gap-y-3">
-              {includedEverywhere.map((item) => (
-                <li key={item} className="flex items-center gap-2.5 font-sans text-[14px] font-light text-ink/85">
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-terracotta text-forest">
-                    <Check size={11} strokeWidth={2.6} />
-                  </span>
-                  {item}
+/* One line in a list: what you get on the left, what it costs on the right. The whole line chooses it. */
+function PriceLine({ pkg, label }: { pkg: Pkg; label: string }) {
+  return (
+    <li>
+      <button
+        type="button"
+        onClick={goToBuy}
+        className="group grid w-full grid-cols-[1fr_auto_auto] items-center gap-4 border-b border-ink/10 py-4 text-left transition-colors first:border-t hover:border-ink/25"
+      >
+        <span className="min-w-0">
+          <span className="block font-title text-[24px] font-normal leading-[1.1] tracking-[-0.01em] sm:text-[26px]">{label}</span>
+          <span className="mt-1 block font-sans text-[12.5px] font-light text-ink/65">{perClassText(pkg)}</span>
+        </span>
+        <span className="font-display text-[34px] font-normal leading-none sm:text-[40px]">{money(pkg.price)}</span>
+        <span className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink transition-colors duration-300 group-hover:border-ink group-hover:bg-ink group-hover:text-white">
+          <ArrowUpRight size={14} strokeWidth={2} />
+        </span>
+      </button>
+    </li>
+  );
+}
+
+export function MembershipPacks() {
+  const packs = byKind("pack");
+  const dropins = byKind("dropin");
+  return (
+    <section id="packs" data-header-theme="light" className="relative w-full scroll-mt-4 bg-mint text-ink">
+      {/* a flat, full-bleed band: no rounded corners, so it reads differently from the panels around it */}
+      <div className="mt-3 bg-plaster px-6 py-16 sm:mt-6 sm:px-10 sm:py-24 lg:mt-10 lg:px-16 lg:py-28">
+        <div className="mx-auto grid w-full max-w-[1200px] gap-16 lg:grid-cols-12 lg:gap-14">
+          {/* packs */}
+          <div className="lg:col-span-7">
+            <h2 className="font-title text-[36px] font-normal leading-[1.1] tracking-[-0.01em] sm:text-[46px]">Class packs</h2>
+            <p className="mt-3 max-w-md font-sans text-[14.5px] font-light leading-relaxed text-ink-muted">Buy a few classes and use them as your week allows. The larger the pack, the lower the price of each class.</p>
+            <div className="mt-8 grid gap-10 sm:grid-cols-2 sm:gap-8">
+              {(["mat", "reformer"] as const).map((discipline) => (
+                <div key={discipline}>
+                  <p className="font-script text-[26px] leading-none text-rust">{discipline === "mat" ? "Mat" : "Reformer"}</p>
+                  <ul className="mt-4">
+                    {packs
+                      .filter((p) => p.discipline === discipline)
+                      .map((pkg) => (
+                        <PriceLine key={pkg.id} pkg={pkg} label={`${pkg.classes} classes`} />
+                      ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* a single class, as two small doorways */}
+          <div className="lg:col-span-5">
+            <h2 className="font-title text-[36px] font-normal leading-[1.1] tracking-[-0.01em] sm:text-[46px]">Single class</h2>
+            <p className="mt-3 max-w-sm font-sans text-[14.5px] font-light leading-relaxed text-ink-muted">Pay for the class you take, nothing more. A good way to find the one that suits you.</p>
+            <ul className="mt-8 grid grid-cols-2 gap-3 sm:gap-4">
+              {dropins.map((pkg, i) => (
+                <li key={pkg.id}>
+                  <button
+                    type="button"
+                    onClick={goToBuy}
+                    className={cn(
+                      "group flex w-full flex-col items-center rounded-b-[24px] rounded-t-[999px] px-3 pb-6 pt-12 text-center transition-colors duration-300 sm:pt-16",
+                      i === 0 ? "bg-white/60 text-ink hover:bg-white" : "bg-forest text-bone hover:bg-deep-green"
+                    )}
+                  >
+                    <span className={cn("font-script text-[24px] leading-none", i === 0 ? "text-rust" : "text-spark-bright")}>{pkg.discipline === "mat" ? "Mat" : "Reformer"}</span>
+                    <span className="mt-3 font-display text-[52px] font-normal leading-none sm:text-[64px]">{money(pkg.price)}</span>
+                    <span className={cn("mt-2 font-sans text-[12px] font-light", i === 0 ? "text-ink/65" : "text-white/65")}>a class</span>
+                    <span className={cn("mt-5 inline-flex items-center gap-1.5 font-sans text-[10.5px] font-semibold uppercase tracking-[0.18em]", i === 0 ? "text-rust" : "text-spark-bright")}>
+                      Choose <ArrowUpRight size={12} strokeWidth={2.2} />
+                    </span>
+                  </button>
                 </li>
               ))}
             </ul>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-          {/* wide screens: a grid where the Residence column is a dark arch */}
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-            className="relative mt-10 hidden md:grid md:grid-cols-[1.5fr_1fr_1.2fr_1fr]"
-            style={{ gridTemplateRows: `170px repeat(${n}, minmax(60px, auto)) 100px` }}
-          >
-            <motion.div
-              aria-hidden
-              variants={capsuleV}
-              style={{ gridColumn: 3, gridRow: `1 / span ${n + 2}`, transformOrigin: "50% 100%" }}
-              className="rounded-b-[36px] rounded-t-[999px] bg-forest"
-            />
+/* ---------------- value: what each class costs ---------------- */
 
-            {/* heads */}
-            <div style={{ gridColumn: 1, gridRow: 1 }} />
-            {plans.map((p, c) => (
-              <div key={p.id} style={{ gridColumn: c + 2, gridRow: 1 }} className={cn("relative z-10 flex flex-col items-center justify-end gap-2 px-4 pb-6 text-center", p.featured ? "text-bone" : "text-ink")}>
-                {p.featured && (
-                  <span className="rounded-full bg-white/10 px-3 py-1 font-sans text-[9.5px] font-medium uppercase tracking-[0.16em] text-bone">Most chosen</span>
-                )}
-                <span className="font-title text-[30px] font-normal leading-none tracking-[-0.01em]">{p.name}</span>
-                <span className={cn("font-sans text-[12.5px] font-light", p.featured ? "text-white/60" : "text-ink/60")}>${p.monthly} a month</span>
-              </div>
-            ))}
+const barLabel = (p: Pkg) => (p.kind === "dropin" ? "Drop-in" : p.kind === "pack" ? `${p.classes} classes` : `${p.classes} a month`);
 
-            {/* rows */}
-            {compareRows.map((row, r) => (
-              <React.Fragment key={row.label}>
-                <div style={{ gridColumn: 1, gridRow: r + 2 }} className="flex items-center border-t border-ink/10 py-4 pr-4 font-sans text-[14.5px] font-normal text-ink">
-                  {row.label}
-                </div>
-                {row.values.map((value, c) => (
-                  <div
-                    key={plans[c].id}
-                    style={{ gridColumn: c + 2, gridRow: r + 2 }}
-                    className={cn("relative z-10 flex items-center justify-center px-4 py-4", plans[c].featured ? "border-t border-white/10" : "border-t border-ink/10")}
-                  >
-                    <Mark value={value} dark={plans[c].featured} i={r * 3 + c} />
-                  </div>
-                ))}
-              </React.Fragment>
-            ))}
+function Bars({ title, items, max }: { title: string; items: Pkg[]; max: number }) {
+  const lowest = Math.min(...items.map((i) => i.perClass ?? Infinity));
+  return (
+    <div>
+      <p className="font-script text-[26px] leading-none text-rust">{title}</p>
+      <ul className="mt-6 flex flex-col gap-4">
+        {items.map((p, i) => (
+          <li key={p.id} className="grid grid-cols-[6.5rem_1fr_auto] items-center gap-3 sm:grid-cols-[7.5rem_1fr_auto] sm:gap-4">
+            <span className="font-sans text-[13px] font-light text-ink/80">{barLabel(p)}</span>
+            <span className="h-3.5 overflow-hidden rounded-full bg-ink/[0.07]">
+              <motion.span
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true, amount: 0.8 }}
+                transition={{ duration: 1, delay: 0.1 + i * 0.08, ease: EASE }}
+                className="block h-full origin-left rounded-full"
+                style={{ width: `${((p.perClass ?? 0) / max) * 100}%`, backgroundColor: p.perClass === lowest ? "#c4a96a" : "#8fa08a" }}
+              />
+            </span>
+            <span className={cn("w-[3.6rem] text-right font-title text-[20px] leading-none sm:text-[22px]", p.perClass === lowest ? "text-rust" : "text-ink")}>{money(p.perClass ?? 0)}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
-            {/* choose */}
-            <div style={{ gridColumn: 1, gridRow: n + 2 }} className="border-t border-ink/10" />
-            {plans.map((p, c) => (
-              <div key={p.id} style={{ gridColumn: c + 2, gridRow: n + 2 }} className={cn("relative z-10 flex items-center justify-center px-4", p.featured ? "border-t border-white/10" : "border-t border-ink/10")}>
-                <button
-                  type="button"
-                  onClick={() => requestPlan(p.id)}
-                  className={cn(
-                    "whitespace-nowrap rounded-full px-5 py-2.5 font-sans text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors duration-300",
-                    p.featured ? "bg-white text-ink hover:bg-spark-bright" : "border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-white"
-                  )}
-                >
-                  Choose<span className="hidden lg:inline">&nbsp;{p.name}</span>
-                </button>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* phones: each row stacks, the three values side by side, Residence on a dark pill */}
-          <div className="mt-8 md:hidden">
-            {compareRows.map((row) => (
-              <div key={row.label} className="border-t border-ink/10 py-4 last:border-b">
-                <p className="font-sans text-[14.5px] font-normal text-ink">{row.label}</p>
-                <div className="mt-3 grid grid-cols-3 gap-2">
-                  {row.values.map((value, c) => (
-                    <div key={plans[c].id} className={cn("flex min-h-[64px] flex-col items-center justify-center gap-1.5 rounded-2xl px-2 py-3 text-center", plans[c].featured ? "bg-forest" : "bg-ink/[0.04]")}>
-                      <span className={cn("font-sans text-[9.5px] font-medium uppercase tracking-[0.16em]", plans[c].featured ? "text-white/55" : "text-ink/50")}>{plans[c].name}</span>
-                      {value === true ? (
-                        <span className={cn("flex h-6 w-6 items-center justify-center rounded-full text-forest", plans[c].featured ? "bg-spark-bright" : "bg-terracotta")}>
-                          <Check size={13} strokeWidth={2.6} />
-                          <span className="sr-only">Included</span>
-                        </span>
-                      ) : value === false ? (
-                        <span className="flex h-6 items-center">
-                          <span aria-hidden className={cn("h-2 w-2 rounded-full border", plans[c].featured ? "border-white/30" : "border-ink/30")} />
-                          <span className="sr-only">Not included</span>
-                        </span>
-                      ) : (
-                        <span className={cn("font-sans text-[13px] font-normal", plans[c].featured ? "text-bone" : "text-ink")}>{value}</span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+/* The price of one class in every package, as bars on one shared scale. The lowest in each discipline is gold. */
+export function MembershipValue() {
+  const fixed = (ids: string[]) => ids.map((id) => packageById(id)!).sort((a, b) => (b.perClass ?? 0) - (a.perClass ?? 0));
+  const mat = fixed(["dropin-mat", "pack-mat-5", "pack-mat-10"]);
+  const reformer = fixed(["dropin-reformer", "pack-reformer-5", "pack-reformer-10", "monthly-4", "monthly-8", "monthly-12"]);
+  const max = Math.max(...[...mat, ...reformer].map((p) => p.perClass ?? 0));
+  return (
+    <section data-header-theme="light" className="relative w-full overflow-x-clip bg-mint px-6 py-20 text-ink sm:px-10 sm:py-28 md:px-14 lg:px-20 lg:py-36">
+      <div className="mx-auto w-full max-w-[1100px]">
+        <h2 className="max-w-3xl font-display text-[32px] font-normal leading-[1.15] tracking-normal sm:text-[44px] lg:text-[clamp(40px,3.8vw,56px)]">
+          The more you come, the less each class costs.
+        </h2>
+        <p className="mt-5 max-w-lg font-sans text-[15px] font-light leading-relaxed text-ink-muted sm:text-[16.5px]">
+          The price of one class in every package, on one scale. Unlimited is priced by use, so it falls further the more you book.
+        </p>
+        <div className="mt-12 grid gap-14 md:grid-cols-2 md:gap-16">
+          <Bars title="Mat" items={mat} max={max} />
+          <Bars title="Reformer" items={reformer} max={max} />
         </div>
       </div>
     </section>

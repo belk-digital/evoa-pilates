@@ -38,7 +38,7 @@ export function PhilosophyStatement() {
             {...wipeProps}
             className="font-display text-[36px] sm:text-[48px] md:text-[58px] lg:text-[66px] text-ink tracking-normal leading-[1.1]"
           >
-            <SparkText>The Philosophy</SparkText>
+            <SparkText>The EVOA Philosophy</SparkText>
           </motion.h2>
         </div>
 
@@ -92,7 +92,7 @@ export function PhilosophyStatement() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={encodeURI("/assets/Sunlit Laughter on the Terrazzo Floor.webp")}
-                alt="A member laughing on the terrazzo floor of the Evoa studio, sage tile wall and warm sconce behind her"
+                alt="A member laughing on the terrazzo floor of the EVOA studio, sage tile wall and warm sconce behind her"
                 className="w-full h-full object-cover object-top transition-transform duration-500 ease-out"
               />
             </div>
@@ -186,16 +186,16 @@ export function PhilosophyStatement() {
 
             <div className="flex flex-col gap-3 sm:gap-5 relative z-10 text-left">
               <h3 className="font-serif font-light text-[18px] min-[360px]:text-[20px] min-[420px]:text-[23px] sm:text-[30px] md:text-[36px] lg:text-[38px] leading-[1.22] text-ink tracking-tight">
-                We do not train the body to perform.{" "}
+                The art of moving with intention.{" "}
                 <span className="font-script text-rust font-normal tracking-normal leading-[1.2] block mt-1 sm:mt-1.5">
-                  We guide it back into alignment.
+                  True strength begins with connection.
                 </span>
               </h3>
 
               <div className="w-8 sm:w-12 h-px bg-terracotta/40 my-1 sm:my-2" />
 
               <p className="font-sans font-light text-[12px] min-[360px]:text-[13px] sm:text-[15px] md:text-[16px] leading-[1.58] sm:leading-[1.68] text-ink-muted">
-                EVOA is a structured environment where movement becomes architecture for internal clarity.
+                Connection to your body. Awareness of your movement. Confidence in your strength.
               </p>
             </div>
           </motion.div>

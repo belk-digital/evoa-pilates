@@ -4,7 +4,7 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-type Curl = "down-left" | "down-right" | "down" | "up" | "left" | "none";
+type Curl = "down-left" | "down-right" | "down" | "up" | "left" | "right" | "none";
 
 /* Where the little hand-drawn arrow goes, as a path on a 44 x 36 sheet. It leaves the end of the words and bends toward
    what they point at. */
@@ -14,6 +14,8 @@ const arrows: Record<Exclude<Curl, "none">, { d: string; head: string; className
   down: { d: "M22 2C18 12 26 22 22 31", head: "M15 25 22 33 29 25", className: "mt-1 ml-3" },
   up: { d: "M22 34C26 24 18 14 22 5", head: "M15 12 22 4 29 12", className: "mb-1 ml-3" },
   left: { d: "M40 8C32 4 18 4 5 14", head: "M6 6 4.5 15 13 17.5", className: "-mt-1 -ml-7" },
+  // under the end of the words, bending away to the right (toward what comes next along a row)
+  right: { d: "M4 6C14 3 28 5 40 15", head: "M37.6 6.3 40 15 31 14.3", className: "mt-1 self-end" },
 };
 
 /* A line of handwriting in the margin: Cormorant italic in the deep gold-brown, set a few degrees off true, with an arrow

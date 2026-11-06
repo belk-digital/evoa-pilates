@@ -33,7 +33,7 @@ export function Footer() {
             <BrandLogo tone="dark" className="mb-7 h-[56px] shrink-0 self-start sm:mb-8 sm:h-[64px]" />
 
             <p className="font-sans font-light text-[14px] sm:text-[15px] md:text-[16px] leading-[1.65] text-white/70 max-w-md">
-              We offer mindful reformer and classical mat Pilates designed for posture, longevity, and deep core strength. A quiet sanctuary for intentional movement.
+              Mat and reformer Pilates for body, mind and soul. Movement with intention, strength with soul.
             </p>
 
             {/* Seamless Newsletter Subscription Field */}
@@ -84,6 +84,7 @@ export function Footer() {
                   { label: "Membership", href: "/pricing" },
                   { label: "About Us", href: "/about" },
                   { label: "Contact", href: "/contact" },
+                  { label: "My Account", href: "/account" },
                 ].map((link) => (
                   <Link
                     key={link.label}
@@ -128,7 +129,7 @@ export function Footer() {
               <nav className="flex flex-col gap-2 sm:gap-2.5">
                 {[
                   { label: "Privacy Policy", href: "/privacy-policy" },
-                  { label: "Terms of Services", href: "/terms-of-services" },
+                  { label: "Terms of Service & Waiver", href: "/terms-of-services" },
                 ].map((link) => (
                   <Link
                     key={link.label}
@@ -159,15 +160,20 @@ export function Footer() {
             </span>
             <div className="flex flex-col gap-1 font-sans font-light text-[12.5px] sm:text-[13.5px] text-white/60 leading-relaxed">
               <p>{siteConfig.address}</p>
+              <p>{siteConfig.city}</p>
             </div>
             <div className="flex flex-col gap-1 font-sans font-light text-[12.5px] sm:text-[13.5px] text-white/60 pt-1 sm:pt-1.5">
               <a href={`mailto:${siteConfig.email}`} className="hover:text-white transition-colors w-fit">
                 {siteConfig.email}
               </a>
-              <span>{siteConfig.phone}</span>
+              {/\d/.test(siteConfig.phone) && (
+                <a href={`tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`} className="hover:text-white transition-colors w-fit">
+                  {siteConfig.phone}
+                </a>
+              )}
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5 text-[11px] text-white/35 pt-2.5 sm:pt-3">
-              <span>© {new Date().getFullYear()} Evoa Pilates. All rights reserved.</span>
+              <span>© {new Date().getFullYear()} EVOA. All rights reserved.</span>
               <span className="hidden sm:inline text-white/20">·</span>
               <span>
                 Designed by{" "}
@@ -202,7 +208,7 @@ export function Footer() {
         >
           <span
             aria-label="evoa"
-            className="font-serif font-light text-mint text-[27vw] sm:text-[26vw] md:text-[24vw] lg:text-[300px] xl:text-[350px] 2xl:text-[390px] leading-[0.74] tracking-[-0.02em] translate-y-[20%] text-right whitespace-nowrap drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)] block"
+            className="font-sans font-light text-mint text-[27vw] sm:text-[26vw] md:text-[24vw] lg:text-[270px] xl:text-[315px] 2xl:text-[350px] leading-[0.74] tracking-[-0.06em] translate-y-[20%] text-right whitespace-nowrap block"
           >
             {["e", "v", "o", "a"].map((letter, index) => (
               <motion.span

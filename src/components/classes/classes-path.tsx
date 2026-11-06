@@ -14,48 +14,48 @@ const riseV = { hidden: { scaleY: 0, opacity: 0 }, show: { scaleY: 1, opacity: 1
 const fadeV = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.7 } } };
 const fromBase = { transformOrigin: "50% 100%" } as const;
 
-/* The reformer path as three doorways of the same width that step up in height: Foundations, Flow, Sculpt. A little arrow
-   sits on the ground line between each pair. On phones the doorways become short tiles beside their text. The other paths
-   (mat, prenatal, stillness) sit under the heading on the left, so both sides of the section carry weight. */
+/* The reformer path as three doorways of the same width that step up in height: Form, Define, Power. A little arrow
+   sits on the ground line between each pair. On phones the doorways become short tiles beside their text. Lengthen and
+   two of the mat classes sit under the heading on the left, so both sides of the section carry weight. */
 const steps = [
   {
-    id: "reformer-foundations",
-    name: "Foundations",
+    id: "reformer-form",
+    name: "Form",
     tag: "Begin",
     color: "#c4a96a",
     on: "#2f3a1c",
     heights: { phone: 92, wide: 190 },
     dots: 1,
     ready:
-      "Begin here. You are ready for Flow when the springs, straps and breath feel familiar and you are no longer thinking about where your hands go.",
+      "Begin here. You are ready for Define when the springs, straps and breath feel familiar and you are no longer thinking about where your hands go.",
   },
   {
-    id: "reformer-flow",
-    name: "Flow",
+    id: "reformer-define",
+    name: "Define",
     tag: "Build",
     color: "#8fa08a",
     on: "#2f3a1c",
     heights: { phone: 112, wide: 250 },
     dots: 2,
     ready:
-      "You are ready for Sculpt when you can hold a position steadily, change springs calmly and finish a class with your form intact.",
+      "You are ready for Power when you can hold a position steadily, change springs calmly and finish a class with your form intact.",
   },
   {
-    id: "reformer-sculpt",
-    name: "Sculpt",
+    id: "reformer-power",
+    name: "Power",
     tag: "Refine",
     color: "#5e4b20",
     on: "#f3ede3",
     heights: { phone: 132, wide: 310 },
     dots: 3,
-    ready: "The top of the reformer path: faster, with light weights, and still low impact. Many people stay here for years.",
+    ready: "The top of the reformer path: athletic, dynamic and still precise. Many people stay here for years.",
   },
 ];
 
 const alongside = [
-  { id: "classical-mat", text: "Posture and deep core, at any point on the path" },
-  { id: "prenatal-postnatal", text: "Its own path, shaped by where you are" },
-  { id: "breath-stillness", text: "A gentle class for every level, any week" },
+  { id: "reformer-lengthen", text: "Mobility and release, at any point on the path" },
+  { id: "mat-flow", text: "Balance and flexibility on the mat, any week" },
+  { id: "mat-restore", text: "A slow class for every level, any week" },
 ].map((item) => ({ ...item, cls: classes.find((c) => c.id === item.id)! }));
 
 export function ClassesPath() {
@@ -66,7 +66,7 @@ export function ClassesPath() {
         <div className="lg:col-span-4 lg:col-start-1 lg:row-start-1">
           <h2 className="font-display text-[40px] font-light leading-[1.1] tracking-normal sm:text-[54px] lg:text-[clamp(44px,4.6vw,68px)]">Your progression</h2>
           <p className="mt-6 max-w-sm font-sans text-[15px] font-light leading-relaxed text-ink-muted sm:text-[16.5px]">
-            Most people begin in Foundations and move on when it feels easy, not when a calendar says so. Nobody is moved up before they are ready.
+            Most people begin with Form and move on when it feels easy, not when a calendar says so. Nobody is moved up before they are ready.
           </p>
         </div>
 
@@ -139,7 +139,7 @@ export function ClassesPath() {
 
         {/* the other paths: on the left, under the heading, on large screens */}
         <div className="lg:col-span-4 lg:col-start-1 lg:row-start-2 lg:self-end">
-          <p className="font-script text-[24px] leading-none text-rust">Alongside the reformer</p>
+          <p className="font-script text-[24px] leading-none text-rust">Alongside the path</p>
           <ul className="mt-4 border-t border-ink/10">
             {alongside.map((item) => (
               <li key={item.id} className="border-b border-ink/10">

@@ -1,17 +1,33 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Montserrat } from "next/font/google";
+import { Bodoni_Moda, Montserrat } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll";
+import { MarianaNav } from "@/components/mariana/mariana-nav";
 import "./globals.css";
 
-// Brand board: Cormorant Garamond Light (primary: headings) + Montserrat Light (secondary: text)
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+/* The client's Typography System: an elegant modern serif with an editorial luxury feel (a Didone, high-contrast serif) as the
+   primary face, and a clean, architectural geometric sans (Montserrat) as the secondary one. Serif carries emotion, ritual and
+   luxury (headings, statements, names); sans carries instruction, movement and clarity (text, labels, times, buttons).
+
+   TO GO BACK to the earlier primary face (Cormorant Garamond), comment out the Bodoni_Moda block and its import, and
+   uncomment the Cormorant block below (and its import). Nothing else needs to change: every serif on the site reads the
+   single variable --font-primary-serif (see globals.css). Re-check heading sizes after switching, as the two faces differ in width. */
+const primarySerif = Bodoni_Moda({
+  variable: "--font-primary-serif",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+  display: "swap",
+});
+
+/* import { Cormorant_Garamond } from "next/font/google";
+const primarySerif = Cormorant_Garamond({
+  variable: "--font-primary-serif",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
-});
+}); */
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -21,18 +37,19 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: {
-    default: "Evoa: Evolution of Awareness",
-    template: "%s | Evoa",
+    default: "EVOA: Evolution of Awareness",
+    template: "%s | EVOA",
   },
   description:
-    "A private wellness club for movement, breath, and nervous system restoration.",
+    "Movement with intention. Strength with soul. EVOA is a Pilates studio in Houston, Texas, for mat and reformer classes that connect body, mind and soul.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${montserrat.variable} h-full antialiased`}>
+    <html lang="en" className={`${primarySerif.variable} ${montserrat.variable} h-full antialiased`}>
       {/* suppressHydrationWarning: browser extensions inject attributes (e.g. __processed_…__) onto <body> before React hydrates */}
       <body suppressHydrationWarning className="min-h-full flex flex-col bg-plaster text-ink">
+        <MarianaNav />
         <SmoothScrollProvider>
           <Header />
           <main className="flex-1">{children}</main>

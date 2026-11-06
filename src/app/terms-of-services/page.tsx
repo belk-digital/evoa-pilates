@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LegalPage, type LegalSection } from "@/components/legal/legal-page";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Terms of Services",
+  title: "Terms of Service & Waiver",
   description:
-    "The terms for Evoa Pilates memberships, booking and cancellation, studio standards and your use of our website.",
+    "The terms for EVOA classes and packages, booking and cancellation, studio standards and your use of our website.",
 };
 
 const email = siteConfig.email;
+// the studio phone once it is confirmed; until then a visible blank for the client to fill in
+const supportPhone = /\d/.test(siteConfig.phone) ? siteConfig.phone : "[support phone number]";
 
 const sections: LegalSection[] = [
   {
@@ -17,9 +20,9 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>
-          Evoa Pilates (“Evoa”, “we”, “us”) is a private wellness club. In these terms, “studio” means our premises,
-          “services” means our classes, private sessions, recovery offerings and membership, and “site” means this
-          website. By requesting membership, booking a class or using the site, you agree to them.
+          EVOA (“EVOA”, “we”, “us”) is a Pilates studio. In these terms, “studio” means our premises, “services” means
+          our mat and reformer classes and the drop-ins, class packs and monthly packages that give access to them, and
+          “site” means this website. By requesting access, booking a class or using the site, you agree to them.
         </p>
         <p>If you do not agree, please do not use the services.</p>
       </>
@@ -27,16 +30,16 @@ const sections: LegalSection[] = [
   },
   {
     id: "membership",
-    title: "Membership and eligibility",
+    title: "Access and eligibility",
     content: (
       <>
         <p>
-          Membership is by request and invitation, and we may approve or decline any request. You must be 18 or over and
-          give us accurate information. Membership is personal to you and cannot be transferred or shared.
+          Access is by request, and we may approve or decline any request. You must be 18 or over and give us accurate
+          information. Packs and memberships are personal to you and cannot be transferred or shared.
         </p>
         <p>
-          Our plans, Access, Residence and Atelier, are described on the Membership page. We may change what a plan
-          includes with reasonable notice.
+          Our packages (drop-ins, class packs, monthly reformer packages and unlimited access) are described on the
+          Membership page. We may change what a package includes with reasonable notice.
         </p>
       </>
     ),
@@ -47,8 +50,9 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>
-          Plans are billed monthly or yearly in advance through our payment provider and renew automatically until you
-          cancel. By joining you authorise those recurring charges. Prices exclude any taxes that apply.
+          Monthly packages and unlimited access are billed monthly in advance through our payment provider and renew
+          automatically until you cancel. Drop-ins and class packs are paid when you buy them. By requesting a monthly
+          package you authorise those recurring charges. Prices exclude any taxes that apply.
         </p>
         <p>
           If a payment fails we may try again and may pause your booking until the balance is cleared. We will give at
@@ -64,8 +68,8 @@ const sections: LegalSection[] = [
       <>
         <p>
           Every class is capped at eight people so your instructor can guide your alignment, springs and pacing
-          individually. You can book through our schedule or member portal. How far ahead you can book depends on your
-          plan: seven days on Access, fourteen on Residence and thirty on Atelier.
+          individually. You can book through our schedule or member portal. How far ahead you can book is set out when you
+          choose your package.
         </p>
         <p>
           If a class is full you may join the waitlist. A spot that opens is offered automatically, and you will need to
@@ -96,11 +100,8 @@ const sections: LegalSection[] = [
             <strong>Group classes:</strong> cancel at least 12 hours before the start to keep your class credit.
           </li>
           <li>
-            <strong>Private sessions:</strong> cancel at least 24 hours before the start.
-          </li>
-          <li>
-            <strong>Later cancellations and no-shows</strong> use the credit, or are charged where you are not on a plan
-            with credits.
+            <strong>Later cancellations and no-shows</strong> use the class from your pack or month, or are charged at the
+            drop-in price.
           </li>
           <li>
             <strong>If we cancel</strong> a class, the credit is returned to you.
@@ -114,30 +115,29 @@ const sections: LegalSection[] = [
   },
   {
     id: "changing-membership",
-    title: "Pausing, changing and ending membership",
+    title: "Changing and ending your package",
     content: (
       <>
         <p>
-          You can move to another plan from your next billing date. You can pause or cancel by email or through the
-          member portal at least seven days before your next billing date; your access continues to the end of the period
-          you have paid for.
+          You can move to another package from your next billing date. You can cancel a monthly package by email or through
+          the member portal at least seven days before your next billing date; your access continues to the end of the
+          period you have paid for.
         </p>
         <p>
-          We do not refund part-used periods unless the law requires it. Yearly plans may be cancelled for a full refund
-          within 14 days of purchase if you have not yet attended a class.
+          We do not refund part-used periods or part-used class packs unless the law requires it. Class packs are valid
+          for the period stated when you buy them.
         </p>
       </>
     ),
   },
   {
     id: "guests",
-    title: "Guest passes and private sessions",
+    title: "Guests",
     content: (
       <>
         <p>
-          Where your plan includes guest passes, your guest signs the same health declaration before their first class
-          and follows the same studio standards. Private sessions are booked directly with your instructor and may be
-          rescheduled up to 24 hours before they begin.
+          If you bring a guest, they sign the same health declaration before their first class and follow the same studio
+          standards.
         </p>
       </>
     ),
@@ -161,6 +161,19 @@ const sections: LegalSection[] = [
           inherent risks of exercise, and before your first visit you will be asked to sign a health declaration and
           waiver.
         </p>
+      </>
+    ),
+  },
+  {
+    id: "waiver",
+    title: "Waiver and release of liability",
+    content: (
+      <>
+        <p>
+          Before your first class you will be asked to accept our liability waiver, and to confirm that you have read these
+          terms. The waiver is part of these terms.
+        </p>
+        <p>[The waiver text is to be supplied by EVOA before launch.]</p>
       </>
     ),
   },
@@ -210,6 +223,44 @@ const sections: LegalSection[] = [
     ),
   },
   {
+    id: "sms",
+    title: "Text message terms",
+    content: (
+      <>
+        <h3>1. Program Description</h3>
+        <p>
+          By opting in, you agree to receive recurring automated text messages from EVOA (“we,” “us,” “our”) at the mobile
+          number you provided. Messages may include class reminders, booking confirmations and cancellations, waitlist
+          updates, account and payment alerts, and occasional promotional offers. Consent to receive these messages is not a
+          condition of any purchase.
+        </p>
+        <h3>2. Message Frequency</h3>
+        <p>
+          You may receive up to [X] messages per [week/month]. Message frequency may vary depending on your activity and
+          interactions with us.
+        </p>
+        <h3>3. Message and Data Rates</h3>
+        <p>
+          Message and data rates may apply. Charges are billed by and payable to your mobile service provider. Please contact
+          your wireless carrier for details about your messaging plan.
+        </p>
+        <h3>4. How to Opt Out and Get Help</h3>
+        <p>
+          You can unsubscribe the SMS service at any time by replying STOP to any message we send you. After you send STOP,
+          you will receive a one-time confirmation message, and no further messages will be sent. If you want to rejoin, you
+          can sign up again using the original opt-in method or reply START. For help or more information at any time, reply
+          HELP to any of our messages. You can also contact our support team directly at <a href={`mailto:${email}`}>{email}</a>{" "}
+          or {supportPhone}.
+        </p>
+        <h3>5. Carrier Liability Disclaimer</h3>
+        <p>Carriers are not liable for any delayed or undelivered messages.</p>
+        <p>
+          Link to Privacy Policy: <Link href="/privacy-policy">Privacy Policy</Link>
+        </p>
+      </>
+    ),
+  },
+  {
     id: "website",
     title: "Using our website",
     content: (
@@ -228,7 +279,7 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>
-          The Evoa name and logo, the site, our photography, written content and class programming belong to us or are
+          The EVOA name and logo, the site, our photography, written content and class programming belong to us or are
           used with permission. You may not copy or reuse them without written consent. If you send us feedback, you
           allow us to use it to improve the studio without obligation to you.
         </p>
@@ -291,8 +342,8 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>
-          Questions about these terms? Email <a href={`mailto:${email}`}>{email}</a>, or write to Evoa Pilates,{" "}
-          {siteConfig.address}.
+          Questions about these terms? Email <a href={`mailto:${email}`}>{email}</a>, or write to EVOA,{" "}
+          {siteConfig.fullAddress}.
         </p>
       </>
     ),
@@ -302,9 +353,9 @@ const sections: LegalSection[] = [
 export default function TermsOfServicesPage() {
   return (
     <LegalPage
-      title="Terms of Services."
+      title="Terms of Service & Waiver."
       noun="these terms"
-      updated="October 23, 2026"
+      updated="November 6, 2026"
       intro="Plain terms for a simple way of running a studio: small classes, careful instruction and a calm room. Please read them before you join or book."
       sections={sections}
       other={{ label: "Read the Privacy Policy", href: "/privacy-policy" }}

@@ -80,7 +80,7 @@ export function AboutRoom() {
                 <div className={`relative w-full overflow-hidden rounded-t-[999px] rounded-b-[16px] bg-deep-green ${item.ratio}`}>
                   <div className="absolute inset-0 transition-transform duration-[1400ms] ease-out fine:group-hover:scale-[1.06]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={item.image} alt={`${item.name} in the Evoa studio`} className={`h-full w-full object-cover ${item.position}`} />
+                    <img src={item.image} alt={`${item.name} in the EVOA studio`} className={`h-full w-full object-cover ${item.position}`} />
                   </div>
                   <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/15" />
                 </div>

@@ -46,7 +46,7 @@ const experienceItems: ExperienceItem[] = [
     description:
       "Warm, diffused light and no harsh overheads, so your body begins to slow down the moment you step in.",
     image: "/assets/Warm Modern Pilates Studio (1).webp",
-    alt: "Concealed amber cove lighting and round sconces warming the sage tile wall of the Evoa studio at dusk",
+    alt: "Concealed amber cove lighting and round sconces warming the sage tile wall of the EVOA studio at dusk",
     theme: {
       accentName: "Amber Glow",
       targetBg: "#f4e4d0", // Peach-glaze sconce light
@@ -72,7 +72,7 @@ const experienceItems: ExperienceItem[] = [
     description:
       "Natural timber, sound-dampened rooms and nothing to look at but your own movement: space for presence, breath and unhurried form.",
     image: "/assets/Sunlit Minimalist Pilates Studio.webp",
-    alt: "A calm Evoa studio with timber slat walls, sage tile and a row of reformers in soft daylight",
+    alt: "A calm EVOA studio with timber slat walls, sage tile and a row of reformers in soft daylight",
     theme: {
       accentName: "Timber Stillness",
       targetBg: "#e8ddc8", // Teak-toned oat
@@ -98,7 +98,7 @@ const experienceItems: ExperienceItem[] = [
     description:
       "Quiet pauses between the reformer, the floor and the lounge, so one part of the class settles before the next begins.",
     image: "/assets/Serene Pilates Studio with Arched Doorway (1).webp",
-    alt: "A woman walking quietly through an arched doorway between two rooms of the Evoa studio",
+    alt: "A woman walking quietly through an arched doorway between two rooms of the EVOA studio",
     theme: {
       accentName: "Mineral Mist",
       targetBg: "#d3e0ce", // Glazed mint tile
@@ -168,8 +168,21 @@ export function Experience() {
           <div className="w-full flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 sm:gap-8 lg:gap-12">
             {/* Left Column: Clean Editorial Title */}
             <div className="flex flex-col flex-1 min-w-0">
-              <h2 className="font-display text-[38px] font-light sm:text-[52px] md:text-[64px] lg:text-[76px] text-ink tracking-normal leading-[1.1]">
-                The Experience
+              {/* One shared E: it stands as the first letter of both words, with "VOA" on its upper half and "xperience"
+                  on its lower half, so the title reads EVOA and Experience at once. --e is the E's size; the two
+                  lines beside it are half that, with a line height of about the capital's height, so their tops and
+                  baselines meet the E's. */}
+              <h2
+                aria-label="EVOA Experience"
+                className="flex select-none items-center gap-[0.05em] font-display font-normal leading-none tracking-normal text-ink [--e:104px] min-[640px]:[--e:136px] min-[768px]:[--e:164px] min-[1024px]:[--e:132px] min-[1150px]:[--e:160px] min-[1280px]:[--e:176px] min-[1440px]:[--e:192px]"
+              >
+                <span aria-hidden className="text-[length:var(--e)] leading-[0.74]">
+                  E
+                </span>
+                <span aria-hidden className="flex flex-col text-[length:calc(var(--e)*0.5)] leading-[0.76]">
+                  <span className="tracking-[0.02em]">VOA</span>
+                  <span className="ml-[0.04em] text-[0.84em] leading-[0.905] text-rust">xperience</span>
+                </span>
               </h2>
             </div>
 
@@ -183,7 +196,7 @@ export function Experience() {
               <motion.div
                 style={{ rotate }}
                 className="w-24 h-24 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 relative text-rust will-change-transform select-none cursor-default"
-                title="Evoa Pilates Editorial Brand Seal"
+                title="EVOA Editorial Brand Seal"
               >
                 <EditorialBrandSeal className="w-full h-full" />
                 <span className="absolute left-1/2 top-1/2 h-2 w-2 sm:h-2.5 sm:w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-spark" />
@@ -364,13 +377,13 @@ function ExperienceStickyCard({ item, offset = 0 }: { item: ExperienceItem; offs
   );
 }
 
-/* ---- Manifesto: "This is not Fitness." -> "Recalibration." ----
+/* ---- Manifesto: "This is not Fitness." -> "This is EVOA." ----
    One pinned stage driven by the scroll progress p (0..1) of the tall container below.
    The next section (Spaces) starts sliding over the stage at roughly p = 0.58-0.62, so the
    whole sequence lands by ~0.55:
      0.05-0.30  fitness clichés are struck out in red, one by one, drifting behind the headline
      0.24-0.32  the main "not" is struck
-     0.30-0.50  "Fitness." rolls out, "Recalibration." rolls in
+     0.30-0.50  "Fitness." rolls out, "EVOA." rolls in
      0.30-0.55  the sunrise rises from the horizon                                              */
 
 const CLICHES: Array<{ word: string; x: number; y: number; drift: number }> = [
@@ -482,7 +495,7 @@ function ScrollManifestoTransition() {
   const fitnessBlurRaw = useTransform(scrollYProgress, [0, 0.32, 0.46, 1], [0, 0, 12, 12], { clamp: true });
   const fitnessFilter = useTransform(fitnessBlurRaw, (v) => (v > 0.2 ? `blur(${Math.max(0, v)}px)` : "none"));
 
-  // "Recalibration.": slides UP into place and locks in sharp by 0.50; stays put while the next
+  // "EVOA.": slides UP into place and locks in sharp by 0.50; stays put while the next
   // section glides over the stage
   const recalY = useTransform(scrollYProgress, [0, 0.34, 0.5, 1], ["120%", "120%", "0%", "0%"], { clamp: true });
   const recalOpacity = useTransform(scrollYProgress, [0, 0.34, 0.5, 1], [0, 0, 1, 1], { clamp: true });
@@ -550,7 +563,7 @@ function ScrollManifestoTransition() {
             </span>
           </span>
 
-          {/* Line 2: Vertical Switch Roller between "Fitness." and "Recalibration." */}
+          {/* Line 2: Vertical Switch Roller between "Fitness." and "EVOA." (the client's line: "This is EVOA.") */}
           <span className="relative flex h-[0.95em] w-full items-center justify-center overflow-hidden">
             {/* Word 1: Fitness. (slides up and blurs out) */}
             <motion.span
@@ -566,7 +579,7 @@ function ScrollManifestoTransition() {
               </span>
             </motion.span>
 
-            {/* Word 2: Recalibration. - deep green so the red points read clearly */}
+            {/* Word 2: EVOA. - deep green so the red points read clearly */}
             <motion.span
               style={{
                 y: recalY,
@@ -576,7 +589,7 @@ function ScrollManifestoTransition() {
               className="absolute inset-0 flex items-center justify-center whitespace-nowrap px-1 sm:px-2 will-change-[transform,filter,opacity]"
             >
               <span className="text-deep-green">
-                <SparkText>Recalibration.</SparkText>
+                <SparkText>EVOA.</SparkText>
               </span>
             </motion.span>
           </span>

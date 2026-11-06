@@ -1,76 +1,46 @@
 "use client";
 
-import * as React from "react";
 import { motion } from "framer-motion";
-import { ArrowDown } from "lucide-react";
+import { RollingButton } from "@/components/about/rolling-button";
 import { SparkText } from "@/components/ui/spark-text";
 import { wipeProps } from "@/components/ui/reveal";
 import { Eyebrow } from "@/components/about/eyebrow";
-import { ClassArt } from "@/components/classes/class-art";
-import { SpotDots, spotsText } from "@/components/schedule/schedule-bits";
-import { classById, endTime, formatTime, nextSession, requestSession, teacherById } from "@/components/schedule/schedule-data";
+import { siteConfig } from "@/lib/site";
 
-const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const steps = [
+  { title: "Choose a class", text: "Pick a day and a time on the timetable below." },
+  { title: "Log in or sign up", text: "It takes a minute, and your bookings live in your account." },
+  { title: "Book your place", text: "Use a drop-in, or a class pack or monthly package from Membership." },
+];
 
-/* The next class to start, worked out from the clock in the visitor's browser (after the first paint, so the server and the
-   browser always agree on what they render). */
-function NextUp() {
-  const [next, setNext] = React.useState<ReturnType<typeof nextSession> | null>(null);
-  React.useEffect(() => {
-    const raf = requestAnimationFrame(() => setNext(nextSession(new Date())));
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  const cls = next ? classById(next.session.classId) : null;
-  const time = next ? formatTime(next.session.start) : null;
-
+/* How booking works, in three short steps. The timetable itself is Mariana Tek's (the embed below), so this card has no
+   class data of its own. */
+function HowToBook() {
   return (
-    <div className="min-h-[330px] rounded-[32px] bg-plaster p-6 sm:rounded-[40px] sm:p-8">
-      <p className="font-script text-[26px] leading-none text-rust">Next up</p>
-      {next && cls && time ? (
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }}>
-          <div className="mt-5 flex items-center gap-5">
-            <span className="relative block h-[88px] w-[70px] shrink-0 overflow-hidden rounded-b-[10px] rounded-t-full" style={{ backgroundColor: cls.panel }}>
-              <ClassArt kind={cls.art} animate delay={0.2} className="absolute inset-0 h-full w-full" />
-            </span>
+    <div className="rounded-[32px] bg-plaster p-6 sm:rounded-[40px] sm:p-8">
+      <p className="font-script text-[26px] leading-none text-rust">Booking a class</p>
+      <ol className="mt-6 flex flex-col gap-5">
+        {steps.map((step, i) => (
+          <li key={step.title} className="flex gap-4">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-ink/25 font-sans text-[12px] font-medium text-rust">{i + 1}</span>
             <div>
-              <p className="font-display text-[54px] font-light leading-[0.9] tracking-normal sm:text-[64px]">
-                {time.clock}
-                <span className="ml-1 font-script text-[26px]">{time.ampm}</span>
-              </p>
-              <p className="mt-2 font-sans text-[13px] font-light text-ink/70">
-                {next.when}, until {endTime(next.session.start, cls.length)}
-              </p>
+              <p className="font-title text-[22px] leading-none">{step.title}</p>
+              <p className="mt-1.5 font-sans text-[13.5px] font-light leading-snug text-ink/70">{step.text}</p>
             </div>
-          </div>
-
-          <h2 className="mt-6 font-title text-[30px] font-normal leading-[1.05] tracking-[-0.01em] sm:text-[34px]">{cls.name}</h2>
-          <p className="mt-1.5 font-sans text-[13.5px] font-light text-ink/75">
-            with {teacherById(next.session.teacher).name}, {cls.level.toLowerCase()}
-          </p>
-
-          <div className="mt-5 flex items-center gap-3">
-            <SpotDots free={next.session.free} />
-            <span className="font-sans text-[12.5px] font-light text-ink/70">{spotsText(next.session.free)}</span>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => requestSession(next.session.id)}
-            className="group mt-6 inline-flex items-center gap-4 rounded-full bg-ink py-2.5 pl-7 pr-2.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-white"
-          >
-            <span>See it below</span>
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-ink transition-colors duration-500 group-hover:bg-spark group-hover:text-white">
-              <ArrowDown size={14} strokeWidth={2.2} />
-            </span>
-          </button>
-        </motion.div>
-      ) : null}
+          </li>
+        ))}
+      </ol>
+      <p className="mt-6 font-sans text-[12.5px] font-light text-ink/60">
+        All times are {siteConfig.timeZoneLabel}, {siteConfig.city.split(",")[0]}.
+      </p>
+      <RollingButton variant="dark" arrow="down" href="#timetable" className="mt-5">
+        See the timetable
+      </RollingButton>
     </div>
   );
 }
 
-/* The page's one label and animated title, with the next class on the right. */
+/* The page's one label and animated title, with how booking works on the right. */
 export function ScheduleHero() {
   return (
     <section data-header-theme="light" className="relative w-full bg-mint px-3 pb-12 pt-28 text-ink sm:px-6 sm:pb-16 sm:pt-32 lg:px-10 lg:pb-20 lg:pt-40">
@@ -92,7 +62,7 @@ export function ScheduleHero() {
         </div>
 
         <div className="lg:col-span-5">
-          <NextUp />
+          <HowToBook />
         </div>
       </div>
     </section>

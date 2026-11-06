@@ -78,7 +78,7 @@ export const instructors = [
   {
     name: "Emily Carter",
     role: "Founder & Master Instructor",
-    bio: "Classically trained in New York before opening Evoa to bring the same precision to a slower, warmer room.",
+    bio: "Classically trained in New York before opening EVOA to bring the same precision to a slower, warmer room.",
     tone: "rose" as const,
   },
   {
@@ -89,8 +89,8 @@ export const instructors = [
   },
   {
     name: "Grace Sullivan",
-    role: "Prenatal & Postnatal Lead",
-    bio: "OB-reviewed curriculum designer supporting clients through every trimester and beyond.",
+    role: "Mat & Restore Lead",
+    bio: "A mat specialist who teaches slowly and precisely, with a gift for breath, mobility and release.",
     tone: "bronze" as const,
   },
 ];
@@ -98,7 +98,7 @@ export const instructors = [
 export const testimonials = [
   {
     quote:
-      "Evoa is the first studio that made me actually understand what my body was doing. I feel taller, longer, and so much steadier.",
+      "EVOA is the first studio that made me actually understand what my body was doing. I feel taller, longer, and so much steadier.",
     name: "Jordan R.",
     detail: "Member since 2024",
   },
@@ -110,9 +110,9 @@ export const testimonials = [
   },
   {
     quote:
-      "I did prenatal classes through both pregnancies here. Grace's cueing made me feel safe every single session.",
+      "Grace's cueing made me feel safe and supported every single session. I leave Restore taller, calmer and a little more myself.",
     name: "Alina M.",
-    detail: "Prenatal client",
+    detail: "Member since 2024",
   },
   {
     quote:

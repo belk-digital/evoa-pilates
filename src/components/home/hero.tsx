@@ -9,11 +9,11 @@ import { ArrowUpRight } from "lucide-react";
 const heroImages = [
   {
     src: encodeURI("/assets/Sunlit Sage Pilates Studio.webp"),
-    alt: "Evoa Pilates studio in daylight: sage tile wall with round sconces, terrazzo floor and timber reformers",
+    alt: "EVOA studio in daylight: sage tile wall with round sconces, terrazzo floor and timber reformers",
   },
   {
     src: encodeURI("/assets/Warm Dusk Pilates Studio.webp"),
-    alt: "Evoa Pilates studio at dusk: warm sconce glow on sage tile, polished terrazzo floor and timber reformers",
+    alt: "EVOA studio at dusk: warm sconce glow on sage tile, polished terrazzo floor and timber reformers",
   },
 ];
 
@@ -73,18 +73,24 @@ export function Hero() {
 
       {/* Mid Section: Vertically balanced Editorial Content Block (Paragraph + CTA Button) */}
       <div className="relative z-20 w-full px-5 sm:px-10 md:px-16 lg:px-24 pointer-events-auto flex-1 flex flex-col justify-center">
-        <div className="max-w-md sm:max-w-xl md:max-w-2xl flex flex-col items-start gap-4 sm:gap-6 md:gap-8">
+        <div className="flex max-w-md flex-col items-start sm:max-w-xl md:max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.95, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-start gap-2.5 sm:gap-3"
+            className="flex flex-col items-start"
           >
-            <span className="label text-peach-soft tracking-[0.32em] text-[11px] sm:text-[13px] uppercase drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
-              Evolution of Awareness
+            <span className="label mb-6 text-peach-soft tracking-[0.32em] text-[11px] uppercase drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] sm:mb-8 sm:text-[13px]">
+              <span className="whitespace-nowrap">Evolution of Awareness</span>
+              <span className="mx-1.5 hidden text-peach-soft/60 sm:inline">·</span>{" "}
+              <span className="whitespace-nowrap">Cuerpo + Alma</span>
             </span>
-            <p className="font-sans font-light text-[17px] sm:text-[22px] md:text-[28px] lg:text-[32px] leading-[1.35] tracking-wide text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.85)] text-balance">
-              A private wellness club for movement, breath, and nervous system restoration.
+            <h1 className="font-display text-[34px] font-normal leading-[1.14] tracking-normal text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.85)] sm:text-[46px] md:text-[54px] lg:text-[60px]">
+              Movement with intention.
+              <span className="block font-script text-peach-soft">Strength with soul.</span>
+            </h1>
+            <p className="mt-6 font-sans text-[15px] font-light leading-relaxed tracking-wide text-white/85 drop-shadow-[0_2px_14px_rgba(0,0,0,0.85)] sm:mt-8 sm:text-[17px] md:text-[19px]">
+              A different kind of Pilates experience.
             </p>
           </motion.div>
 
@@ -92,19 +98,20 @@ export function Hero() {
             initial={{ opacity: 0, y: 18, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.85, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-10 sm:mt-14"
           >
             <Link
-              href="#membership"
+              href="#experience"
               className="group relative inline-flex items-center gap-3.5 sm:gap-4 rounded-full bg-white pl-6 pr-2.5 py-2.5 sm:pl-9 sm:pr-3.5 sm:py-3.5 text-[11px] sm:text-[13px] font-semibold tracking-[0.22em] text-ink uppercase shadow-[0_6px_24px_rgba(0,0,0,0.35)] hover:shadow-[0_14px_36px_rgba(0,0,0,0.5)] transition-shadow duration-300"
             >
               {/* Luxury Rolling Text Track */}
               <div className="relative overflow-hidden h-[18px]">
                 <div className="flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-1/2">
                   <span className="h-[18px] flex items-center">
-                    REQUEST MEMBERSHIP
+                    DISCOVER THE EVOA EXPERIENCE
                   </span>
                   <span className="h-[18px] flex items-center text-rust font-semibold">
-                    REQUEST MEMBERSHIP
+                    DISCOVER THE EVOA EXPERIENCE
                   </span>
                 </div>
               </div>
@@ -129,14 +136,16 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Giant Bottom Typography ("evoa") - Right Aligned with Staggered Letter Entrance.
+      {/* Giant Bottom Typography ("evoa") - Right Aligned with Staggered Letter Entrance. Set in the light geometric sans: at this
+          size only the tops of the letters show above the card, and the sans gives clean arcs (like the site's doorways)
+          where the Didone looked clumsy.
           The Philosophy section overlaps the hero by -mt-16 / sm:-mt-24 / md:-mt-32 (see philosophy-statement),
           so below lg the bottom padding is the overlap minus ~20% of the letter height: the word sits tucked
           slightly under the card's top edge instead of being half covered. */}
-      <div className="relative z-20 w-full overflow-hidden pointer-events-none select-none flex justify-end pr-2.5 sm:pr-8 md:pr-12 lg:pr-16 pb-[48px] sm:pb-[74px] md:pb-[98px] lg:pb-20 shrink-0">
-        <h1
-          aria-label="evoa"
-          className="font-serif font-light text-mint text-[46vw] xs:text-[43vw] sm:text-[38vw] md:text-[32vw] leading-[0.74] tracking-[-0.02em] translate-y-[6%] sm:translate-y-[4%] md:translate-y-[2%] text-right whitespace-nowrap drop-shadow-none"
+      <div className="relative z-20 w-full overflow-hidden pointer-events-none select-none flex justify-end pr-2.5 sm:pr-8 md:pr-12 lg:pr-16 pb-[48px] sm:pb-[74px] md:pb-[calc(98px+1.5vw)] lg:pb-[calc(5rem+3vw)] shrink-0">
+        <div
+          aria-hidden
+          className="font-sans font-light text-mint text-[46vw] xs:text-[43vw] sm:text-[38vw] md:text-[30vw] lg:text-[28vw] leading-[0.74] tracking-[-0.06em] translate-y-[6%] sm:translate-y-[4%] md:translate-y-[2%] text-right whitespace-nowrap drop-shadow-none"
         >
           {["e", "v", "o", "a"].map((letter, index) => (
             <motion.span
@@ -153,7 +162,7 @@ export function Hero() {
               {letter}
             </motion.span>
           ))}
-        </h1>
+        </div>
       </div>
     </section>
   );

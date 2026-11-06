@@ -126,7 +126,7 @@ export function ClassesPrepare() {
       <h2 className="sr-only">Before you come</h2>
       <p className="max-w-[84rem] text-pretty font-display text-[29px] font-light leading-[1.36] tracking-normal sm:text-[42px] lg:text-[clamp(46px,4.2vw,76px)] lg:leading-[1.3]">
         <span className="text-ink-muted">Before you come,</span> <Lead index={0} next="grip">bring</Lead> socks, a water bottle and layers that stay put.{" "}
-        <Lead index={1} next="the">We provide</Lead> reformers, mats, towels and a tonic at the bar. <Lead index={2} next="about">Tell us</Lead> injuries, pregnancy or how
+        <Lead index={1} next="the">We provide</Lead> reformers, mats, towels and a tonic at the bar. <Lead index={2} next="about">Tell us</Lead> injuries or how
         today feels, and we will{" "}
         <span className="whitespace-nowrap">
           adjust.

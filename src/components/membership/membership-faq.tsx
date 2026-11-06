@@ -2,52 +2,47 @@
 
 import { Faq, type FaqItem } from "@/components/home/faq";
 
-/* Same design as the homepage FAQ. Placeholder answers in the brand voice until the studio confirms its terms. */
+/* Same design as the homepage FAQ. Placeholder answers in the brand voice until the studio confirms its terms; the descriptions of
+   each package follow the client's price table (drop-in, class packs, monthly reformer, unlimited). */
 const questions: FaqItem[] = [
   {
     id: "01",
     number: "01",
-    question: "What happens after I request membership?",
+    question: "What happens after I buy a package?",
     answer:
-      "We reply within one working day to arrange your complimentary intro session. You meet an instructor, take a class and see the rooms. Only then do you choose a plan, and only if it feels right.",
+      "It is added to your account straight away. Then you book your first class on the schedule, mat or reformer.",
   },
   {
     id: "02",
     number: "02",
-    question: "Is there a joining fee or a contract?",
+    question: "What is the difference between a drop-in, a pack and a monthly package?",
     answer:
-      "No joining fee. Monthly plans renew each month and you can cancel with 30 days notice. Yearly plans are billed once a year at the lower monthly rate.",
+      "A drop-in is a single class. A pack is five or ten classes that you use as your week allows. A monthly package gives you a set number of reformer classes each month, or unlimited classes.",
   },
   {
     id: "03",
     number: "03",
-    question: "Can I pause my membership?",
+    question: "Can I use a mat pack for reformer classes?",
     answer:
-      "Yes. You can pause for up to two months a year for travel, injury or pregnancy, and your place and plan are held for your return.",
+      "Mat packs are for mat classes and reformer packs are for reformer classes. Unlimited Mat + Reformer covers both, and Unlimited Mat covers every mat class.",
   },
   {
     id: "04",
     number: "04",
-    question: "Do unused classes roll over?",
+    question: "What does unlimited mean?",
     answer:
-      "On Access, the 6 classes each month do not roll over, so we suggest a steady weekly rhythm. Residence and Atelier are unlimited, so there is nothing to carry.",
+      "Book as many classes as you like, within the studio's booking rules. Because the price is monthly, each class costs less the more you come.",
   },
   {
     id: "05",
     number: "05",
-    question: "Can I bring a guest?",
+    question: "How do I change my package or cancel a class?",
     answer:
-      "Residence and Atelier include 2 complimentary guest passes a month. On Access, a friend is welcome to join an intro session or a drop-in class.",
+      "Write to us and we will help you change your package. A class can be cancelled free up to 12 hours before it begins, because the room only holds eight.",
   },
   {
     id: "06",
     number: "06",
-    question: "How do I change plans?",
-    answer: "Any time. A change takes effect from your next billing date, and we will help you move without losing a class you have already booked.",
-  },
-  {
-    id: "07",
-    number: "07",
     question: "Are there student, teacher or corporate rates?",
     answer: "We offer them case by case. Tell us a little in your request and we will come back with what is possible.",
   },

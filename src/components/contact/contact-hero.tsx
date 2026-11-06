@@ -32,7 +32,7 @@ export function ContactHero() {
             </span>
           </motion.h1>
           <p className="mt-6 max-w-[30rem] font-sans text-[15px] font-light leading-relaxed text-ink-muted sm:text-[17px]">
-            A question, an intro session or a private enquiry: write to us and the front desk will reply within one working day.
+            A question, a class or a package: write to us and the front desk will reply within one working day.
           </p>
 
           <dl className="mt-10 max-w-[36rem] border-t border-ink/10 sm:mt-12">

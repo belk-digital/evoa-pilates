@@ -17,8 +17,8 @@ const extras = [
     place: "w-[82%] sm:w-[64%] md:w-[54%] lg:col-span-5 lg:w-auto",
     ratio: "aspect-[4/5.2] lg:aspect-[4/5.4]",
     teaches: [
-      { id: "reformer-foundations", label: "Foundations" },
-      { id: "classical-mat", label: "Classical Mat" },
+      { id: "reformer-form", label: "Form" },
+      { id: "mat-sculpt", label: "Sculpt" },
     ],
   },
   {
@@ -27,8 +27,9 @@ const extras = [
     place: "ml-auto w-[68%] sm:w-[52%] md:w-[44%] lg:col-span-4 lg:ml-0 lg:w-auto",
     ratio: "aspect-[4/4.7]",
     teaches: [
-      { id: "reformer-flow", label: "Flow" },
-      { id: "reformer-sculpt", label: "Sculpt" },
+      { id: "reformer-define", label: "Define" },
+      { id: "reformer-power", label: "Power" },
+      { id: "mat-ignite", label: "Ignite" },
     ],
   },
   {
@@ -37,8 +38,9 @@ const extras = [
     place: "w-[60%] sm:w-[46%] md:w-[38%] lg:col-span-3 lg:w-auto",
     ratio: "aspect-[4/4.4]",
     teaches: [
-      { id: "prenatal-postnatal", label: "Prenatal & Postnatal" },
-      { id: "breath-stillness", label: "Breath & Stillness" },
+      { id: "reformer-lengthen", label: "Lengthen" },
+      { id: "mat-flow", label: "Flow" },
+      { id: "mat-restore", label: "Restore" },
     ],
   },
 ];

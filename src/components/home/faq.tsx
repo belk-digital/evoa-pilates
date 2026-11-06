@@ -19,42 +19,42 @@ const faqs: FaqItem[] = [
     number: "01",
     question: "What should I wear or bring to my first class?",
     answer:
-      "Comfortable form-fitting athletic wear that allows effortless range of motion. Grip socks are required on all reformers for grip and hygiene. Filtered water, towels, and lockers are fully provided.",
+      "Comfortable, fitted clothing that lets you move freely, so your instructor can see your alignment. Grip socks are required on the reformer and the mat. Filtered water, towels and lockers are provided.",
   },
   {
     id: "02",
     number: "02",
-    question: "What's included in the membership?",
+    question: "How does pricing work?",
     answer:
-      "Full access to reformer and mat studios, personalized spring resistance setups, complimentary grip amenities, towel service, private locker access, and priority booking on all weekly sessions.",
+      "A drop-in is $28 for a mat class and $42 for a reformer class. Class packs, monthly reformer packages and unlimited access bring the price of each class down. Everything is on the Membership page.",
   },
   {
     id: "03",
     number: "03",
     question: "I'm a beginner. Which class should I start with?",
     answer:
-      "Our Foundation Reformer class is crafted specifically for newcomers. Every class is strictly capped at eight reformers so your instructor can guide your alignment, springs, and pacing individually.",
+      "EVOA Form on the reformer is built around the essentials: alignment, precision and control. On the mat, begin with EVOA Flow or Restore. Every class is capped at eight, so your instructor can guide you individually.",
   },
   {
     id: "04",
     number: "04",
     question: "What is your cancellation policy?",
     answer:
-      "We operate a 12-hour cancellation window for all group classes and 24 hours for private appointments. Cancellations within this window immediately credit back to your account.",
+      "You can cancel free up to 12 hours before class. After that the class is counted, because the room only holds eight and someone else may have wanted your place.",
   },
   {
     id: "05",
     number: "05",
-    question: "Can I attend with injuries or prenatal conditions?",
+    question: "Can I attend with an injury?",
     answer:
-      "Yes. All instructors hold 500+ hours of classical training with rehabilitation and prenatal certification. Notify your instructor before class so custom modifications can be prepared.",
+      "Usually, yes. Tell your instructor about injuries before class so modifications can be prepared. For anything more involved, speak to us before you book and we will suggest the right class.",
   },
   {
     id: "06",
     number: "06",
-    question: "How do I reserve a class or private session?",
+    question: "How do I reserve a class?",
     answer:
-      "You can reserve your reformer directly online through our schedule page or mobile portal. First-time visitors can claim a complimentary introductory reformer session.",
+      "Choose a class on the schedule and reserve your place online. You will need a drop-in, a class pack or a monthly package, all of which you can request on the Membership page.",
   },
 ];
 

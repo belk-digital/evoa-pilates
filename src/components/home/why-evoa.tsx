@@ -30,7 +30,7 @@ export function WhyEvoa() {
               transition={{ duration: 0.5 }}
               className="label text-dusty-mauve text-[11px] sm:text-[11.5px] tracking-[0.28em] uppercase"
             >
-              Why Evoa
+              Why EVOA
             </motion.span>
             <FourPointStar className="w-2.5 h-2.5 text-dusty-mauve/50" />
           </div>

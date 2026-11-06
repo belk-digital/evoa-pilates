@@ -1,20 +1,27 @@
-/* The class programme. Names, lengths, levels and copy are placeholders in the brand voice until the client confirms them
-   (the four from the homepage poster row plus Sculpt and Prenatal). */
+/* The class programme: EVOA's eight signature classes, four on the mat and four on the reformer, with the names, descriptions
+   and level tags from the client's copy (CUERPO + ALMA). The client did not give lengths, the mat classes' level tags or the
+   "best for" and "what to expect" lines; those are placeholders in the same voice, to be confirmed. */
 
-export type ArtKind = "arch" | "wave" | "stripes" | "ring" | "orbs" | "sun";
-export type ClassKind = "reformer" | "mat" | "prenatal" | "recovery";
+export type ArtKind = "arch" | "wave" | "stripes" | "ring" | "orbs" | "sun" | "burst" | "reach";
+export type ClassKind = "mat" | "reformer";
 
 export interface StudioClass {
   id: string;
+  /** the class's full name, as the client writes it */
   name: string;
+  /** the name without the brand, for lists inside a discipline ("Form") */
+  short: string;
   kind: ClassKind;
   length: string;
+  /** who it suits: "All levels", "Intermediate to advanced" */
   level: string;
+  /** what it works on: the client's tag ("Foundational", "Sculpt", "High intensity", "Stretch + Mobility") */
+  focus: string;
   intensity: 1 | 2 | 3;
   beginner: boolean;
-  /** one short line, shown in the list */
+  /** one short line, shown in the list (the client's one-liner) */
   line: string;
-  /** the fuller description, shown when the row is open */
+  /** the fuller description, shown when the row is open (the client's description) */
   text: string;
   best: string;
   expect: string[];
@@ -24,121 +31,200 @@ export interface StudioClass {
 }
 
 export const classes: StudioClass[] = [
+  /* ---- Mat ---- */
   {
-    id: "reformer-foundations",
-    name: "Reformer Foundations",
-    kind: "reformer",
+    id: "mat-sculpt",
+    name: "EVOA Sculpt",
+    short: "Sculpt",
+    kind: "mat",
     length: "50 min",
     level: "All levels",
-    intensity: 1,
-    beginner: true,
-    line: "Learn the machine, begin with breath.",
-    text: "The place to begin. We teach the machine, the springs and the principles of breath, alignment and control, slowly enough that every cue lands.",
-    best: "First-timers and returning clients",
-    expect: [
-      "The reformer, springs and straps explained step by step",
-      "Breath, alignment and control as the three principles",
-      "Hands-on cueing and small adjustments throughout",
-    ],
-    panel: "#c4a96a",
-    art: "arch",
-  },
-  {
-    id: "reformer-flow",
-    name: "Reformer Flow",
-    kind: "reformer",
-    length: "50 min",
-    level: "Intermediate",
+    focus: "Full body",
     intensity: 2,
-    beginner: false,
-    line: "Longer holds, fewer pauses.",
-    text: "A continuous sequence that builds strength and stamina without impact. Longer holds, smoother transitions and spring changes that keep you honest.",
-    best: "Building strength and stamina",
-    expect: [
-      "A steady, unbroken sequence with fewer pauses",
-      "Spring changes that ask for control, not speed",
-      "A progression you can repeat and feel week by week",
-    ],
-    panel: "#8fa08a",
-    art: "wave",
-  },
-  {
-    id: "reformer-sculpt",
-    name: "Reformer Sculpt",
-    kind: "reformer",
-    length: "50 min",
-    level: "Intermediate to advanced",
-    intensity: 3,
-    beginner: false,
-    line: "Definition and power, low impact.",
-    text: "A faster reformer flow layered with light weights, working the arms, glutes and deep core under tension. Strong, but never rushed.",
-    best: "Definition, power and experienced movers",
-    expect: [
-      "A quicker tempo with light weights added to the work",
-      "Arms, glutes and deep core held under steady tension",
-      "Moves that reward patience and precision over speed",
-    ],
-    panel: "#5e4b20",
-    art: "stripes",
-  },
-  {
-    id: "classical-mat",
-    name: "Classical Mat",
-    kind: "mat",
-    length: "55 min",
-    level: "Intermediate",
-    intensity: 2,
-    beginner: false,
-    line: "The floor repertoire, paced by breath.",
-    text: "The classical floor repertoire with nothing but a mat and your own body. Spinal control and articulation, paced entirely by breath.",
-    best: "Posture and deep core",
-    expect: [
-      "The classical order of exercises, taught with care",
-      "Spinal articulation and a steady, supported core",
-      "Modifications offered so everyone works at their level",
-    ],
-    panel: "#e6dcc6",
-    art: "ring",
-  },
-  {
-    id: "prenatal-postnatal",
-    name: "Prenatal & Postnatal",
-    kind: "prenatal",
-    length: "50 min",
-    level: "All trimesters",
-    intensity: 1,
     beginner: true,
-    line: "Pelvic-floor aware, for every stage.",
-    text: "Pelvic-floor aware programming for pregnancy and the months after, built on an OB-reviewed curriculum. Positions and pace follow where you are.",
-    best: "Pregnancy, and the months that follow",
+    line: "Strengthen, tone and define through intentional full-body movement.",
+    text: "A dynamic, full-body mat Pilates class combining controlled movements, deep core work and targeted muscle endurance to sculpt, strengthen and define.",
+    best: "Full-body strength and core endurance",
     expect: [
-      "Sequencing that is aware of the pelvic floor",
-      "Positions chosen for each trimester and stage",
-      "Time to rest, and a room where nothing is rushed",
+      "Controlled movements through the whole body",
+      "Deep core work from the first breath",
+      "Targeted muscle endurance, built steadily",
     ],
     panel: "#d6d2c7",
     art: "orbs",
   },
   {
-    id: "breath-stillness",
-    name: "Breath & Stillness",
-    kind: "recovery",
-    length: "40 min",
+    id: "mat-flow",
+    name: "EVOA Flow",
+    short: "Flow",
+    kind: "mat",
+    length: "50 min",
     level: "All levels",
+    focus: "Balance + flexibility",
+    intensity: 2,
+    beginner: true,
+    line: "Move seamlessly through fluid sequences that inspire balance and connection.",
+    text: "A seamless blend of classical Pilates, fluid movement and mindful breathing designed to improve flexibility, balance and body awareness.",
+    best: "Balance, flexibility and body awareness",
+    expect: [
+      "Classical Pilates, linked into one fluid sequence",
+      "Mindful breathing that sets the tempo",
+      "Balance and flexibility that you can feel build",
+    ],
+    panel: "#8fa08a",
+    art: "wave",
+  },
+  {
+    id: "mat-ignite",
+    name: "EVOA Ignite",
+    short: "Ignite",
+    kind: "mat",
+    length: "50 min",
+    level: "Intermediate to advanced",
+    focus: "Higher intensity",
+    intensity: 3,
+    beginner: false,
+    line: "Challenge your strength and stamina with energizing, dynamic movement.",
+    text: "An energizing, higher-intensity mat experience featuring powerful sequences, continuous movement and core-focused conditioning to build strength and stamina.",
+    best: "Strength and stamina",
+    expect: [
+      "Powerful sequences with continuous movement",
+      "Core-focused conditioning throughout",
+      "A higher intensity, with form still first",
+    ],
+    panel: "#d9c58e",
+    art: "burst",
+  },
+  {
+    id: "mat-restore",
+    name: "EVOA Restore",
+    short: "Restore",
+    kind: "mat",
+    length: "50 min",
+    level: "All levels",
+    focus: "Stretch + breathwork",
     intensity: 1,
     beginner: true,
-    line: "Slow mobility and guided breathwork.",
-    text: "Slow mobility and guided breathwork to bring the nervous system down. A class for tension, stress and recovery days, with nothing to prove.",
-    best: "Stress, tension and recovery days",
+    line: "Slow down, stretch deeply and reconnect with your body.",
+    text: "A slower, intentional practice combining gentle Pilates, deep stretching, mobility and breathwork to release tension and reconnect body and mind.",
+    best: "Tension, stress and recovery days",
     expect: [
-      "Gentle mobility and long, supported stretches",
-      "Guided breathwork to settle the nervous system",
-      "A quiet finish before you leave",
+      "Gentle Pilates at an unhurried pace",
+      "Deep stretching and mobility",
+      "Breathwork to release tension",
     ],
     panel: "#2f3a1c",
     art: "sun",
   },
+
+  /* ---- Reformer ---- */
+  {
+    id: "reformer-form",
+    name: "EVOA Form",
+    short: "Form",
+    kind: "reformer",
+    length: "50 min",
+    level: "All levels",
+    focus: "Foundational",
+    intensity: 1,
+    beginner: true,
+    line: "Build your foundation through alignment, precision and control.",
+    text: "A foundational reformer experience focused on precision, alignment and controlled movement. Build core strength, improve posture and master the essentials of Pilates.",
+    best: "First-timers and anyone returning to the essentials",
+    expect: [
+      "The reformer, springs and straps explained step by step",
+      "Precision, alignment and control in every movement",
+      "Core strength and posture, built from the foundation",
+    ],
+    panel: "#c4a96a",
+    art: "arch",
+  },
+  {
+    id: "reformer-define",
+    name: "EVOA Define",
+    short: "Define",
+    kind: "reformer",
+    length: "50 min",
+    level: "All levels",
+    focus: "Sculpt",
+    intensity: 2,
+    beginner: true,
+    line: "Sculpt and strengthen with purposeful resistance.",
+    text: "A full-body sculpting experience combining resistance, slow controlled sequences and targeted muscle engagement to build strength, stability and definition.",
+    best: "Strength, stability and definition",
+    expect: [
+      "Purposeful resistance across the whole body",
+      "Slow, controlled sequences",
+      "Targeted muscle engagement, never rushed",
+    ],
+    panel: "#e6dcc6",
+    art: "ring",
+  },
+  {
+    id: "reformer-power",
+    name: "EVOA Power",
+    short: "Power",
+    kind: "reformer",
+    length: "50 min",
+    level: "Intermediate to advanced",
+    focus: "High intensity",
+    intensity: 3,
+    beginner: false,
+    line: "Elevate your practice through dynamic, athletic movement.",
+    text: "An athletic reformer class featuring challenging resistance, dynamic transitions and endurance-driven sequences designed to elevate strength, stamina and total-body conditioning.",
+    best: "Experienced movers who want a challenge",
+    expect: [
+      "Challenging resistance and dynamic transitions",
+      "Endurance-driven sequences",
+      "Total-body conditioning, athletic and precise",
+    ],
+    panel: "#5e4b20",
+    art: "stripes",
+  },
+  {
+    id: "reformer-lengthen",
+    name: "EVOA Lengthen",
+    short: "Lengthen",
+    kind: "reformer",
+    length: "50 min",
+    level: "All levels",
+    focus: "Stretch + mobility",
+    intensity: 1,
+    beginner: true,
+    line: "Restore mobility, enhance flexibility and find balance.",
+    text: "A restorative reformer practice blending gentle resistance, intentional stretching and fluid movement to enhance mobility, release tension and create a sense of balance.",
+    best: "Mobility, flexibility and release",
+    expect: [
+      "Gentle resistance with long, supported stretches",
+      "Intentional stretching and fluid movement",
+      "A sense of balance and release by the end",
+    ],
+    panel: "#b9c5b1",
+    art: "reach",
+  },
 ];
+
+/* The two disciplines, in the client's words ("Two disciplines. One philosophy."). The mat comes first, as in the client's copy. */
+export const disciplineOrder: ClassKind[] = ["mat", "reformer"];
+
+export const disciplines: Record<ClassKind, { label: string; short: string; tagline: string; text: string; cta: string }> = {
+  mat: {
+    label: "The Mat Experience",
+    short: "Mat",
+    tagline: "Grounded in strength. Guided by flow.",
+    text: "Discover the power of movement in its purest form. Our mat classes blend core strength, sculpting, flexibility and mindful movement.",
+    cta: "Explore Mat Classes",
+  },
+  reformer: {
+    label: "The Reformer Experience",
+    short: "Reformer",
+    tagline: "Precision in every movement. Power in every detail.",
+    text: "Our reformer classes combine thoughtful resistance, controlled movement and innovative sequencing to create a transformative Pilates experience.",
+    cta: "Explore Reformer Classes",
+  },
+};
+
+export const byKind = (kind: ClassKind) => classes.filter((c) => c.kind === kind);
 
 /* Links elsewhere on the page ask the programme to open a class: it scrolls there and opens the row. (A plain #hash is not
    enough, because the smooth-scroll library handles anchor clicks itself and the hash never changes.) */
@@ -149,15 +235,15 @@ export function requestOpenClass(id: string) {
 
 /* ---- the "find your class" picker ---- */
 
-export type Goal = "strength" | "posture" | "unwind" | "pregnancy" | "recovery";
+export type Goal = "strength" | "stamina" | "posture" | "unwind" | "mobility";
 export type Experience = "new" | "some" | "regular";
 
 export const goals: { id: Goal; label: string }[] = [
   { id: "strength", label: "Build strength" },
+  { id: "stamina", label: "Build stamina" },
   { id: "posture", label: "Improve posture" },
   { id: "unwind", label: "Unwind" },
-  { id: "pregnancy", label: "Pregnancy" },
-  { id: "recovery", label: "Recover from injury" },
+  { id: "mobility", label: "Stretch and mobility" },
 ];
 
 export const experiences: { id: Experience; label: string }[] = [
@@ -166,21 +252,22 @@ export const experiences: { id: Experience; label: string }[] = [
   { id: "regular", label: "I practise often" },
 ];
 
-/* The picker's answer: a class id, or "private" (a conversation first, see the private band). Strength and posture depend
-   on experience; the others do not. */
-export function recommend(goal: Goal, experience: Experience | null): string | "private" | "needs-experience" {
+/* The picker's answer: a class id, or "needs-experience" when the goal depends on how well you know Pilates. Strength, stamina
+   and posture depend on experience; unwinding and mobility do not. */
+export function recommend(goal: Goal, experience: Experience | null): string | "needs-experience" {
   switch (goal) {
     case "strength":
       if (!experience) return "needs-experience";
-      return experience === "new" ? "reformer-foundations" : experience === "some" ? "reformer-flow" : "reformer-sculpt";
+      return experience === "new" ? "reformer-form" : experience === "some" ? "reformer-define" : "reformer-power";
+    case "stamina":
+      if (!experience) return "needs-experience";
+      return experience === "new" ? "mat-sculpt" : experience === "some" ? "mat-ignite" : "reformer-power";
     case "posture":
       if (!experience) return "needs-experience";
-      return experience === "new" ? "reformer-foundations" : "classical-mat";
+      return experience === "new" ? "reformer-form" : "mat-flow";
     case "unwind":
-      return "breath-stillness";
-    case "pregnancy":
-      return "prenatal-postnatal";
-    case "recovery":
-      return "private";
+      return "mat-restore";
+    case "mobility":
+      return "reformer-lengthen";
   }
 }

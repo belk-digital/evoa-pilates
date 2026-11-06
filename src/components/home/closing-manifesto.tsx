@@ -10,7 +10,7 @@ import { siteConfig } from "@/lib/site";
 import { studioClock } from "@/lib/studio-time";
 import { cn } from "@/lib/utils";
 
-/* Which row of siteConfig.hours is today at the studio (Charleston, US Eastern time), or -1 until we know. */
+/* Which row of siteConfig.hours is today at the studio (Houston, US Central time), or -1 until we know. */
 function todayRow(): number {
   const day = studioClock().day; // Monday is 0
   return day <= 4 ? 0 : day - 4;
@@ -58,11 +58,11 @@ export function ClosingManifesto() {
       <Container size="content" className="relative z-10">
         <div className="flex flex-col items-center gap-6 sm:gap-7 max-w-2xl mx-auto">
           <h2 className="font-display text-[38px] sm:text-[52px] md:text-[64px] lg:text-[78px] leading-[1.1] text-bone tracking-normal text-balance font-light">
-            Begin your <span className="font-script">recalibration</span>
+            Begin with <span className="font-script">intention</span>
           </h2>
 
           <p className="font-sans font-light text-[14px] sm:text-[15.5px] text-white/75 max-w-lg leading-relaxed text-balance">
-            Come in for a complimentary intro session: eight people, one instructor and a room built to slow you down.
+            Strength with soul. Eight people, one instructor and a room built for intentional movement.
           </p>
 
           {/* Where and when: a glass card with the studio's real address and hours */}
@@ -74,8 +74,16 @@ export function ClosingManifesto() {
               </div>
               <div>
                 <span className="block font-script text-[22px] leading-none text-spark-bright">Find us</span>
-                <span className="block font-title text-[22px] sm:text-[24px] text-white leading-tight mt-2">{siteConfig.city}</span>
-                <span className="block text-[13px] text-white/65 font-light mt-1 leading-snug">{siteConfig.address}</span>
+                <span className="block font-title text-[22px] sm:text-[24px] text-white leading-tight mt-2">{siteConfig.address}</span>
+                <span className="block text-[13px] text-white/65 font-light mt-1 leading-snug">{siteConfig.city}</span>
+                <a
+                  href={siteConfig.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2.5 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-spark-bright transition-colors hover:text-white"
+                >
+                  Get directions <ArrowUpRight size={12} strokeWidth={2.2} />
+                </a>
               </div>
             </div>
 
@@ -88,9 +96,9 @@ export function ClosingManifesto() {
                 <Clock size={15} strokeWidth={1.5} />
               </div>
               <div className="flex-1">
-                <span className="flex items-baseline gap-3 font-script text-[22px] leading-none text-spark-bright">
-                  Opening hours
-                  <span className="font-sans text-[11px] font-normal tracking-[0.06em] text-white/50">{siteConfig.timeZoneLabel}</span>
+                <span className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5 font-script text-[22px] leading-none text-spark-bright">
+                  <span className="whitespace-nowrap">Opening hours</span>
+                  <span className="whitespace-nowrap font-sans text-[11px] font-normal not-italic tracking-[0.06em] text-white/50">{siteConfig.timeZoneLabel}</span>
                 </span>
                 <ul className="mt-2.5 flex flex-col gap-1.5">
                   {siteConfig.hours.map((row, i) => {
@@ -112,18 +120,18 @@ export function ClosingManifesto() {
 
           {/* CTA Buttons - Matching Hero Button Luxury Style */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-auto pt-2">
-            {/* Primary: Book an Intro Session */}
+            {/* Primary: Book a Class */}
             <Link
-              href="/contact?topic=intro"
+              href="/schedule"
               className="group relative w-auto inline-flex items-center justify-center gap-3.5 sm:gap-4 rounded-full bg-white pl-6 pr-2 py-2 sm:pl-8 sm:pr-2.5 sm:py-2.5 text-[11px] sm:text-[12px] font-semibold tracking-[0.2em] text-ink uppercase shadow-[0_6px_24px_rgba(0,0,0,0.35)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)] transition-shadow duration-300 select-none"
             >
               <div className="relative overflow-hidden h-[18px]">
                 <div className="flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-1/2">
                   <span className="h-[18px] flex items-center">
-                    Book an Intro Session
+                    Book a Class
                   </span>
                   <span className="h-[18px] flex items-center text-rust font-semibold">
-                    Book an Intro Session
+                    Book a Class
                   </span>
                 </div>
               </div>

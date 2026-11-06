@@ -10,6 +10,8 @@ import { Eyebrow } from "@/components/about/eyebrow";
 import { ArtSvg, ClassArt, P } from "@/components/classes/class-art";
 import {
   classes,
+  disciplineOrder,
+  disciplines,
   experiences,
   OPEN_CLASS_EVENT,
   goals,
@@ -20,6 +22,7 @@ import {
   type StudioClass,
 } from "@/components/classes/classes-data";
 import { cn } from "@/lib/utils";
+import { RollingButton } from "@/components/about/rolling-button";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -28,10 +31,8 @@ const INTENSITY = ["", "Gentle", "Steady", "Strong"] as const;
 type Filter = "all" | ClassKind;
 const filters: { id: Filter; label: string }[] = [
   { id: "all", label: "All" },
-  { id: "reformer", label: "Reformer" },
   { id: "mat", label: "Mat" },
-  { id: "prenatal", label: "Prenatal" },
-  { id: "recovery", label: "Recovery" },
+  { id: "reformer", label: "Reformer" },
 ];
 
 function Dots({ n }: { n: 1 | 2 | 3 }) {
@@ -44,17 +45,11 @@ function Dots({ n }: { n: 1 | 2 | 3 }) {
   );
 }
 
-function InkPill({ href, children }: { href: string; children: React.ReactNode }) {
+function InkPill({ href, children }: { href: string; children: string }) {
   return (
-    <Link
-      href={href}
-      className="group inline-flex items-center gap-4 rounded-full bg-ink py-2.5 pl-7 pr-2.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-white"
-    >
-      <span>{children}</span>
-      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-ink transition-colors duration-500 group-hover:bg-spark group-hover:text-white">
-        <ArrowUpRight size={14} strokeWidth={2.2} />
-      </span>
-    </Link>
+    <RollingButton href={href} variant="dark">
+      {children}
+    </RollingButton>
   );
 }
 
@@ -70,7 +65,7 @@ function Finder({ onShow }: { onShow: (id: string) => void }) {
   const [experience, setExperience] = React.useState<Experience | null>(null);
 
   const result = goal ? recommend(goal, experience) : null;
-  const match = result && result !== "private" && result !== "needs-experience" ? classes.find((c) => c.id === result) : null;
+  const match = result && result !== "needs-experience" ? classes.find((c) => c.id === result) : null;
 
   return (
     <div className="rounded-[32px] bg-plaster p-6 sm:rounded-[40px] sm:p-8">
@@ -116,36 +111,25 @@ function Finder({ onShow }: { onShow: (id: string) => void }) {
               And how well do you know Pilates? That decides which level suits you.
             </motion.p>
           )}
-          {(match || result === "private") && (
+          {match && (
             <motion.div
-              key={match ? match.id : "private"}
+              key={match.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.4, ease: EASE }}
               className="flex items-start gap-4"
             >
-              <span
-                className="relative block h-[72px] w-[58px] shrink-0 overflow-hidden rounded-t-full rounded-b-[10px]"
-                style={{ backgroundColor: match ? match.panel : "#8fa08a" }}
-              >
-                <ClassArt kind={match ? match.art : "arch"} animate className="absolute inset-0 h-full w-full" />
+              <span className="relative block h-[72px] w-[58px] shrink-0 overflow-hidden rounded-t-full rounded-b-[10px]" style={{ backgroundColor: match.panel }}>
+                <ClassArt kind={match.art} animate className="absolute inset-0 h-full w-full" />
               </span>
               <div className="min-w-0">
                 <p className="font-sans text-[10.5px] font-medium uppercase tracking-[0.22em] text-ink-muted">We would start you with</p>
-                <p className="mt-1 font-title text-[26px] font-normal leading-[1.05] tracking-[-0.01em]">{match ? match.name : "Private & Duet"}</p>
-                <p className="mt-1 font-sans text-[13px] font-light leading-snug text-ink-muted">
-                  {match ? match.best : "A conversation first, then 55 minutes shaped around you."}
-                </p>
-                {match ? (
-                  <button type="button" onClick={() => onShow(match.id)} className="mt-2.5 inline-flex items-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-rust transition-colors hover:text-spark">
-                    See the class <ArrowUpRight size={13} strokeWidth={2.2} />
-                  </button>
-                ) : (
-                  <Link href="#private" className="mt-2.5 inline-flex items-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-rust transition-colors hover:text-spark">
-                    Ask about privates <ArrowUpRight size={13} strokeWidth={2.2} />
-                  </Link>
-                )}
+                <p className="mt-1 font-title text-[26px] font-normal leading-[1.05] tracking-[-0.01em]">{match.name}</p>
+                <p className="mt-1 font-sans text-[13px] font-light leading-snug text-ink-muted">{match.best}</p>
+                <button type="button" onClick={() => onShow(match.id)} className="mt-2.5 inline-flex items-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-rust transition-colors hover:text-spark">
+                  See the class <ArrowUpRight size={13} strokeWidth={2.2} />
+                </button>
               </div>
             </motion.div>
           )}
@@ -190,7 +174,7 @@ function ClassRow({ item, open, onToggle }: { item: StudioClass; open: boolean; 
             </span>
             <span className="flex items-center gap-2.5">
               <Dots n={item.intensity} />
-              <span>{INTENSITY[item.intensity]}</span>
+              <span>{item.focus}</span>
             </span>
           </span>
 
@@ -253,9 +237,9 @@ function ClassRow({ item, open, onToggle }: { item: StudioClass; open: boolean; 
                 </div>
 
                 <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
-                  <InkPill href="/contact?topic=intro">Book an intro session</InkPill>
-                  <Link href="/schedule" className="inline-flex items-center gap-2 font-sans text-[11.5px] font-semibold uppercase tracking-[0.2em] text-rust transition-colors hover:text-spark">
-                    See the schedule <ArrowUpRight size={14} strokeWidth={2.2} />
+                  <InkPill href="/schedule">See the schedule</InkPill>
+                  <Link href="/pricing" className="inline-flex items-center gap-2 font-sans text-[11.5px] font-semibold uppercase tracking-[0.2em] text-rust transition-colors hover:text-spark">
+                    Classes and packages <ArrowUpRight size={14} strokeWidth={2.2} />
                   </Link>
                 </div>
               </div>
@@ -272,7 +256,7 @@ function ClassRow({ item, open, onToggle }: { item: StudioClass; open: boolean; 
 export function ClassesExplorer() {
   const [filter, setFilter] = React.useState<Filter>("all");
   const [beginnerOnly, setBeginnerOnly] = React.useState(false);
-  const [open, setOpen] = React.useState<string | null>("reformer-foundations");
+  const [open, setOpen] = React.useState<string | null>("reformer-form");
 
   const goTo = React.useCallback((id: string) => {
     setFilter("all");
@@ -282,17 +266,28 @@ export function ClassesExplorer() {
     window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }), 650);
   }, []);
 
-  // /classes#reformer-flow opens that class, on arrival and whenever the hash changes
+  // /classes#reformer-define opens that class, on arrival and whenever the hash changes; /classes?type=mat (or reformer)
+  // shows just that discipline's classes and scrolls to them
   React.useEffect(() => {
     const fromHash = () => {
       const id = window.location.hash.replace("#", "");
       if (classes.some((c) => c.id === id)) goTo(id);
     };
+    const fromQuery = () => {
+      const type = new URLSearchParams(window.location.search).get("type");
+      if (type === "mat" || type === "reformer") {
+        setFilter(type);
+        window.setTimeout(() => document.getElementById("programme")?.scrollIntoView({ behavior: "smooth", block: "start" }), 500);
+      }
+    };
     const fromEvent = (e: Event) => {
       const id = (e as CustomEvent<string>).detail;
       if (classes.some((c) => c.id === id)) goTo(id);
     };
-    const raf = requestAnimationFrame(fromHash);
+    const raf = requestAnimationFrame(() => {
+      fromHash();
+      fromQuery();
+    });
     window.addEventListener("hashchange", fromHash);
     window.addEventListener(OPEN_CLASS_EVENT, fromEvent);
     return () => {
@@ -321,7 +316,7 @@ export function ClassesExplorer() {
               </span>
             </motion.h1>
             <p className="mt-6 max-w-[28rem] font-sans text-[15px] font-light leading-relaxed text-ink-muted sm:text-[17px]">
-              One standard in every room: eight people, one instructor, no mirrors. Tell us what you are after and we will suggest a first class.
+              Two disciplines, one philosophy. Whether grounded on the mat or elevated on the reformer, every EVOA class is designed to meet you where you are and inspire where you can go.
             </p>
           </div>
 
@@ -377,14 +372,30 @@ export function ClassesExplorer() {
               </button>
             </div>
 
-            <ul className="mt-6 sm:mt-8">
-              {visible.map((item) => (
-                <ClassRow key={item.id} item={item} open={open === item.id} onToggle={() => setOpen((cur) => (cur === item.id ? null : item.id))} />
-              ))}
-            </ul>
+            {disciplineOrder.map((kind) => {
+              const items = visible.filter((c) => c.kind === kind);
+              if (!items.length) return null;
+              const d = disciplines[kind];
+              return (
+                <div key={kind} id={`discipline-${kind}`} className="mt-10 scroll-mt-28 first:mt-8 sm:mt-14 sm:first:mt-10">
+                  <div className="grid gap-4 lg:grid-cols-12 lg:items-end lg:gap-10">
+                    <div className="lg:col-span-7">
+                      <h3 className="font-script text-[24px] leading-none text-rust sm:text-[28px]">{d.label}</h3>
+                      <p className="mt-3 font-display text-[30px] font-normal leading-[1.12] tracking-normal sm:text-[40px] lg:text-[46px]">{d.tagline}</p>
+                    </div>
+                    <p className="font-sans text-[14.5px] font-light leading-relaxed text-ink-muted lg:col-span-5">{d.text}</p>
+                  </div>
+                  <ul className="mt-6 sm:mt-8">
+                    {items.map((item) => (
+                      <ClassRow key={item.id} item={item} open={open === item.id} onToggle={() => setOpen((cur) => (cur === item.id ? null : item.id))} />
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
 
             <p className="mt-6 font-sans text-[12px] font-light leading-relaxed text-ink/60">
-              Grip socks required, free cancellation up to 12 hours before class. Tell us about injuries or pregnancy when you book.
+              Grip socks required, free cancellation up to 12 hours before class. Tell us about injuries when you book.
             </p>
           </div>
         </div>

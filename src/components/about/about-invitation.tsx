@@ -38,12 +38,12 @@ export function AboutInvitation() {
           </h2>
 
           <p className="max-w-lg font-sans text-[14px] font-light leading-relaxed text-white/75 text-balance sm:text-[15.5px]">
-            Book an intro session and feel the difference of a small room, close teaching and a pace that is yours.
+            Book a class and feel the difference of a small room, close teaching and a pace that is yours.
           </p>
 
           <div className="flex flex-col items-center justify-center gap-3.5 pt-2 sm:flex-row sm:gap-4">
-            <RollingButton href="/contact?topic=intro">Book an Intro Session</RollingButton>
-            <RollingButton href="/#membership" variant="glass">
+            <RollingButton href="/schedule">Book a Class</RollingButton>
+            <RollingButton href="/pricing" variant="glass">
               View Membership
             </RollingButton>
           </div>

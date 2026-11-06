@@ -4,11 +4,12 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Mail, ArrowUpRight } from "lucide-react";
+import { User, ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { useLiquidGlass } from "@/components/ui/liquid-glass";
+import { RollingButton } from "@/components/about/rolling-button";
 
 const NAV = [{ label: "Home", href: "/" }, ...siteConfig.nav];
 
@@ -22,9 +23,9 @@ export function Header() {
   const onLight = isLightSection && !menuOpen;
   // the transparent (dark-section) state is liquid glass; the lens only runs while that state is showing
   const { attach: pillGlassRef, style: pillGlassStyle, filter: pillGlassFilter } = useLiquidGlass<HTMLDivElement>(!onLight);
-  const { attach: mailGlassRef, style: mailGlassStyle, filter: mailGlassFilter } = useLiquidGlass<HTMLAnchorElement>(!isLightSection);
+  const { attach: accountGlassRef, style: accountGlassStyle, filter: accountGlassFilter } = useLiquidGlass<HTMLAnchorElement>(!isLightSection);
   const { attach: menuGlassRef, style: menuGlassStyle, filter: menuGlassFilter } = useLiquidGlass<HTMLButtonElement>(!onLight);
-  // One height for the logo pill, nav pill, mail button, Request Membership button and the menu button
+  // One height for the logo pill, nav pill, account button, Book a Class button and the menu button
   const PILL_H = "h-[46px] md:h-[52px] xl:h-[56px]";
   const pillSurface = (light: boolean) =>
     light
@@ -139,7 +140,7 @@ export function Header() {
             {pillGlassFilter}
             <Link
               href="/"
-              aria-label="Evoa Pilates, home"
+              aria-label="EVOA, home"
               className="relative flex h-full select-none items-center rounded-full pl-5 pr-5 transition-opacity hover:opacity-80 md:pl-6 md:pr-6 xl:pl-8 xl:pr-8 2xl:pr-10"
             >
               {/* deep-green logo on light sections, cream logo on dark ones (and while the menu is open) */}
@@ -189,11 +190,11 @@ export function Header() {
           </div>
 
           <div className="hidden xl:flex shrink-0 items-center gap-3">
-            <a
-              ref={mailGlassRef}
-              style={mailGlassStyle}
-              href={`mailto:${siteConfig.email}`}
-              aria-label="Email us"
+            <Link
+              ref={accountGlassRef}
+              style={accountGlassStyle}
+              href="/account"
+              aria-label="Log in or manage your account"
               className={cn(
                 "flex aspect-square items-center justify-center rounded-full transition-all duration-300",
                 PILL_H,
@@ -202,11 +203,11 @@ export function Header() {
                   : "liquid-glass text-white hover:text-peach"
               )}
             >
-              {mailGlassFilter}
-              <Mail size={17} strokeWidth={1.8} />
-            </a>
+              {accountGlassFilter}
+              <User size={17} strokeWidth={1.8} />
+            </Link>
             <Link
-              href="/pricing"
+              href="/schedule"
               className={cn(
                 "group relative inline-flex shrink-0 items-center gap-3 whitespace-nowrap rounded-full pl-6 pr-2 text-[11px] lg:text-[11.5px] font-semibold tracking-[0.2em] uppercase transition-shadow duration-300 select-none",
                 PILL_H,
@@ -219,15 +220,16 @@ export function Header() {
               <div className="relative overflow-hidden h-[16px]">
                 <div className="flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-1/2">
                   <span className="h-[16px] flex items-center">
-                    Request Membership
+                    Book a Class
                   </span>
                   <span
+                    aria-hidden
                     className={cn(
                       "h-[16px] flex items-center font-semibold",
                       isLightSection ? "text-peach" : "text-rust"
                     )}
                   >
-                    Request Membership
+                    Book a Class
                   </span>
                 </div>
               </div>
@@ -375,15 +377,16 @@ export function Header() {
                   transition={{ duration: 0.7, delay: 0.4 + NAV.length * 0.07 + 0.1, ease: [0.16, 1, 0.3, 1] }}
                   className="w-full"
                 >
+                  <RollingButton href="/schedule" variant="dark" block onClick={() => setMenuOpen(false)}>
+                    Book a Class
+                  </RollingButton>
                   <Link
-                    href="/pricing"
+                    href="/account"
                     onClick={() => setMenuOpen(false)}
-                    className="group inline-flex w-full items-center justify-between rounded-full bg-ink py-2.5 pl-6 pr-2.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-white"
+                    className="mt-4 flex items-center justify-center gap-2 font-sans text-[12px] font-semibold uppercase tracking-[0.2em] text-ink/70 transition-colors hover:text-rust"
                   >
-                    <span>Request Membership</span>
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-ink transition-colors duration-500 group-hover:bg-spark group-hover:text-white">
-                      <ArrowUpRight size={14} strokeWidth={2.2} />
-                    </span>
+                    <User size={15} strokeWidth={1.8} />
+                    Log in or my account
                   </Link>
                 </motion.div>
               </motion.div>

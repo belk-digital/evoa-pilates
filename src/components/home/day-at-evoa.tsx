@@ -150,7 +150,7 @@ function DayScene({ p }: { p: MotionValue<number> }) {
       viewBox="0 0 800 560"
       preserveAspectRatio="xMidYMid slice"
       role="img"
-      aria-label="An illustrated Evoa room as the light moves from first light to after dark"
+      aria-label="An illustrated EVOA room as the light moves from first light to after dark"
       className="h-full w-full"
     >
       <defs>
@@ -278,7 +278,7 @@ export function DayAtEvoa() {
         <div className="sticky top-0 flex h-[100dvh] w-full flex-col px-6 pb-5 pt-20 [--scene-h:38dvh] sm:px-10 sm:pb-8 sm:pt-24 md:px-14 md:pt-28 md:[--scene-h:36dvh] lg:px-20 max-md:compact:pb-3 max-md:compact:pt-[72px] compact:[--scene-h:30dvh] short:px-6 short:pb-3 short:pt-[84px]">
           <div className="flex w-full shrink-0 flex-col gap-2 pb-3 sm:pb-5 lg:flex-row lg:items-end lg:justify-between lg:pb-6 short:pb-2">
             <h2 className="font-display text-[38px] font-light leading-[1.1] tracking-normal sm:text-[52px] md:text-[64px] lg:text-[72px] max-md:compact:text-[32px] short:text-[26px]">
-              A Day at Evoa
+              A Day at EVOA
             </h2>
             <p className="font-script text-[22px] leading-none text-rust sm:text-[26px] short:hidden">
               from 6:30 to 8:00<span className="hidden sm:inline">, scroll to move the sun</span>

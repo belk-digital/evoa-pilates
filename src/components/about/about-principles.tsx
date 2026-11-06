@@ -12,24 +12,24 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
    restarts the clock). Only keyboard focus pauses it. */
 const principles = [
   {
+    label: "Connection",
+    title: "True strength begins with connection.",
+    text: "Connection to your body comes first. The strength, the balance and the confidence all grow from there.",
+  },
+  {
     label: "Awareness",
-    title: "Awareness before effort.",
-    text: "Every sequence begins by noticing: breath, weight, alignment. Strength built on attention lasts longer than strength built on force.",
+    title: "Awareness of your movement.",
+    text: "Every sequence begins by noticing: breath, weight, alignment. Attention is what turns repetition into practice.",
   },
   {
-    label: "Precision",
-    title: "Precision over intensity.",
-    text: "Smaller movements, exactly placed. We would rather you do eight honest repetitions than twenty hurried ones.",
+    label: "Confidence",
+    title: "Confidence in your strength.",
+    text: "Built through precision and fluidity, never rushed. You leave knowing a little more of what your body can do.",
   },
   {
-    label: "Breath",
-    title: "Breath is the first instrument.",
-    text: "Breath sets the tempo of every class, steadies the nervous system and teaches the deep core to work without gripping.",
-  },
-  {
-    label: "Rest",
-    title: "Rest is part of the work.",
-    text: "Recovery is programmed, not apologised for. Unhurried transitions, a quiet room and time to land before you leave.",
+    label: "Intention",
+    title: "Every movement has purpose.",
+    text: "Mindful movement with nothing wasted. Every detail has meaning, and every experience is uniquely yours.",
   },
 ];
 
@@ -77,7 +77,7 @@ export function AboutPrinciples() {
     <section data-header-theme="light" className="relative w-full bg-mint pb-16 pt-20 text-ink sm:pb-24 sm:pt-28 lg:pb-32 lg:pt-36">
       <div className="w-full px-6 pb-8 sm:px-10 sm:pb-12 md:px-14 lg:px-20 lg:pb-14">
         <h2 className="max-w-md font-title text-[28px] font-normal leading-[1.15] tracking-[-0.01em] text-ink sm:text-[34px]">
-          Four things we hold ourselves to, widening like a doorway.
+          Four principles, widening like a doorway.
         </h2>
       </div>
 

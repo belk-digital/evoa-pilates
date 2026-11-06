@@ -11,7 +11,7 @@ import { AboutInvitation } from "@/components/about/about-invitation";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Evoa is a private reformer and mat Pilates club built on awareness before effort: eight at a time, no mirrors, and a room designed to exhale.",
+    "EVOA is the art of intentional movement that connects the body and soul: a Pilates studio in Houston with mat and reformer classes, eight to a room, no mirrors.",
 };
 
 export default function AboutPage() {

@@ -101,6 +101,16 @@ export function ArtSvg({
   );
 }
 
+/* The Ignite drawing's rays, worked out once: sixteen strokes fanned round the centre (150, 190), long and short in turn. */
+const BURST_RAYS = Array.from({ length: 16 }, (_, i) => {
+  const angle = (i * Math.PI * 2) / 16;
+  const long = i % 2 === 0;
+  const r1 = 66;
+  const r2 = long ? 138 : 112;
+  const pt = (r: number) => `${(150 + Math.cos(angle) * r).toFixed(1)} ${(190 + Math.sin(angle) * r).toFixed(1)}`;
+  return { d: `M${pt(r1)}L${pt(r2)}`, long };
+});
+
 /* One piece of artwork per class, drawn on a 300 x 360 sheet and slice-fitted so it fills any tile (the small arch tile in
    a row, or the larger panel when a row is open). The background colour is set by the caller. */
 export function ClassArt({
@@ -164,6 +174,25 @@ export function ClassArt({
           <P fx="fade" d="M150 105.5A86 86 0 0 1 150 254.5A86 86 0 0 1 150 105.5Z" fill="#8fa08a" />
           <C fx="pop" cx="150" cy="180" r="9" fill="#2f3a1c" />
           <P fx="rise" d="M0 360a70 70 0 0 1 140 0Z" fill="#8fa08a" />
+        </>
+      )}
+      {kind === "burst" && (
+        <>
+          {BURST_RAYS.map((ray, i) => (
+            <P key={i} fx="draw" d={ray.d} stroke={ray.long ? "#f3ede3" : "#2f3a1c"} strokeOpacity={ray.long ? 1 : 0.55} strokeWidth="9" strokeLinecap="round" />
+          ))}
+          <C fx="pop" cx="150" cy="190" r="52" fill="#2f3a1c" />
+          <C fx="pop" cx="150" cy="190" r="26" fill="#c4a96a" />
+          <C fx="pop" cx="150" cy="190" r="8" fill="#f3ede3" />
+        </>
+      )}
+      {kind === "reach" && (
+        <>
+          <P fx="rise" d="M40 360V212a30 30 0 0 1 60 0v148Z" fill="#f3ede3" />
+          <P fx="rise" d="M118 360V122a40 40 0 0 1 80 0v238Z" fill="#2f3a1c" />
+          <P fx="rise" d="M216 360V166a32 32 0 0 1 64 0v194Z" fill="#c4a96a" />
+          <C fx="pop" cx="158" cy="146" r="9" fill="#c4a96a" />
+          <R fx="fade" x="0" y="352" width="300" height="8" fill="#2f3a1c" fillOpacity="0.22" />
         </>
       )}
       {kind === "sun" && (

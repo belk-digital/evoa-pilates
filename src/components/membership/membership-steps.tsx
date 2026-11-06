@@ -10,20 +10,20 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const steps: { title: string; text: string; panel: string; art: ArtKind }[] = [
   {
-    title: "Request",
-    text: "Tell us a little about you and what you are after. No payment, no pressure, and a reply within one working day.",
+    title: "Choose",
+    text: "Pick a drop-in, a class pack or a monthly rhythm. Not sure? Start with a single class and see how it feels.",
     panel: "#c4a96a",
     art: "arch",
   },
   {
-    title: "Meet",
-    text: "Come in for a complimentary intro session. Meet an instructor, take a class of eight and see the rooms.",
+    title: "Sign up",
+    text: "Create your account and pay securely, all on this page. Your package is ready as soon as you do.",
     panel: "#e6dcc6",
     art: "ring",
   },
   {
     title: "Move",
-    text: "Choose the plan that suits your week and book your first class. You can change it whenever your rhythm does.",
+    text: "Book your first class on the schedule, mat or reformer, and arrive a few minutes early. Everything else is here.",
     panel: "#2f3a1c",
     art: "sun",
   },
@@ -41,7 +41,7 @@ export function MembershipSteps() {
   return (
     <section data-header-theme="light" className="relative w-full overflow-x-clip bg-mint px-6 pb-20 pt-20 text-ink sm:px-10 sm:pb-28 sm:pt-28 md:px-14 lg:px-20 lg:pb-36 lg:pt-36">
       <h2 className="font-display text-[30px] font-light leading-[1.18] tracking-normal sm:text-[40px] lg:mx-auto lg:max-w-3xl lg:text-center lg:text-[clamp(38px,3.6vw,52px)]">
-        From hello to your first class in three steps, and nothing to pay until you have been.
+        From choosing to your first class in three steps.
       </h2>
 
       <div className="relative mx-auto mt-14 max-w-[1100px] sm:mt-20">

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Check } from "lucide-react";
 import { ClassArt } from "@/components/classes/class-art";
-import type { ClassKind } from "@/components/classes/classes-data";
+import { disciplines, type ClassKind } from "@/components/classes/classes-data";
 import { SpotDots, spotsText } from "@/components/schedule/schedule-bits";
 import {
   DAY_NAMES,
@@ -30,10 +30,8 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 type Kind = "all" | ClassKind;
 const kinds: { id: Kind; label: string }[] = [
   { id: "all", label: "All classes" },
-  { id: "reformer", label: "Reformer" },
   { id: "mat", label: "Mat" },
-  { id: "prenatal", label: "Prenatal" },
-  { id: "recovery", label: "Recovery" },
+  { id: "reformer", label: "Reformer" },
 ];
 
 const chipBase = "inline-flex min-h-10 shrink-0 items-center whitespace-nowrap rounded-full border px-4 font-sans text-[12px] font-normal tracking-[0.04em] transition-colors duration-300";
@@ -70,7 +68,7 @@ function SessionRow({ s, status, flashing, onToggle }: { s: Session; status?: St
           <p className="font-title text-[24px] font-normal leading-[1.1] tracking-[-0.01em] sm:text-[28px]">{cls.name}</p>
           <p className="mt-1 font-sans text-[12.5px] font-light text-ink/70">
             with {teacher.name}
-            {cls.beginner && <span className="text-rust">, beginner friendly</span>}
+            <span className="text-rust"> · {disciplines[cls.kind].short}, {cls.focus.toLowerCase()}</span>
           </p>
         </div>
       </div>
@@ -276,9 +274,9 @@ export function ScheduleBoard() {
           </AnimatePresence>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
-            <p className="font-sans text-[14px] font-light leading-relaxed text-ink/75">New to Evoa? Your first class is a complimentary intro session.</p>
-            <Link href="/contact?topic=intro" className="group inline-flex items-center gap-2 font-sans text-[11.5px] font-semibold uppercase tracking-[0.2em] text-rust transition-colors hover:text-spark">
-              Book your intro <ArrowUpRight size={14} strokeWidth={2.2} />
+            <p className="font-sans text-[14px] font-light leading-relaxed text-ink/75">New to EVOA? Not sure which class? Let us suggest where to begin.</p>
+            <Link href="/classes" className="group inline-flex items-center gap-2 font-sans text-[11.5px] font-semibold uppercase tracking-[0.2em] text-rust transition-colors hover:text-spark">
+              Find your class <ArrowUpRight size={14} strokeWidth={2.2} />
             </Link>
           </div>
         </div>

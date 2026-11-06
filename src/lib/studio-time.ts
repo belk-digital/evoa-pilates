@@ -2,8 +2,8 @@ import { siteConfig } from "@/lib/site";
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-/* What day and time it is at the studio, whatever the visitor's own clock says. The studio is in Charleston, so this reads
-   US Eastern time (siteConfig.timeZone), daylight saving included. `day` counts Monday as 0, as the timetable does, and
+/* What day and time it is at the studio, whatever the visitor's own clock says. The studio is in Houston, so this reads
+   US Central time (siteConfig.timeZone), daylight saving included. `day` counts Monday as 0, as the timetable does, and
    `minutes` is the number of minutes since midnight there. */
 export function studioClock(now: Date = new Date()): { day: number; minutes: number } {
   const parts = new Intl.DateTimeFormat("en-US", {

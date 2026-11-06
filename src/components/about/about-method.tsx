@@ -10,8 +10,8 @@ const phases = [
   {
     title: "Assess",
     line: "We begin with you.",
-    text: "Your first session is a conversation before it is a workout. We learn how you move, what you carry and what you want from your body.",
-    details: ["Intro consultation", "Movement and posture screen", "Injuries, goals and history"],
+    text: "Your first class begins with a conversation before it begins with movement. We learn how you move, what you carry and what you want from your body.",
+    details: ["A conversation before class", "Movement and posture check", "Injuries, goals and history"],
   },
   {
     title: "Sequence",
@@ -22,8 +22,8 @@ const phases = [
   {
     title: "Integrate",
     line: "We make it last.",
-    text: "Every session closes with breath and stillness, so the work settles into the nervous system and goes home with you.",
-    details: ["Breath and downshift finish", "Time in the Quiet Room", "Progress reviewed each month"],
+    text: "Every class closes with breath and stillness, so the work settles into the body and goes home with you.",
+    details: ["Breath and stretch to finish", "Time in the Quiet Room", "Progress reviewed with your instructor"],
   },
 ];
 

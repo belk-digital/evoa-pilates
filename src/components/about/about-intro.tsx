@@ -21,7 +21,9 @@ export function AboutIntro() {
       {/* Title and lede: the page's one label and one animated title */}
       <div className="flex flex-col gap-7 px-3 pb-10 sm:px-4 sm:pb-14 lg:flex-row lg:items-end lg:justify-between lg:gap-16 lg:px-10 lg:pb-16">
         <div>
-          <Eyebrow>About EVOA</Eyebrow>
+          <Eyebrow>
+            About EVOA <span className="whitespace-nowrap">· Cuerpo + Alma</span>
+          </Eyebrow>
           <motion.h1
             {...wipeProps}
             className="mt-5 font-display text-[clamp(42px,11.5vw,72px)] font-light leading-[0.98] tracking-normal text-ink sm:text-[clamp(56px,8.6vw,92px)] lg:text-[clamp(72px,7.2vw,124px)]"
@@ -33,9 +35,9 @@ export function AboutIntro() {
           </motion.h1>
         </div>
 
-        <p className="max-w-[26rem] font-sans text-[15px] font-light leading-relaxed text-ink-muted sm:text-[17px] lg:pb-4">
-          A private reformer and mat Pilates club for people who want to feel their body, not punish it. Eight at a
-          time, no mirrors, no rush.
+        <p className="max-w-[30rem] font-sans text-[15px] font-light leading-relaxed text-ink-muted sm:text-[17px] lg:pb-4">
+          Welcome to EVOA, where movement becomes more than a workout. Rooted in the connection between body, mind and
+          soul, EVOA is a thoughtfully curated Pilates studio designed to inspire strength, balance and a deeper sense of self.
         </p>
       </div>
 
@@ -47,7 +49,7 @@ export function AboutIntro() {
         <motion.div style={{ y: imageY }} className="absolute inset-x-0 -top-[8%] -z-20 h-[116%]">
           <motion.img
             src={encodeURI("/assets/Serene Pilates Studio with Arched Doorway (1).webp")}
-            alt="The Evoa studio: sage tile, an arched doorway and timber reformers on a terrazzo floor"
+            alt="The EVOA studio: sage tile, an arched doorway and timber reformers on a terrazzo floor"
             initial={{ scale: 1.12 }}
             whileInView={{ scale: 1 }}
             viewport={{ once: true }}

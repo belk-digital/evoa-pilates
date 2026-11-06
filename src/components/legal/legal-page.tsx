@@ -1,13 +1,13 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowUpRight, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { Reveal, wipeProps } from "@/components/ui/reveal";
 import { SparkText } from "@/components/ui/spark-text";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/site";
+import { RollingButton } from "@/components/about/rolling-button";
 
 export interface LegalSection {
   id: string;
@@ -176,15 +176,9 @@ export function LegalPage({
                   and a person will reply.
                 </p>
               </div>
-              <Link
-                href={other.href}
-                className="group inline-flex shrink-0 items-center gap-4 self-start rounded-full bg-ink py-2.5 pl-6 pr-2.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-white sm:self-auto"
-              >
-                <span>{other.label}</span>
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-ink transition-colors duration-500 group-hover:bg-spark group-hover:text-white">
-                  <ArrowUpRight size={14} strokeWidth={2.2} />
-                </span>
-              </Link>
+              <RollingButton href={other.href} variant="dark" className="shrink-0 self-start sm:self-auto">
+                {other.label}
+              </RollingButton>
             </div>
           </article>
         </div>

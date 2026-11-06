@@ -31,13 +31,13 @@
 }
 
 @theme {
-  /* ---- Type: the client's brand board. Cormorant Garamond Light (primary), Montserrat Light (secondary) ---- */
+  /* ---- Type: the client's Typography System. A Didone / high-contrast serif (primary, see layout.tsx) and Montserrat (secondary) ---- */
   --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-cormorant), Georgia, serif;
+  --font-serif: var(--font-primary-serif), Georgia, serif;
   --font-cigars: "Cigars", Georgia, serif;
-  --font-display: var(--font-cormorant), Georgia, serif; /* h2 headings */
-  --font-title: var(--font-cormorant), Georgia, serif; /* titles */
-  --font-script: var(--font-cormorant), Georgia, serif; /* accent words: always set in italic (see .font-script) */
+  --font-display: var(--font-primary-serif), Georgia, serif; /* h2 headings */
+  --font-title: var(--font-primary-serif), Georgia, serif; /* titles */
+  --font-script: var(--font-primary-serif), Georgia, serif; /* accent words: always set in italic (see .font-script) */
 
   /* ---- Palette: the client's brand board (warm beige, sand, sage, olive, stone, brushed gold) ----
      Token names are roles from earlier rounds of the design, kept so every section follows. */
@@ -187,17 +187,22 @@
     color: var(--color-ink);
     font-family: var(--font-sans);
     font-weight: 300; /* Montserrat Light */
-    font-variant-numeric: lining-nums; /* Cormorant's default figures are old-style; keep numbers level */
+    font-variant-numeric: lining-nums; /* keep numbers level whichever serif is in use */
+    /* Bodoni Moda has an optical-size axis; left on auto, large headings get its finest hairlines, which vanish on screen
+       ("intention" reads as "intenlion"). Pinning it keeps the Didone contrast but leaves every stroke visible. Montserrat
+       and Cormorant have no such axis, so this is ignored if the fonts are changed back. */
+    font-optical-sizing: none;
+    font-variation-settings: "opsz" 14;
   }
 
   h1 {
     font-family: var(--font-serif);
-    font-weight: 300;
+    font-weight: 400;
   }
 
   h2 {
     font-family: var(--font-display);
-    font-weight: 300; /* Cormorant Light */
+    font-weight: 400; /* the Didone starts at Regular; its hairlines carry the elegance */
   }
 
   h3,
