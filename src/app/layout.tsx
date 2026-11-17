@@ -46,7 +46,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${primarySerif.variable} ${montserrat.variable} h-full antialiased`}>
+    <html lang="en" suppressHydrationWarning className={`${primarySerif.variable} ${montserrat.variable} h-full antialiased`}>
+      <head>
+        {/* the home page's entrance (components/intro/intro-context.tsx makes the same decision): when it is going to play (the home page, a new visit or ?intro, no reduced motion), mark the page so CSS covers it from the very first paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{if(location.pathname!=="/"||matchMedia("(prefers-reduced-motion: reduce)").matches)return;var s=0;try{s=sessionStorage.getItem("evoa-intro")}catch(e){}if(!s||new URLSearchParams(location.search).has("intro")){document.documentElement.setAttribute("data-intro","1");history.scrollRestoration="manual"}}catch(e){}})()`,
+          }}
+        />
+      </head>
       {/* suppressHydrationWarning: browser extensions inject attributes (e.g. __processed_…__) onto <body> before React hydrates */}
       <body suppressHydrationWarning className="min-h-full flex flex-col bg-plaster text-ink">
         <MarianaNav />

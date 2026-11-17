@@ -1,3 +1,4 @@
+import { IntroProvider } from "@/components/intro/intro-context";
 import { Hero } from "@/components/home/hero";
 import { PhilosophyStatement } from "@/components/home/philosophy-statement";
 import { Experience } from "@/components/home/experience";
@@ -14,7 +15,7 @@ import { Faq } from "@/components/home/faq";
 
 export default function HomePage() {
   return (
-    <>
+    <IntroProvider>
       <div className="relative w-full">
         <Hero />
         <PhilosophyStatement />
@@ -30,6 +31,6 @@ export default function HomePage() {
       </div>
       <ClosingManifesto />
       <Faq plain />
-    </>
+    </IntroProvider>
   );
 }

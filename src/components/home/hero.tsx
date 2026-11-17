@@ -4,6 +4,8 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { useIntro } from "@/components/intro/intro-context";
+import { cn } from "@/lib/utils";
 
 // The previous white-studio stills (white-*.jpg) are still in /public/assets, just unused.
 const heroImages = [
@@ -17,8 +19,29 @@ const heroImages = [
   },
 ];
 
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+/* A line of the headline that rises into view from behind its own edge. The edge is a clip-path rather than overflow-hidden, so
+   it can reach a little past the line (room for descenders) without changing the layout. */
+function Mask({ show, delay = 0, instant, className, children }: { show: boolean; delay?: number; instant?: boolean; className?: string; children: React.ReactNode }) {
+  return (
+    <span className={cn("block", className)} style={{ clipPath: "inset(-0.1em -0.3em -0.18em -0.3em)" }}>
+      <motion.span
+        className="block"
+        initial={{ y: "130%" }}
+        animate={{ y: show ? "0%" : "130%" }}
+        transition={{ duration: instant ? 0 : 1.15, ease: EASE, delay: show ? delay : 0 }}
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+}
+
 export function Hero() {
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
+  const { state, api } = useIntro();
+  const { content: ready, letters, opened, instant } = state;
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -34,23 +57,27 @@ export function Hero() {
     >
       {/* Background Image Layer with Crossfading and Cinematic Scrim for High Contrast */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none">
-        {heroImages.map((img, idx) => (
-          <motion.img
-            key={img.src}
-            src={img.src}
-            alt={img.alt}
-            className="absolute inset-0 w-full h-full object-cover object-center"
-            initial={idx === 0 ? { opacity: 0, scale: 1.06 } : false}
-            animate={{
-              opacity: idx === currentImageIndex ? 1 : 0,
-              scale: 1.02,
-            }}
-            transition={{
-              duration: idx === 0 && currentImageIndex === 0 ? 1.8 : 1.6,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-          />
-        ))}
+        {heroImages.map((img, idx) => {
+          // the first photograph pushes in from a little closer as the door opens (or straight away on a repeat visit)
+          const settle = opened && !instant && idx === 0 && currentImageIndex === 0;
+          return (
+            <motion.img
+              key={img.src}
+              src={img.src}
+              alt={img.alt}
+              className="absolute inset-0 w-full h-full object-cover object-center"
+              initial={idx === 0 ? { opacity: 0, scale: 1.06 } : false}
+              animate={{
+                opacity: idx === currentImageIndex ? 1 : 0,
+                scale: settle ? [1.18, 1.02] : 1.02,
+              }}
+              transition={{
+                duration: settle ? 3.2 : idx === 0 && currentImageIndex === 0 ? 1.8 : 1.6,
+                ease: EASE,
+              }}
+            />
+          );
+        })}
 
         {/* Global atmospheric darkening tint to let white typography and thin celestial lines pop */}
         <div className="absolute inset-0 bg-black/30 pointer-events-none" />
@@ -74,30 +101,39 @@ export function Hero() {
       {/* Mid Section: Vertically balanced Editorial Content Block (Paragraph + CTA Button) */}
       <div className="relative z-20 w-full px-5 sm:px-10 md:px-16 lg:px-24 pointer-events-auto flex-1 flex flex-col justify-center">
         <div className="flex max-w-md flex-col items-start sm:max-w-xl md:max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.95, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-start"
-          >
-            <span className="label mb-6 text-peach-soft tracking-[0.32em] text-[11px] uppercase drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] sm:mb-8 sm:text-[13px]">
+          <div className="flex flex-col items-start">
+            <motion.span
+              initial={{ opacity: 0, letterSpacing: "0.6em" }}
+              animate={{ opacity: ready ? 1 : 0, letterSpacing: ready ? "0.32em" : "0.6em" }}
+              transition={{ duration: instant ? 0 : 1.4, ease: EASE, delay: ready ? 0.05 : 0 }}
+              className="label mb-6 text-peach-soft tracking-[0.32em] text-[11px] uppercase drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] sm:mb-8 sm:text-[13px]"
+            >
               <span className="whitespace-nowrap">Evolution of Awareness</span>
               <span className="mx-1.5 hidden text-peach-soft/60 sm:inline">·</span>{" "}
               <span className="whitespace-nowrap">Cuerpo + Alma</span>
-            </span>
+            </motion.span>
             <h1 className="font-display text-[34px] font-normal leading-[1.14] tracking-normal text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.85)] sm:text-[46px] md:text-[54px] lg:text-[60px]">
-              Movement with intention.
-              <span className="block font-script text-peach-soft">Strength with soul.</span>
+              <Mask show={ready} instant={instant} delay={0.12}>
+                Movement with intention.
+              </Mask>
+              <Mask show={ready} instant={instant} delay={0.26} className="text-peach-soft">
+                Strength with soul.
+              </Mask>
             </h1>
-            <p className="mt-6 font-sans text-[15px] font-light leading-relaxed tracking-wide text-white/85 drop-shadow-[0_2px_14px_rgba(0,0,0,0.85)] sm:mt-8 sm:text-[17px] md:text-[19px]">
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+              transition={{ duration: instant ? 0 : 1, ease: EASE, delay: ready ? 0.6 : 0 }}
+              className="mt-6 font-sans text-[15px] font-light leading-relaxed tracking-wide text-white/85 drop-shadow-[0_2px_14px_rgba(0,0,0,0.85)] sm:mt-8 sm:text-[17px] md:text-[19px]"
+            >
               A different kind of Pilates experience.
-            </p>
-          </motion.div>
+            </motion.p>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 18, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.85, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            animate={ready ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 18, scale: 0.96 }}
+            transition={{ duration: instant ? 0 : 0.85, delay: ready ? 0.85 : 0, ease: EASE }}
             className="mt-10 sm:mt-14"
           >
             <Link
@@ -141,26 +177,40 @@ export function Hero() {
           where the Didone looked clumsy.
           The Philosophy section overlaps the hero by -mt-16 / sm:-mt-24 / md:-mt-32 (see philosophy-statement),
           so below lg the bottom padding is the overlap minus ~20% of the letter height: the word sits tucked
-          slightly under the card's top edge instead of being half covered. */}
+          slightly under the card's top edge instead of being half covered.
+          Each letter is a static outer span (the entrance overlays measure it, to land exactly on it) with the moving one inside. */}
       <div className="relative z-20 w-full overflow-hidden pointer-events-none select-none flex justify-end pr-2.5 sm:pr-8 md:pr-12 lg:pr-16 pb-[48px] sm:pb-[74px] md:pb-[calc(98px+1.5vw)] lg:pb-[calc(5rem+3vw)] shrink-0">
         <div
           aria-hidden
           className="font-sans font-light text-mint text-[46vw] xs:text-[43vw] sm:text-[38vw] md:text-[30vw] lg:text-[28vw] leading-[0.74] tracking-[-0.06em] translate-y-[6%] sm:translate-y-[4%] md:translate-y-[2%] text-right whitespace-nowrap drop-shadow-none"
         >
           {["e", "v", "o", "a"].map((letter, index) => (
-            <motion.span
+            <span
               key={index}
-              initial={{ y: "135%", opacity: 0 }}
-              animate={{ y: "0%", opacity: 1 }}
-              transition={{
-                duration: 1.25,
-                delay: 0.35 + index * 0.12,
-                ease: [0.16, 1, 0.3, 1],
+              ref={(el) => {
+                api.letterEls.current[index] = el;
               }}
               className="inline-block"
             >
-              {letter}
-            </motion.span>
+              <motion.span
+                initial={{ y: "135%", opacity: 0 }}
+                animate={
+                  letters === "rise"
+                    ? { y: "0%", opacity: 1 }
+                    : letters === "show"
+                      ? { y: "0%", opacity: 1 }
+                      : { y: "135%", opacity: 0 }
+                }
+                transition={
+                  letters === "rise"
+                    ? { duration: 1.25, delay: 0.35 + index * 0.12, ease: EASE }
+                    : { duration: 0 }
+                }
+                className="inline-block"
+              >
+                {letter}
+              </motion.span>
+            </span>
           ))}
         </div>
       </div>

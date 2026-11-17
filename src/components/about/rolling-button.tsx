@@ -68,7 +68,7 @@ export function RollingButton(props: LinkProps | ButtonProps) {
           EASE,
           variant === "solid" && "bg-ink text-white",
           variant === "dark" && "bg-white text-ink",
-          variant === "glass" && "bg-white/20 text-white shadow-[inset_0_1px_0.5px_rgba(255,255,255,0.6),inset_0_-1px_0.5px_rgba(255,255,255,0.2)]"
+          variant === "glass" && "bg-white/15 text-white"
         )}
       >
         <span className="relative flex h-3.5 w-3.5 items-center justify-center overflow-hidden">

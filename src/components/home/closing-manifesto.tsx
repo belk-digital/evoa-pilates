@@ -171,7 +171,7 @@ export function ClosingManifesto() {
                 </div>
               </div>
 
-              <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/20 text-white shadow-[inset_0_1px_0.5px_rgba(255,255,255,0.6),inset_0_-1px_0.5px_rgba(255,255,255,0.2)] transition-colors duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:bg-spark shrink-0">
+              <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/15 text-white transition-colors duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:bg-spark shrink-0">
                 <div className="relative overflow-hidden w-3.5 h-3.5 flex items-center justify-center">
                   <ArrowUpRight
                     size={12.5}

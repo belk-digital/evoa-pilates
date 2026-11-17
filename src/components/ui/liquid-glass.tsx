@@ -16,6 +16,10 @@ import * as React from "react";
      const glass = useLiquidGlass<HTMLAnchorElement>();
      <a ref={glass.attach} style={glass.style} className="liquid-glass ...">{glass.filter} ...</a> */
 
+/* The edge lens is switched off: the bent, colour-fringed rim looked cheap on this site (see .liquid-glass in globals.css, now a
+   quiet tinted pane). The code stays, so setting this to true brings it back. */
+const LENS = false;
+
 const isChromium = () => {
   if (typeof navigator === "undefined") return false;
   const brands = (navigator as Navigator & { userAgentData?: { brands: { brand: string }[] } }).userAgentData?.brands;
@@ -84,7 +88,7 @@ export function useLiquidGlass<T extends HTMLElement>(enabled = true, { bezel = 
 
   React.useEffect(() => {
     const el = node;
-    if (!enabled || !el || !isChromium()) return;
+    if (!LENS || !enabled || !el || !isChromium()) return;
 
     let raf = 0;
     const build = () => {
