@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll";
 import { MarianaNav } from "@/components/mariana/mariana-nav";
+import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 /* The client's Typography System: an elegant modern serif with an editorial luxury feel (a Didone, high-contrast serif) as the
@@ -36,6 +37,8 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+  // lets pages use relative addresses for their share images and canonical links (see lib/site-url.ts)
+  metadataBase: new URL(siteUrl),
   title: {
     default: "EVOA: Evolution of Awareness",
     template: "%s | EVOA",
