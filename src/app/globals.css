@@ -461,6 +461,12 @@ html[data-intro]::after {
     visibility: hidden;
   }
 }
+/* The coming-soon previews (components/soon) are full-screen pages of their own: no site header or footer on them */
+body:has([data-soon-page]) header,
+body:has([data-soon-page]) footer {
+  display: none;
+}
+
 html[data-intro] header,
 html[data-intro-playing] header {
   opacity: 0;
