@@ -58,7 +58,7 @@ export function ClosingManifesto() {
       <Container size="content" className="relative z-10">
         <div className="flex flex-col items-center gap-6 sm:gap-7 max-w-2xl mx-auto">
           <h2 className="font-display text-[38px] sm:text-[52px] md:text-[64px] lg:text-[78px] leading-[1.1] text-bone tracking-normal text-balance font-light">
-            Begin with <span className="font-script">intention</span>
+            Begin with <span className="text-spark-bright">intention</span>
           </h2>
 
           <p className="font-sans font-light text-[14px] sm:text-[15.5px] text-white/75 max-w-lg leading-relaxed text-balance">
@@ -95,7 +95,7 @@ export function ClosingManifesto() {
               <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 mt-0.5 text-peach">
                 <Clock size={15} strokeWidth={1.5} />
               </div>
-              <div className="flex-1">
+              <div className="min-w-0 flex-1">
                 <span className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5 font-script text-[22px] leading-none text-spark-bright">
                   <span className="whitespace-nowrap">Opening hours</span>
                   <span className="whitespace-nowrap font-sans text-[11px] font-normal not-italic tracking-[0.06em] text-white/50">{siteConfig.timeZoneLabel}</span>
@@ -104,7 +104,7 @@ export function ClosingManifesto() {
                   {siteConfig.hours.map((row, i) => {
                     const now = i === today;
                     return (
-                      <li key={row.day} className="flex items-center justify-between gap-4 text-[13px] sm:text-[13.5px]">
+                      <li key={row.day} className="flex flex-wrap items-center justify-between gap-x-4 gap-y-0.5 text-[13px] sm:text-[13.5px]">
                         <span className="flex items-center gap-2.5">
                           <span aria-hidden className={cn("h-1.5 w-1.5 rounded-full transition-colors duration-500", now ? "bg-spark-bright" : "bg-transparent")} />
                           <span className={cn(now ? "text-white" : "text-white/70", "font-light whitespace-nowrap")}>{row.day.split(" – ").map((d) => d.slice(0, 3)).join("–")}</span>

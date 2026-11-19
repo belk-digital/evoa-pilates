@@ -233,7 +233,7 @@ function CardTitle({ title, accent }: { title: string; accent: string }) {
   return (
     <>
       {title.slice(0, at)}
-      <span className="font-script text-spark tracking-normal">{accent}</span>
+      <span className="text-spark tracking-normal">{accent}</span>
       {title.slice(at + accent.length)}
     </>
   );
@@ -328,10 +328,14 @@ function ExperienceDeck() {
    sit back, smaller and tilted away like a fanned deck. */
 function ExperienceStickyCard({ item, offset = 0 }: { item: ExperienceItem; offset?: number }) {
   return (
+    /* The OUTER box is what the swipeable row snaps to, and it never scales or tilts. (Scroll-snap measures a box after its
+       transforms, so when the snapping box was the card itself, a neighbour that was scaled down and tilted snapped a few pixels
+       off, and once it grew to full size its gap to the left edge was gone: only the first card kept it.) The card that sits back
+       is the INNER box. */
+    <div className={cn(item.span, "flex w-[80vw] max-w-[440px] shrink-0 snap-start sm:w-[58vw] lg:w-auto lg:max-w-none")}>
     <div
       className={cn(
-        item.span,
-        "relative flex w-[80vw] max-w-[440px] shrink-0 origin-bottom snap-start flex-col overflow-hidden rounded-[32px] bg-plaster p-4 transition-[scale,rotate] duration-500 ease-out sm:w-[58vw] sm:rounded-[40px] sm:p-5 lg:w-auto lg:max-w-none lg:origin-center lg:rounded-[52px] lg:p-6 lg:shadow-[0_24px_60px_rgba(35,43,27,0.07)]",
+        "relative flex w-full origin-bottom flex-col overflow-hidden rounded-[32px] bg-plaster p-4 transition-[scale,rotate] duration-500 ease-out sm:rounded-[40px] sm:p-5 lg:origin-center lg:rounded-[52px] lg:p-6 lg:shadow-[0_24px_60px_rgba(35,43,27,0.07)]",
         offset === 0
           ? "scale-100 rotate-0"
           : offset > 0
@@ -364,7 +368,7 @@ function ExperienceStickyCard({ item, offset = 0 }: { item: ExperienceItem; offs
             {item.num}
           </span>
           <div className="flex min-w-0 flex-1 flex-col">
-            <h3 className="mb-2.5 min-w-0 select-none break-words font-title text-[32px] font-normal leading-[1.08] tracking-[-0.01em] text-ink sm:mb-3 sm:text-[38px] lg:text-[44px] xl:text-[50px]">
+            <h3 className="mb-2.5 min-w-0 select-none break-words hyphens-auto font-title text-[26px] font-normal min-[380px]:text-[30px] min-[420px]:text-[32px] leading-[1.08] tracking-[-0.01em] text-ink sm:mb-3 sm:text-[38px] lg:text-[44px] xl:text-[50px]">
               <CardTitle title={item.title} accent={item.accent} />
             </h3>
             <p className="font-sans text-[14.5px] font-light leading-[1.62] text-ink/75 sm:text-[16px]">
@@ -373,6 +377,7 @@ function ExperienceStickyCard({ item, offset = 0 }: { item: ExperienceItem; offs
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

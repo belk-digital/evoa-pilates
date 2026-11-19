@@ -36,17 +36,17 @@ export function ContactHero() {
           </p>
 
           <dl className="mt-10 max-w-[36rem] border-t border-ink/10 sm:mt-12">
-            <div className="flex items-baseline justify-between gap-6 border-b border-ink/10 py-4">
+            <div className="flex flex-col items-start gap-1.5 border-b border-ink/10 py-4 min-[420px]:flex-row min-[420px]:items-baseline min-[420px]:justify-between min-[420px]:gap-6">
               <dt className="font-script text-[22px] leading-none text-rust">write</dt>
-              <dd className="min-w-0 text-right font-title text-[21px] leading-tight sm:text-[26px]">
+              <dd className="min-w-0 text-left font-title text-[21px] leading-tight min-[420px]:text-right sm:text-[26px]">
                 <a href={`mailto:${siteConfig.email}`} className="break-words transition-colors hover:text-rust">
                   {siteConfig.email}
                 </a>
               </dd>
             </div>
-            <div className="flex items-baseline justify-between gap-6 border-b border-ink/10 py-4">
+            <div className="flex flex-col items-start gap-1.5 border-b border-ink/10 py-4 min-[420px]:flex-row min-[420px]:items-baseline min-[420px]:justify-between min-[420px]:gap-6">
               <dt className="font-script text-[22px] leading-none text-rust">call</dt>
-              <dd className="min-w-0 text-right font-title text-[21px] leading-tight sm:text-[26px]">
+              <dd className="min-w-0 text-left font-title text-[21px] leading-tight min-[420px]:text-right sm:text-[26px]">
                 {hasDigits(siteConfig.phone) ? (
                   <a href={`tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`} className="transition-colors hover:text-rust">
                     {siteConfig.phone}
@@ -56,9 +56,9 @@ export function ContactHero() {
                 )}
               </dd>
             </div>
-            <div className="flex items-baseline justify-between gap-6 border-b border-ink/10 py-4">
+            <div className="flex flex-col items-start gap-1.5 border-b border-ink/10 py-4 min-[420px]:flex-row min-[420px]:items-baseline min-[420px]:justify-between min-[420px]:gap-6">
               <dt className="font-script text-[22px] leading-none text-rust">visit</dt>
-              <dd className="min-w-0 text-right font-title text-[21px] leading-tight sm:text-[26px]">
+              <dd className="min-w-0 text-left font-title text-[21px] leading-tight min-[420px]:text-right sm:text-[26px]">
                 <button type="button" onClick={goToVisit} className="inline-flex items-center gap-2 transition-colors hover:text-rust">
                   Find the studio <ArrowDown size={16} strokeWidth={1.8} />
                 </button>

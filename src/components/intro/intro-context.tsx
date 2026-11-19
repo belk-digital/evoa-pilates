@@ -3,8 +3,8 @@
 import * as React from "react";
 import { DoorwayIntro } from "@/components/intro/doorway";
 
-/* The home page's entrance: "the Doorway" (components/intro/doorway.tsx), a full-screen overlay that ends by handing its
-   letters to the hero's giant "evoa". The hero reads this context to know when to reveal its own text and letters.
+/* The home page's entrance: "the Doorway" (components/intro/doorway.tsx), a full-screen overlay in which a door opens and its
+   arch grows into the hero. The hero reads this context to know when to push its photograph in and reveal its own text.
 
    It plays once per visit (per browser tab), only on the home page, and never for anyone who has asked for reduced motion
    (they get the page at once, with no movement). Adding ?intro to the address plays it again, for review.
@@ -17,8 +17,6 @@ type State = {
   phase: "pending" | "playing" | "done";
   /** the hero's text and button may begin to appear */
   content: boolean;
-  /** the hero's giant letters: held back while the overlay owns them, then shown, or rising by themselves */
-  letters: "hidden" | "rise" | "show";
   /** the door has opened (the studio photograph starts to push in) */
   opened: boolean;
   /** reduced motion: everything appears at once */
@@ -26,16 +24,13 @@ type State = {
 };
 
 export interface IntroApi {
-  /** the hero registers its four giant letters here, so the overlay can fly onto them */
-  letterEls: React.MutableRefObject<(HTMLElement | null)[]>;
   markOpen: () => void;
   startContent: () => void;
-  showLetters: () => void;
   finish: () => void;
 }
 
-const NOOP_API: IntroApi = { letterEls: { current: [] }, markOpen: () => {}, startContent: () => {}, showLetters: () => {}, finish: () => {} };
-const DONE: State = { phase: "done", content: true, letters: "rise", opened: true, instant: false };
+const NOOP_API: IntroApi = { markOpen: () => {}, startContent: () => {}, finish: () => {} };
+const DONE: State = { phase: "done", content: true, opened: true, instant: false };
 
 const IntroContext = React.createContext<{ state: State; api: IntroApi }>({ state: DONE, api: NOOP_API });
 
@@ -44,8 +39,7 @@ export function useIntro() {
 }
 
 export function IntroProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = React.useState<State>({ phase: "pending", content: false, letters: "hidden", opened: false, instant: false });
-  const letterEls = React.useRef<(HTMLElement | null)[]>([]);
+  const [state, setState] = React.useState<State>({ phase: "pending", content: false, opened: false, instant: false });
 
   // decide, once, after the first paint (so the server and the browser agree on what they render)
   React.useEffect(() => {
@@ -60,7 +54,7 @@ export function IntroProvider({ children }: { children: React.ReactNode }) {
       }
       if (reduce) {
         document.documentElement.removeAttribute("data-intro");
-        setState({ phase: "done", content: true, letters: "show", opened: true, instant: true });
+        setState({ phase: "done", content: true, opened: true, instant: true });
       } else if (seen && !replay) {
         document.documentElement.removeAttribute("data-intro");
         setState(DONE);
@@ -71,7 +65,7 @@ export function IntroProvider({ children }: { children: React.ReactNode }) {
           /* ignore */
         }
         document.documentElement.setAttribute("data-intro-playing", "1");
-        setState({ phase: "playing", content: false, letters: "hidden", opened: false, instant: false });
+        setState({ phase: "playing", content: false, opened: false, instant: false });
       }
     });
     return () => cancelAnimationFrame(id);
@@ -79,14 +73,12 @@ export function IntroProvider({ children }: { children: React.ReactNode }) {
 
   const api = React.useMemo<IntroApi>(
     () => ({
-      letterEls,
       markOpen: () => setState((s) => ({ ...s, opened: true })),
       startContent: () => setState((s) => ({ ...s, content: true })),
-      showLetters: () => setState((s) => ({ ...s, letters: "show" })),
       finish: () => {
         document.documentElement.removeAttribute("data-intro-playing");
         document.documentElement.removeAttribute("data-intro");
-        setState((s) => ({ ...s, phase: "done", content: true, letters: "show", opened: true }));
+        setState((s) => ({ ...s, phase: "done", content: true, opened: true }));
       },
     }),
     []

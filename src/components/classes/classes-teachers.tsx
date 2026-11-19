@@ -81,7 +81,7 @@ export function ClassesTeachers() {
 
                 <div className="mt-5 max-w-sm">
                   <h3 className="font-display text-[34px] font-light leading-[1.04] tracking-normal sm:text-[40px]">
-                    {person.name.split(" ")[0]} <span className="font-script">{person.name.split(" ").slice(1).join(" ")}</span>
+                    {person.name}
                   </h3>
                   <p className="mt-2 font-sans text-[12.5px] font-normal tracking-[0.04em] text-ink-muted">{person.role}</p>
                   <p className="mt-3 font-sans text-[13.5px] font-light leading-relaxed text-ink/75">{person.bio}</p>

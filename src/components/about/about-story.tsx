@@ -10,7 +10,7 @@ export function AboutStory() {
           {/* Left: the headline holds its place while the story scrolls */}
           <div className="self-start lg:sticky lg:top-32 lg:col-span-5">
             <h2 className="font-display text-[38px] font-light leading-[1.08] tracking-normal text-ink sm:text-[50px] lg:text-[clamp(42px,4.2vw,64px)]">
-              Strength with <span className="font-script">soul</span>
+              Strength with <span className="text-rust">soul</span>
             </h2>
           </div>
 

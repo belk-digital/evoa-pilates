@@ -207,7 +207,7 @@ export function MembershipUnlimited() {
                       : "Every class: all four on the mat and all four on the reformer."}
                   </p>
                 </div>
-                <div className="flex items-center justify-between gap-6 sm:shrink-0 sm:flex-col sm:items-end sm:gap-4">
+                <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 sm:shrink-0 sm:flex-col sm:items-end sm:gap-4">
                   <p className="whitespace-nowrap font-display leading-none">
                     <span className="text-[56px] sm:text-[64px]">{money(pkg.price)}</span>
                     <span className="ml-2 font-sans text-[11px] font-medium uppercase tracking-[0.18em] text-white/55">a month</span>

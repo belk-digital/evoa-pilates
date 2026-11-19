@@ -110,7 +110,7 @@ function InlineTile({ index }: { index: number }) {
 function Lead({ index, next, children }: { index: number; next: string; children: string }) {
   return (
     <span className="whitespace-nowrap">
-      <span className="font-script text-rust">{children}</span>
+      <span className="text-rust">{children}</span>
       <InlineTile index={index} />
       {next}
     </span>

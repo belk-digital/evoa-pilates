@@ -23,7 +23,7 @@ function DisciplinePanel({ kind, dark, className }: { kind: ClassKind; dark?: bo
   return (
     <div
       className={cn(
-        "flex flex-col rounded-[32px] px-6 py-10 sm:rounded-[44px] sm:px-10 sm:py-12 lg:rounded-[56px] lg:px-12 lg:py-14",
+        "flex min-w-0 flex-col rounded-[32px] px-6 py-10 sm:rounded-[44px] sm:px-10 sm:py-12 lg:rounded-[56px] lg:px-12 lg:py-14",
         dark ? "bg-forest text-bone" : "bg-plaster text-ink",
         className
       )}
@@ -58,7 +58,7 @@ function DisciplinePanel({ kind, dark, className }: { kind: ClassKind; dark?: bo
         ))}
       </ul>
 
-      <RollingButton href={`/classes?type=${kind}`} variant={dark ? "solid" : "dark"} className="mt-8 w-fit">
+      <RollingButton href={`/classes?type=${kind}`} variant={dark ? "solid" : "dark"} short={d.cta.replace(/^Explore\s+/i, "")} className="mt-8 w-fit max-w-full">
         {d.cta}
       </RollingButton>
     </div>
@@ -84,7 +84,9 @@ export function TwoDisciplines() {
         </div>
       </div>
 
-      <div className="mt-12 grid gap-3 sm:mt-14 sm:gap-4 lg:grid-cols-2 lg:gap-5">
+      {/* grid-cols-1, not an automatic column: an automatic column grows to fit its widest unbreakable content, which on a phone
+          made both panels wider than the screen and cut off their right edge */}
+      <div className="mt-12 grid grid-cols-1 gap-3 sm:mt-14 sm:gap-4 lg:grid-cols-2 lg:gap-5">
         <DisciplinePanel kind="mat" />
         <DisciplinePanel kind="reformer" dark className="lg:mt-16" />
       </div>
@@ -92,7 +94,7 @@ export function TwoDisciplines() {
       {/* First visit: one slim bar */}
       <div className="mt-14 flex flex-col gap-6 border-y border-ink/15 px-3 py-6 sm:px-4 lg:mt-20 lg:px-10 min-[1400px]:flex-row min-[1400px]:items-center min-[1400px]:justify-between min-[1400px]:gap-6">
         <h3 className="font-title text-[34px] font-normal leading-none tracking-[-0.01em] sm:text-[40px]">
-          Your <span className="font-script tracking-normal text-spark">first</span> visit
+          Your <span className="tracking-normal text-spark">first</span> visit
         </h3>
 
         {/* On large screens the list steps aside (display: contents) so the title, the four steps and the button are all

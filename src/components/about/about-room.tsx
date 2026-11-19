@@ -58,7 +58,7 @@ export function AboutRoom() {
         <div className="mx-auto w-full max-w-[1200px]">
           <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end lg:gap-16">
             <h2 className="font-display text-[42px] font-light leading-[1.06] tracking-normal text-bone sm:text-[56px] lg:text-[clamp(52px,5.6vw,84px)]">
-              Designed to <span className="font-script">exhale</span>
+              Designed to <span className="text-spark-bright">exhale</span>
             </h2>
             <p className="max-w-md font-sans text-[14px] font-light leading-relaxed text-white/70 sm:text-[15.5px]">
               Every surface is chosen to lower the volume: stone that holds warmth, tile that catches the light,

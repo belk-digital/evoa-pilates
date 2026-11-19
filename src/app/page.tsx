@@ -1,5 +1,6 @@
 import { IntroProvider } from "@/components/intro/intro-context";
 import { Hero } from "@/components/home/hero";
+import { FontTheme } from "@/components/home/font-theme"; // TEMPORARY: the font-pairing chooser (see font-theme.tsx)
 import { PhilosophyStatement } from "@/components/home/philosophy-statement";
 import { Experience } from "@/components/home/experience";
 import { Spaces } from "@/components/home/spaces";
@@ -16,6 +17,7 @@ import { Faq } from "@/components/home/faq";
 export default function HomePage() {
   return (
     <IntroProvider>
+      <FontTheme />
       <div className="relative w-full">
         <Hero />
         <PhilosophyStatement />

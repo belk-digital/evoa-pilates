@@ -176,7 +176,7 @@ export function LegalPage({
                   and a person will reply.
                 </p>
               </div>
-              <RollingButton href={other.href} variant="dark" className="shrink-0 self-start sm:self-auto">
+              <RollingButton href={other.href} variant="dark" short={other.label.replace(/^Read the /, "")} className="max-w-full shrink-0 self-start sm:self-auto">
                 {other.label}
               </RollingButton>
             </div>

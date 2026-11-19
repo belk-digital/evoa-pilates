@@ -32,7 +32,7 @@ export function MembershipBuy() {
               overflow-clip, since overflow-hidden would stop this sticking) */}
           <div className="lg:col-span-4 lg:self-start lg:pt-6 lg:top-28 lg:[@media(min-height:780px)]:sticky">
             <h2 className="font-display text-[42px] font-normal leading-[1.06] tracking-normal text-bone sm:text-[56px] lg:text-[clamp(44px,4.2vw,68px)]">
-              Buy your <span className="font-script">package</span>
+              Buy your <span className="text-spark-bright">package</span>
             </h2>
             <p className="mt-6 max-w-md font-sans text-[15px] font-light leading-relaxed text-white/70 sm:text-[16.5px]">
               Choose what suits your week, then create your account and pay securely. You can book your first class straight away.

@@ -3,28 +3,26 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import type { IntroApi } from "@/components/intro/intro-context";
-import { EASE_DOOR, handoff } from "@/components/intro/fly";
-import { EVOA_LETTERS, RiseLetter } from "@/components/intro/letter";
+import { EASE_DOOR } from "@/components/intro/fly";
 import { SAGE } from "@/components/intro/palette";
 
-/* The entrance uses only what carries over into the hero, so nothing is lost on the way: the word "evoa" (its four letters land
-   exactly on the hero's giant wordmark), the arch door (its window is the hero photograph itself), and the sage of the cover,
-   which is the colour of the section below the hero: the cover is not wiped away, it is left behind as that section.
+/* The entrance uses only what carries over into the hero, so nothing is lost on the way: the arch door (its window is the hero
+   photograph itself), and the sage of the cover, which is the colour of the section below the hero: the cover is not wiped
+   away, it is left behind as that section.
 
    Timeline, in ms after the overlay appears:
      0            flat sage, the same as the section below the hero
-     OPEN_AT      the door leaf lifts like a shutter (LEAF_S), showing the studio inside an arch; then the word rises in the arch
-     +GROW_AFTER  the arch grows past the edges of the screen (GROW_S) until it is the hero, while the four letters fly onto the
-                  hero's wordmark and the hero's text rises */
+     OPEN_AT      the door leaf lifts like a shutter (LEAF_S), showing the studio inside an arch
+     +GROW_AFTER  the arch grows past the edges of the screen (GROW_S) until it is the hero, and the hero's headline rises
+     +GROW_S      the overlay is removed (the arch has long since covered the whole screen, so nothing changes at that moment) */
 const OPEN_AT = 350;
 const LEAF_S = 0.7;
-const LETTERS_AT = 0.4; // s after the door starts to open: the word starts to rise
-const GROW_AFTER = 1400; // ms after the door starts to open
+const GROW_AFTER = 1000; // ms after the door starts to open
 const GROW_S = 1.3;
 const PHOTO_WAIT = 4000; // ms: the longest the door waits for the studio photograph
 const BLEED = 200; // px: how far the cover reaches past each edge of the screen
 
-/* scale from the middle of the screen, so the arch grows around the point the word sits on */
+/* scale from the middle of the screen, so the arch grows around the point the door stands on */
 const FROM_CENTRE = { transformBox: "view-box" as const, transformOrigin: "50% 50%" };
 
 /* The door lifts onto the real hero, and the entrance only plays on a first visit, when the photograph is not cached yet. So the
@@ -58,9 +56,6 @@ function layout(W: number, H: number) {
   return {
     W,
     H,
-    cx,
-    aw,
-    fs: aw * 0.36,
     door: `M${cx - r} ${bottom}V${topDoor + r}A${r} ${r} 0 0 1 ${cx + r} ${topDoor + r}V${bottom}Z`,
     // the door leaf: a slab a little bigger than the door, which lifts to show the studio behind it
     leaf: { x: cx - r - 2, y: topDoor - 2, w: aw + 4, h: doorH + 4 },
@@ -69,10 +64,9 @@ function layout(W: number, H: number) {
 }
 
 /* THE DOORWAY. The screen is flat sage, the colour of the section below the hero. A hidden door lifts like a shutter and the
-   studio appears in an arch, and "evoa" rises inside it. The arch grows past the edges of the screen, pushing the studio
-   photograph in, while the four letters drop in a curve onto the giant "evoa" of the hero (see fly.ts) and the headline rises
-   behind them. The sage cover is never wiped away: where the hero ends, the real section below it is the same sage, so the cover
-   simply becomes that section. */
+   studio appears in an arch. The arch grows past the edges of the screen, pushing the studio photograph in, and the headline
+   rises behind it. The sage cover is never wiped away: where the hero ends, the real section below it is the same sage, so the
+   cover simply becomes that section. */
 export function DoorwayIntro({ api }: { api: IntroApi }) {
   // the size of the area the overlay really fills: window.innerWidth also counts the scrollbar, which the fixed overlay does not cover
   const [g] = React.useState(() => layout(document.documentElement.clientWidth, document.documentElement.clientHeight));
@@ -80,8 +74,6 @@ export function DoorwayIntro({ api }: { api: IntroApi }) {
   const [grow, setGrow] = React.useState(false); // the arch grows past the edges of the screen
   const [leaf, setLeaf] = React.useState(true); // the door leaf exists until it has lifted clear
   const maskId = React.useId().replace(/:/g, "");
-  const layerRef = React.useRef<HTMLDivElement>(null);
-  const letterRefs = React.useRef<(HTMLElement | null)[]>([]);
 
   React.useEffect(() => {
     const timers: number[] = [];
@@ -99,9 +91,10 @@ export function DoorwayIntro({ api }: { api: IntroApi }) {
       at(wait + GROW_AFTER, () => {
         setGrow(true);
         setLeaf(false);
-        void handoff(api, letterRefs.current, layerRef.current, { delay: 0.05, duration: 1.3, stagger: 0.06 });
       });
       at(wait + GROW_AFTER + 150, () => api.startContent());
+      // the arch has covered the whole screen by now, so removing the overlay changes nothing that can be seen
+      at(wait + GROW_AFTER + GROW_S * 1000 + 100, () => api.finish());
     });
     return () => {
       cancelled = true;
@@ -131,25 +124,6 @@ export function DoorwayIntro({ api }: { api: IntroApi }) {
         </defs>
         <rect x={-BLEED} y={-BLEED} width={g.W + 2 * BLEED} height={g.H + 2 * BLEED} fill={SAGE} mask={`url(#${maskId})`} />
       </svg>
-
-      {/* the word, in the middle of the arch (sage, like the hero's own letters, so it only shows once the door has opened onto the
-          photograph); the layer is clipped at the card's edge during the hand-off */}
-      <div ref={layerRef} className="pointer-events-none absolute inset-0">
-        {open && (
-          <div className="absolute left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center" style={{ top: g.H / 2, fontSize: g.fs, color: SAGE }}>
-            {EVOA_LETTERS.map((l, i) => (
-              <RiseLetter
-                key={l}
-                letter={l}
-                delay={LETTERS_AT + i * 0.1}
-                setRef={(el) => {
-                  letterRefs.current[i] = el;
-                }}
-              />
-            ))}
-          </div>
-        )}
-      </div>
     </div>
   );
 }

@@ -50,7 +50,7 @@ function Portrait({ index, lead }: { index: number; lead?: boolean }) {
 
       <div className={cn("p-5 sm:p-7", lead && "lg:p-12 lg:pb-12")}>
         <h3 className={cn("font-display font-light leading-[1.02] tracking-normal text-white", lead ? "text-[40px] sm:text-[52px] lg:text-[64px]" : "text-[32px] sm:text-[38px] md:text-[32px] lg:text-[38px]")}>
-          {first} <span className="font-script">{rest}</span>
+          {first} {rest}
         </h3>
         <p className="mt-1.5 font-sans text-[12px] font-normal tracking-[0.06em] text-white/80 sm:text-[13px]">{person.role}</p>
         <p className={cn("mt-3 font-sans text-[13px] font-light leading-relaxed text-white/85 sm:text-[14px]", lead ? "max-w-sm" : "max-w-md")}>{person.bio}</p>
@@ -75,7 +75,7 @@ export function AboutPractitioners() {
           <div className="pb-[0.5em] sm:pb-[0.7em] lg:pb-[1em]">
             <h2 className="max-w-[34rem] font-display text-[21px] font-light leading-[1.2] tracking-normal text-ink sm:text-[30px] lg:text-[clamp(30px,2.8vw,44px)]">
               <span className="sr-only">8 </span>people at most in every class, taught by three teachers who will{" "}
-              <span className="font-script">know your name</span>.
+              <span className="text-rust">know your name</span>.
             </h2>
             <MarginNote curl="left" tilt={-3} className="mt-3 sm:mt-4">
               and we mean it

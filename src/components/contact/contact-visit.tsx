@@ -170,7 +170,7 @@ export function ContactVisit() {
                   >
                     <span className="font-title text-[19px] font-normal leading-none tracking-[-0.01em] sm:text-[22px]">{shortDays(row.day)}</span>
                     <span className={cn("mt-3 font-sans text-[12.5px] leading-snug sm:text-[13.5px]", now ? "font-normal" : "font-light")}>{open}</span>
-                    <span className={cn("font-script text-[16px] leading-none", now ? "text-spark-bright" : "text-rust")}>to</span>
+                    <span className={cn("font-sans text-[10.5px] font-normal uppercase leading-none tracking-[0.18em]", now ? "text-spark-bright" : "text-rust")}>to</span>
                     <span className={cn("font-sans text-[12.5px] leading-snug sm:text-[13.5px]", now ? "font-normal" : "font-light")}>{close}</span>
                     <span className={cn("mt-2.5 h-5 font-script text-[18px] leading-none text-spark-bright transition-opacity duration-500", now ? "opacity-100" : "opacity-0")} aria-hidden={!now}>
                       today

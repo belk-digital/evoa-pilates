@@ -187,7 +187,7 @@ export function PhilosophyStatement() {
             <div className="flex flex-col gap-3 sm:gap-5 relative z-10 text-left">
               <h3 className="font-serif font-light text-[18px] min-[360px]:text-[20px] min-[420px]:text-[23px] sm:text-[30px] md:text-[36px] lg:text-[38px] leading-[1.22] text-ink tracking-tight">
                 The art of moving with intention.{" "}
-                <span className="font-script text-rust font-normal tracking-normal leading-[1.2] block mt-1 sm:mt-1.5">
+                <span className="text-rust font-normal tracking-normal leading-[1.2] block mt-1 sm:mt-1.5">
                   True strength begins with connection.
                 </span>
               </h3>

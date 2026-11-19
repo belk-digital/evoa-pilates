@@ -20,6 +20,8 @@ type Variant = "solid" | "dark" | "glass";
 
 type Common = {
   children: string;
+  /** a shorter label for screens narrower than 640px, where the full one would not fit (for example "Reformer classes" for "Explore reformer classes") */
+  short?: string;
   variant?: Variant;
   block?: boolean;
   arrow?: "up-right" | "down";
@@ -31,7 +33,15 @@ type ButtonProps = Common & { href?: undefined; type?: "button" | "submit"; onCl
 const EASE = "ease-[cubic-bezier(0.25,1,0.5,1)]";
 
 export function RollingButton(props: LinkProps | ButtonProps) {
-  const { children, variant = "solid", block = false, arrow = "up-right", className } = props;
+  const { children, short, variant = "solid", block = false, arrow = "up-right", className } = props;
+  const label = short ? (
+    <>
+      <span className="sm:hidden">{short}</span>
+      <span className="hidden sm:inline">{children}</span>
+    </>
+  ) : (
+    children
+  );
   const Arrow = arrow === "down" ? ArrowDown : ArrowUpRight;
   // where the old arrow leaves to, and where the new one waits before it slides in
   const leave = arrow === "down" ? "group-hover:translate-y-4" : "group-hover:-translate-y-4 group-hover:translate-x-4";
@@ -40,8 +50,8 @@ export function RollingButton(props: LinkProps | ButtonProps) {
   const { attach: glassRef, style: glassStyle, filter: glassFilter } = useLiquidGlass<HTMLAnchorElement>(glass);
 
   const classes = cn(
-    "group relative inline-flex select-none items-center rounded-full py-2 pl-6 pr-2 text-[11px] font-semibold uppercase tracking-[0.2em] transition-[box-shadow,opacity] duration-300 disabled:pointer-events-none disabled:opacity-70 sm:py-2.5 sm:pl-8 sm:pr-2.5 sm:text-[12px]",
-    block ? "w-full justify-between gap-4" : "w-auto justify-center gap-3.5 sm:gap-4",
+    "group relative inline-flex select-none items-center rounded-full py-2 pl-6 pr-2 text-[11px] font-semibold uppercase tracking-[0.2em] max-[340px]:pl-4 max-[340px]:tracking-[0.1em] transition-[box-shadow,opacity] duration-300 disabled:pointer-events-none disabled:opacity-70 sm:py-2.5 sm:pl-8 sm:pr-2.5 sm:text-[12px]",
+    block ? "w-full justify-between gap-4 max-[340px]:gap-2" : "w-auto justify-center gap-3.5 sm:gap-4",
     variant === "solid" && "bg-white text-ink shadow-[0_6px_24px_rgba(0,0,0,0.35)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)]",
     variant === "dark" && "bg-ink text-white shadow-[0_4px_16px_rgba(35,43,27,0.14)] hover:shadow-[0_8px_24px_rgba(35,43,27,0.25)]",
     variant === "glass" && "liquid-glass text-white",
@@ -54,9 +64,9 @@ export function RollingButton(props: LinkProps | ButtonProps) {
       {/* rolling label: two copies stacked, the track slides up by half its height on hover */}
       <span className="relative block h-[18px] overflow-hidden">
         <span className={cn("flex flex-col transition-transform duration-500 group-hover:-translate-y-1/2", EASE)}>
-          <span className="flex h-[18px] items-center whitespace-nowrap">{children}</span>
+          <span className="flex h-[18px] items-center whitespace-nowrap">{label}</span>
           <span aria-hidden className={cn("flex h-[18px] items-center whitespace-nowrap font-semibold", variant === "solid" ? "text-rust" : "text-peach")}>
-            {children}
+            {label}
           </span>
         </span>
       </span>

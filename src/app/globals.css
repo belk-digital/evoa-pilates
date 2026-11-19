@@ -177,6 +177,13 @@
     max-width: 100%;
   }
 
+  /* A plain `grid` has one automatic column, and an automatic column grows to fit its widest unbreakable content (a nowrap button
+     label, a long word). On a phone that made whole sections wider than the screen. Let the single column shrink instead. Any
+     grid-cols-* utility still wins, because utilities are a later layer. */
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   ::selection {
     background-color: var(--color-terracotta);
     color: var(--color-forest);

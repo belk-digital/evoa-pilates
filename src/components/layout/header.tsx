@@ -297,7 +297,7 @@ export function Header() {
       </div>
 
       {/* Full-screen menu: a cream mid-century arch (like the doorway in the studio) on dark green.
-          The links rise inside it and a red dot springs to whichever one you point at or are on. */}
+          The links rise inside it and a short gold bar springs under whichever one you point at or are on. */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -333,12 +333,13 @@ export function Header() {
                 initial={{ y: "55%", opacity: 0 }}
                 animate={{ y: "0%", opacity: 1 }}
                 transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.2 }}
-                className="flex flex-1 flex-col items-center rounded-b-[28px] rounded-t-[240px] bg-plaster px-6 pb-7 pt-24 shadow-[0_30px_60px_rgba(0,0,0,0.35)] sm:pt-28"
+                className="flex flex-1 flex-col items-center rounded-b-[28px] rounded-t-[240px] bg-plaster px-6 pb-7 pt-24 shadow-[0_30px_60px_rgba(0,0,0,0.35)] compact:pt-[4.25rem] compact:pb-5 sm:pt-28"
               >
-                <nav aria-label="Mobile" className="my-auto w-full py-4">
+                <nav aria-label="Mobile" className="my-auto w-full py-4 compact:py-2">
                   <ul className="flex flex-col items-center gap-0.5 sm:gap-1" onPointerLeave={() => setMenuHover(null)}>
                     {NAV.map((item, i) => {
-                      const dotOn = (menuHover ?? NAV.find((n) => n.href === pathname)?.href) === item.href;
+                      const here = pathname === item.href;
+                      const barOn = (menuHover ?? NAV.find((n) => n.href === pathname)?.href) === item.href;
                       return (
                         <li key={item.href} className="relative w-full">
                           <motion.div
@@ -347,22 +348,23 @@ export function Header() {
                             transition={{ duration: 0.75, delay: 0.4 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
                             className="relative flex justify-center"
                           >
-                            {dotOn && (
-                              <motion.span
-                                layoutId="menu-dot"
-                                aria-hidden="true"
-                                transition={{ type: "spring", stiffness: 520, damping: 17, mass: 0.9 }}
-                                className="absolute left-[14%] top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-spark sm:left-[18%]"
-                              />
-                            )}
                             <Link
                               href={item.href}
+                              aria-current={here ? "page" : undefined}
                               onClick={() => setMenuOpen(false)}
                               onPointerEnter={() => setMenuHover(item.href)}
                               onFocus={() => setMenuHover(item.href)}
-                              className="py-1.5 font-title text-[clamp(34px,6.4dvh,66px)] leading-[1.1] tracking-[-0.01em] text-ink transition-colors hover:text-rust focus-visible:text-rust"
+                              className="relative px-1 py-1.5 font-title text-[clamp(34px,6.4dvh,66px)] leading-[1.1] tracking-[-0.01em] text-ink transition-colors hover:text-rust focus-visible:text-rust"
                             >
                               {item.label}
+                              {barOn && (
+                                <motion.span
+                                  layoutId="menu-bar"
+                                  aria-hidden="true"
+                                  transition={{ type: "spring", stiffness: 520, damping: 22, mass: 0.9 }}
+                                  className="absolute inset-x-1 bottom-0 h-[3px] rounded-full bg-spark"
+                                />
+                              )}
                             </Link>
                           </motion.div>
                         </li>
@@ -383,9 +385,9 @@ export function Header() {
                   <Link
                     href="/account"
                     onClick={() => setMenuOpen(false)}
-                    className="mt-4 flex items-center justify-center gap-2 font-sans text-[12px] font-semibold uppercase tracking-[0.2em] text-ink/70 transition-colors hover:text-rust"
+                    className="mt-3 flex h-12 w-full items-center justify-center gap-2.5 rounded-full border border-ink/25 font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-ink transition-colors hover:border-ink hover:bg-ink/[0.04] hover:text-rust"
                   >
-                    <User size={15} strokeWidth={1.8} />
+                    <User size={16} strokeWidth={1.8} />
                     Log in or my account
                   </Link>
                 </motion.div>

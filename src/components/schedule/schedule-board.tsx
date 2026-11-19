@@ -57,7 +57,7 @@ function SessionRow({ s, status, flashing, onToggle }: { s: Session; status?: St
         <div className="w-[92px] shrink-0 sm:w-[140px]">
           <p className="font-display text-[34px] font-light leading-none tracking-normal sm:text-[46px]">
             {t.clock}
-            <span className="ml-1 font-script text-[20px] sm:text-[24px]">{t.ampm}</span>
+            <span className="ml-1.5 font-sans text-[12px] font-normal uppercase tracking-[0.14em] sm:text-[13px]">{t.ampm}</span>
           </p>
           <p className="mt-1.5 font-sans text-[11.5px] font-light text-ink/60">until {endTime(s.start, cls.length)}</p>
         </div>
